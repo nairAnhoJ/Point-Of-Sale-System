@@ -1,0 +1,58 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#login-body .login-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+#login-body .login-container .login-inner-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 350px;
+  height: 380px;
+  border-radius: 25px;
+  border: 2px solid #3b3b3b;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.54);
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.54);
+}
+
+#chome-body {
+  background-color: antiquewhite;
+  width: 100vw;
+  height: 100vh;
+}
+
+#chome-body #prodID {
+  margin-left: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#chome-body .chome-container {
+  width: 100%;
+}
+
+#chome-body .chome-container label {
+  margin-right: 100px;
+}
+
+#chome-body .chome-container #table1, #chome-body .chome-container #table2 {
+  width: 100%;
+}
+
+#chome-body .chome-container #table1 tr th, #chome-body .chome-container #table2 tr th {
+  text-align: center;
+}
+
+#chome-body .chome-container #table1 tr td, #chome-body .chome-container #table2 tr td {
+  text-align: center;
+}
+/*# sourceMappingURL=styles.css.map */

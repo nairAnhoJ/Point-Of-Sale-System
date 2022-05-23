@@ -1,0 +1,19 @@
+#login-body{
+    .login-container{
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+
+        .login-inner-container{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 380px;
+            border-radius: 25px;
+            border: 2px solid rgb(59, 59, 59);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.54);
+        }
+    }
+}
