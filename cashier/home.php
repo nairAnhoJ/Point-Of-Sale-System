@@ -1,316 +1,358 @@
 <?php
     session_start();
+    date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
+    $subTotal = 0.00;
+    $totalItems = 0.00;
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../bootstrap-5.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../styles/styles.css?v=<?php echo time(); ?>">
-    <title>Home</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../bootstrap-5.1.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../styles/styles.css?v=<?php echo time(); ?>">
+        <title>Home</title>
 
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    <script src="../bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/sweetalert2.all.min.js"></script>
-    <script crossorigin src="../js/react.production.min.js"></script>
-    <script crossorigin src="../js/react-dom.production.min.js"></script>
-</head>
-<body id="chome-body">
-
-<h3 style="text-align: right; margin-right: 100px;">Retail</h3>
-    <label for="" style="margin-left: 50px;">Product ID:</label>
-    <input type="text" id="prodID" autofocus>
-    <!-- <input type="button" value="Transfer" id="btnTrans"> -->
-
-        <br>
-        <hr>
-        <br>
-
-    <div class="chome-container">
-        <h3 style="text-align: center;">Hidden Table</h3>
-        <table id="table1">
-            <thead>
-                <tr>
-                    <th>prod id</th>
-                    <th>name</th>
-                    <th>price</th>
-                    <th>quantity</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody id="table1-body">
-                <tr>
-                    <td>q1</td>
-                    <td>Instant noodles (Payless Beef 55g)</td>
-                    <td>7</td>
-                    <td><input type="number" value="1"></td>
-                    <td>7</td>
-                </tr>
-                <tr>
-                    <td>q2</td>
-                    <td>Canned sardines (Mega 155g)</td>
-                    <td>20</td>
-                    <td><input type="number" value="1"></td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>q3</td>
-                    <td>Instant coffee (Kopiko 10x27.5g)</td>
-                    <td>70</td>
-                    <td><input type="number" value="1"></td>
-                    <td>70</td>
-                </tr>
-                <tr>
-                    <td>q4</td>
-                    <td>Sugar</td>
-                    <td>55</td>
-                    <td><input type="number" value="1"></td>
-                    <td>55</td>
-                </tr>
-                <tr>
-                    <td>q5</td>
-                    <td>Cooking oil (4L)</td>
-                    <td>330</td>
-                    <td><input type="number" value="1"></td>
-                    <td>330</td>
-                </tr>
-                <tr>
-                    <td>q6</td>
-                    <td>Evaporated milk (Alaska 370ml)</td>
-                    <td>27</td>
-                    <td><input type="number" value="1"></td>
-                    <td>27</td>
-                </tr>
-                <tr>
-                    <td>q7</td>
-                    <td>Cheese (Eden 165g)</td>
-                    <td>50</td>
-                    <td><input type="number" value="1"></td>
-                    <td>50</td>
-                </tr>
-                <tr>
-                    <td>q8</td>
-                    <td>Rubbing alcohol (Rhea 60ml)</td>
-                    <td>22</td>
-                    <td><input type="number" value="1"></td>
-                    <td>22</td>
-                </tr>
-                <tr>
-                    <td>q9</td>
-                    <td>Diapers (Huggies 38/76s)</td>
-                    <td>578</td>
-                    <td><input type="number" value="1"></td>
-                    <td>578</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <br>
-        <hr>
-        <br>
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
+        <script src="../js/sweetalert.min.js"></script>
+        <script crossorigin src="../js/react.production.min.js"></script>
+        <script crossorigin src="../js/react-dom.production.min.js"></script>
+    </head>
+    <body id="nchome-body" onload="onloadFunction()">
 
 
-        <h3 style="text-align: center;">Table na nakikita ng Cashier</h3>
-        <table id="table2">
-            <thead>
-                <tr>
-                    <th>prod id</th>
-                    <th>name</th>
-                    <th>price</th>
-                    <th>quantity</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody id="table2-body">
-            </tbody>
-        </table>
-
-
-        <br>
-        <hr>
-        <br>
-
-        <label for="subtotal">Subtotal</label>
-        <span id="subtotal">0</span>
-        <br>
-        <label for="disc">Discount %</label>
-        <span id="disc"><input type="text" value="--%"></span>
-        <br>
-        <label for="grandtotal">Grand Total</label>
-        <span id="grandtotal">0</span>
-
-        <br>
-        <hr>
-        <br>
-
-        <h4>Keyboard Shortcut</h4>
-        <span style="margin-right: 20px;"><strong style="font-size: 20px;">PgUp</strong> => Click before scanning(only if PgDn is Clicked)</span>
-        <span style="margin-right: 20px;"><strong style="font-size: 20px;">+</strong> => Increment Quantity of last scanned Item</span>
-        <span style="margin-right: 20px;"><strong style="font-size: 20px;">-</strong> => Decrement Quantity of last scanned Item</span>
-        <span style="margin-right: 20px;"><strong style="font-size: 20px;">./del</strong> => Custom Quantity of last scanned Item</span>
-        <span style="margin-right: 20px;"><strong style="font-size: 20px;">PgDn</strong> => Change Discount Percentage</span>
-        <br>
-        <span style="margin-right: 20px;"><strong style="font-size: 20px;">Home</strong> => Change to Retail(Note: It will clear the recent scanned Items. Make sure to change this first before scanning)</span>
-        <span style="margin-right: 20px;"><strong style="font-size: 20px;">End</strong> => Change to Whosale(Note: It will clear the recent scanned Items. Make sure to change this first before scanning)</span>
-        <br>
-        <span style="margin-right: 20px;"><strong style="font-size: 20px;">Ctrl+F3</strong> => Finalize/Print</span>
-
-
-    </div>
-
-    <script>
-        $(document).ready(function(){
-
-            var prodCount, subTotal = 0;
-
-            $("#prodID").on("keyup", function(e) {
-                var value = $(this).val().toLowerCase();
-                $("#table1 tbody tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-                prodCount = $("#table1 tbody tr:visible").length;
-
-                var t_st = event.which || event.keyCode;
-                console.log(t_st);
-
-                // ==================== ENTER ====================
-                if(t_st==13){
-                    var prodId = $('#prodID').val();
-                    console.log(prodId);
-                    if($("#prodID").val() == ""){
-                        console.log('error');
-                    }else{
-                        if(prodCount == 0){
-                            console.log('error');
-                        }else{
-                        var t2rcount = $("#table2 tbody tr").length;
-                        if(t2rcount == 0){
-                            var tr = $("#table1").find("tbody tr:visible").clone();
-                            $("#table2 tbody").append(tr);
-                            $("#table2").find("tbody tr:first input").addClass('firstRow');
-                        }else{
-                            var ex = false;
-                            $("#table2").find("tbody tr").each(function(){
-                                ex = false;
-                                var tb2id = $(this).find("td:eq(0)").html();
-                                if(tb2id == $("#prodID").val()){
-                                    var tb2q = parseInt($(this).find("input").val()) + 1;
-                                    $(this).find("input").val(tb2q);
-                                    var ntr = $(this).clone();
-                                    $("#table2 tbody tr:first").before(ntr);
-                                    $(this).remove();
-                                    $("#table2").find("tbody tr:first input").addClass('firstRow');
-                                    $('#table2 tbody tr').eq(1).find('input').removeClass('firstRow');
-                                    var itotalr = parseInt($("#table2").find("tbody tr:first td:eq(2)").html()) * tb2q;
-                                    console.log("Quantity"+tb2q);
-                                    console.log("Total"+itotalr);
-                                    $("#table2").find("tbody tr:first td:eq(4)").html(itotalr);
-                                    ex = true;
-                                    return false;
-                                }
+        <?php
+            if(!isset($_SESSION['unregItemError'])){
+            }else{
+                if ($_SESSION['unregItemError'] == true){
+                    ?>
+                        <div id="unregItem-bg">
+                            <div id="unregItem">
+                                <h1>ERROR!</h1>
+                                <h2>UNREGISTERED ITEM!</h2>
+                                <button id="unregBtn" class="btn btn-primary px-5 mt-3">OK</button>
+                            </div>
+                        </div>
+                        <script>
+                            $('#unregBtn').focus();
+                            $('#unregBtn').click(function(){
+                                $('#unregItem-bg').css("visibility", "hidden");
+                                $('#inputItemCode').focus();
                             });
-                            console.log(ex);
-
-                            if(ex == false){
-                                var tr = $("#table1").find("tbody tr:visible").clone();
-                                $("#table2 tbody tr:first").before(tr);
-                                $("#table2").find("tbody tr:first input").addClass('firstRow');
-                                $('#table2 tbody tr').eq(1).find('input').removeClass('firstRow');
-                            }
-                        }
-                    }
+                        </script>
+                    <?php
+                    $_SESSION['unregItemError'] = false;
                 }
-                $("#prodID").val(null);
+            }
 
-                // ==================== ADD ====================
-                }else if(t_st==107){
-
-                    e.preventDefault();
-                    var t2rcount1 = $("#table2 tbody tr").length;
-                    console.log(t2rcount1)
-                    if(t2rcount1 > 0){
-                        var trvalp = parseInt($("#table2").find("tbody tr:first input").val()) + 1;
-                        var itotalp = parseInt($("#table2").find("tbody tr:first td:eq(2)").html()) * trvalp;
-                        console.log("Quantity"+trvalp);
-                        console.log("Total"+itotalp);
-                        $("#table2").find("tbody tr:first td:eq(4)").html(itotalp);
-                        $("#table2").find("tbody tr:first input").val(trvalp);
-                    }
-                $("#prodID").val(null);
-
-                // ==================== MINUS ====================
-                }else if(t_st==109){
-                    e.preventDefault();
-                    var t2rcount1 = $("#table2 tbody tr").length;
-                    console.log("Row Count"+t2rcount1)
-                    if(t2rcount1 > 0){
-                        var trvalm = parseInt($("#table2").find("tbody tr:first input").val()) - 1;
-                        var itotalm = parseInt($("#table2").find("tbody tr:first td:eq(2)").html()) * trvalm;
-                        console.log("Quantity"+trvalm);
-                        console.log("Total"+itotalm);
-                        $("#table2").find("tbody tr:first td:eq(4)").html(itotalm);
-                        $("#table2").find("tbody tr:first input").val(trvalm);
-                    }
-                $("#prodID").val(null);
-
-                // ==================== MINUS ====================
-                }else if(t_st==110){
-                    e.preventDefault();
-                    $('#table2').find('tbody tr:first input').focus();
-                    $("#table2").find("tbody tr:first input").val("");
-                    console.log('edit');
-                    $("#prodID").val(null);
+            if(!isset($_SESSION['deleteAllSuccess'])){
+            }else{
+                if ($_SESSION['deleteAllSuccess'] == true){
+                    ?>
+                        <script>
+                            swal({
+                                icon: "success",
+                                title: "Transaction has been cancel.",
+                            });
+                        </script>
+                    <?php
+                    $_SESSION['deleteAllSuccess'] = false;
                 }
+            }
+        ?>
 
-                subTotal = 0;
-                $("#table2").find("tbody tr").each(function(){
-                    var lastCol = parseInt($(this).find("td:eq(4)").html());
-                    subTotal = subTotal + lastCol;
-                    console.log("GT:" + subTotal);
-                });
+            <table id="hiddenTable">
 
-                $('#subtotal').html(subTotal);
-                $('#grandtotal').html(subTotal);
+            </table>
 
+
+
+
+
+
+
+        <div class="nchome-container">
+            <div class="left-con">
+
+            </div>
+            <div class="right-con">
+                <div class="right-top-con">
+                    <form class="item-code-con" method="POST">
+                        <label for="inputItemCode" class="align-middle ps-5 pe-3">Item Code:</label>
+                        <input type="text" class="form-control shadow-sm" name="itemCode" id="inputItemCode" autofocus autocomplete="off">
+                        <input type="submit" name="itemCodeSubmit" id="codeSubmit" tabindex="-1">
+                    </form>
+                    <div class="end-buyer-con">
+                        <h1 id="end-buyer">RETAIL</h1>
+                    </div>
+                </div>
+                <div class="right-bottom-con shadow">
+                    <div class="scanned-item-table">
+                        <table id="scanned-items">
+                            <colgroup>
+                                <col style="width: 45%">
+                                <col style="width: 15%">
+                                <col style="width: 10%">
+                                <col style="width: 15%">
+                                <col style="width: 15%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Price (₱)</th>
+                                    <th>Qty</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    if(isset($_POST['itemCodeSubmit'])){
+                                        $itemCode = $_REQUEST['itemCode'];
+                                        $checkItem = "SELECT * FROM `item_with_barcode` WHERE `item_code` = '$itemCode'";
+                                        $resultItem = mysqli_query($con, $checkItem);
+                                        if(mysqli_num_rows($resultItem) > 0){
+                                            $checkTemp = "SELECT * FROM `temp_item` WHERE `item_code` = '$itemCode'";
+                                            $resultTemp = mysqli_query($con, $checkTemp);
+                                            if(mysqli_num_rows($resultTemp) > 0){
+                                                while($rowTemp = mysqli_fetch_assoc($resultTemp)){
+                                                    $newQty = $rowTemp['temp_quantity'] + 1;
+                                                    $deleteTemp = "DELETE FROM `temp_item` WHERE `item_code` = '$itemCode'";
+                                                    mysqli_query($con, $deleteTemp);
+                                                    $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemCode','$newQty')";
+                                                    mysqli_query($con, $updateTemp);
+                                                    header('location: home.php');
+                                                }
+                                            }else{
+                                                $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemCode','1')";
+                                                mysqli_query($con, $insertTemp);
+                                                header('location: home.php');
+                                            }
+
+                                        }else{
+                                            $_SESSION['unregItemError'] = true;
+                                            header('location: home.php');
+                                        }
+                                    }
+
+                                        $queryTempItems = "SELECT tmp.temp_id, itm.item_code, itm.item_name, itm.item_price, itm.item_stock, tmp.temp_quantity FROM item_with_barcode AS itm INNER JOIN temp_item AS tmp ON itm.item_code = tmp.item_code ORDER BY tmp.temp_id DESC";
+                                        $resultTempItems = mysqli_query($con, $queryTempItems);
+                                        if(mysqli_num_rows($resultTempItems) > 0){
+                                            $c = 0;
+                                            while($rowTempItems = mysqli_fetch_assoc($resultTempItems)){
+                                                if($c == 0){
+                                                    $_SESSION['lastCode'] = $rowTempItems['item_code'];
+                                                    $_SESSION['lastQty'] = $rowTempItems['temp_quantity'];
+                                                    $c++;
+                                                }
+                                                $totalOfItem = (($rowTempItems['temp_quantity'] * $rowTempItems['item_price']));
+                                                ?>
+                                                    <tr>
+                                                        <td><?php echo $rowTempItems['item_name']; ?></td>
+                                                        <td><?php echo number_format($rowTempItems['item_price'], 2); ?></td>
+                                                        <td><?php echo $rowTempItems['temp_quantity']; ?></td>
+                                                        <td><?php echo number_format($totalOfItem, 2); ?></td>
+                                                        <td><a class="btn btn-danger" href="#">Remove</a></td>
+                                                    </tr>
+                                                <?php
+                                                $subTotal = $subTotal + $totalOfItem;
+                                                $totalItems++;
+                                            }
+                                        }else{
+                                            ?>
+                                                <!-- <tr style="text-align: center;"><td colspan="5"></td></tr> -->
+                                            <?php
+                                        }
+                                ?>
+
+
+                                
+                                <!-- <tr>
+                                    <td>Cheese (Eden 165g)</td>
+                                    <td>5550.00</td>
+                                    <td>1</td>
+                                    <td>5550.00</td>
+                                    <td><a class="btn btn-danger" href="#">Remove</a></td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="total-con">
+                        <div class="row1">
+                            <div class="col1">
+                                <span>Total Items</span>
+                                <span><?php echo $totalItems; ?></span>
+                            </div>
+                            <div class="col2">
+                                <span>Subtotal</span>
+                                <span><span>₱ </span><?php echo number_format($subTotal, 2); ?></span>
+                            </div>
+                        </div>
+                        <div class="srow">
+                            <span>Discount</span>
+                            <span>0.00%</span>
+                        </div>
+                        <div class="srow">
+                            <span>GRAND TOTAL</span>
+                            <span id="grandTotal"><span>₱ </span><?php echo number_format($subTotal, 2); ?></span>
+                        </div>
+                    </div>
+                    <div class="button-con">
+                        <div class="payment-con">
+                            <a href="#" class="btn btn-primary">PAYMENT (F8)</a>
+                        </div>
+                        <div class="cancel-con">
+                            <a href="#" class="btn btn-danger">CANCEL (F9)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function onloadFunction(){
+                $('#grandTotal').html()
+            }
+
+            $("#inputItemCode").on("keyup", function(e) {
+                var keyUp = e.which || e.keyCode;
+                // console.log(keyUp);
+
+                if(keyUp == 107){
+                    console.log('plus');
+                    $("#inputItemCode").val("");
+                    window.location.href = './inc-qty.php';
+                }else if(keyUp == 109){
+                    console.log('minus');
+                    $("#inputItemCode").val("");
+                    window.location.href = './dec-inc.php';
+                }else if(keyUp == 110){
+                    console.log('manual');
+                    $("#inputItemCode").val("");
+                    
+                    swal({
+                        title: "QUANTITY",
+                        closeOnClickOutside: false,
+                        content: {
+                            element: "input",
+                            attributes: {
+                                name: "manualQty",
+                                id: "manualQty",
+                                type: "number",
+                                min: "1",
+                                max: "999",
+                                step: "1",
+                            },
+                        },
+                        buttons:{
+                            submit: {
+                                text: "Submit",
+                                value: 'sbmtQty',
+                                visible: true,
+                                className: "sbmtQty",
+                                closeModal: true,
+                            },
+                            cancel: {
+                                text: "Cancel",
+                                value: null,
+                                visible: true,
+                                className: "cncl",
+                                closeModal: true,
+                            },
+                        },
+                    })
+                }else if(keyUp == 120){
+                    console.log('cancel');
+                    $("#inputItemCode").val("");
+                    
+                    swal({
+                        icon: "warning",
+                        title: "CANCEL TRANSACTION",
+                        text: "Are you sure you want to cancel the transactions?",
+                        closeOnClickOutside: false,
+                        dangerMode: true,
+                        buttons:{
+                            confirm: {
+                                text: "YES",
+                                visible: true,
+                                className: "yesCancel",
+                                closeModal: true,
+                                attributes: {
+                                    autofocus: true,
+                                },
+                            },
+                            cancel: {
+                                text: "NO",
+                                visible: true,
+                                className: "cncl",
+                                closeModal: true,
+                            },
+                        },
+                    })
+                }
             });
 
-            jQuery(document).on( "keyup", ".firstRow", function(en){
-                var keyUp = event.which || event.keyCode;
-                console.log(keyUp);
+            function sbtManualQty(){
+                var manualQty = $('#manualQty').val()
+                console.log(manualQty);
+                window.location.href = './manual-qty.php?mqty=' + manualQty;
+            }
 
-                var itotale = parseInt($("#table2").find("tbody tr:first td:eq(2)").html()) * $('.firstRow').val();
-                console.log("Quantity" + parseInt($('.firstRow').val()));
-                console.log("Total" + itotale);
-                $("#table2").find("tbody tr:first td:eq(4)").html(itotale);
+            function cancelTran(){
+                window.location.href = './del-temp-table.php';
+            }
 
-                if(keyUp==13){
-                    if($(this).val() == ""){
-                        console.log("Error: Empty")
+            jQuery(document).on( "keyup", "#manualQty", function(em){
+                var emKey = em.which || em.keyCode;
+                // console.log(emKey);
+                
+                if(emKey == 13){
+                    if($('#manualQty').val() != ""){
+                        sbtManualQty();
                     }else{
-                        $("#prodID").focus();
+                        $("#inputItemCode").focus();
                     }
+
+                }else if(emKey == 27){
+                    $("#inputItemCode").focus();
                 }
-                subTotal = 0;
-                $("#table2").find("tbody tr").each(function(){
-                    var lastCol = parseInt($(this).find("td:eq(4)").html());
-                    subTotal = subTotal + lastCol;
-                    console.log("GT:" + subTotal);
-                });
 
-                $('#subtotal').html(subTotal);
-                $('#grandtotal').html(subTotal);
+                if(event.key==='.'){event.preventDefault();}
             });
-            
-                
-                
 
-        });
-    </script>
-    
-</body>
+            jQuery(document).on( "click", ".sbmtQty", function(){
+                if($('#manualQty').val() != ""){
+                    sbtManualQty();
+                }else{
+                    $("#inputItemCode").focus();
+                }
+            });
+
+            jQuery(document).on( "click", ".cncl", function(){
+                $("#inputItemCode").focus();
+            });
+
+            jQuery(document).on( "keyup", ".swal-modal", function(ec){
+                var ecKey = ec.which || ec.keyCode;
+                console.log(ecKey);
+                
+                if(ecKey == 27){
+                    $("#inputItemCode").focus();
+                }
+            });
+
+            jQuery(document).on( "click", ".yesCancel", function(){
+                cancelTran();
+            });
+
+
+
+        </script>
+
+    </body>
 </html>
