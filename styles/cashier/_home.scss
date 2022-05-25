@@ -73,7 +73,7 @@
             width: 50%;
             height: 100%;
             border-left: 1px solid black;
-            background-color: #f1f1f1;
+            background-color: #fff;
 
             .right-top-con{
                 display: flex;
@@ -121,58 +121,78 @@
 
                 .scanned-item-table{
                     width: 100%;
-                    height: calc(100% - 221px);
+                    height: calc(100% - 231px);
                     padding: 15px 30px;
-                    overflow-y: auto;
+                    // overflow-y: auto;
 
                     table{
                         width: 100%;
+                        height: calc(100% - 30px);
                         max-height: calc(100% - 30px);
-                        border-top: 1px solid black;
+                        // border-top: 1px solid black;
+                        table-layout:fixed;
 
                         thead{
-                            width: 100%;
+                            display:table;
+                            width:100%;
+                            table-layout:fixed;
                             font-size: 24px;
-                            border-bottom: 1px solid black;
+                            background-color: #0d6efd;
+                            // border-bottom: 1px solid black;
                             tr{
                                 width: 100%;
                                 text-align: center;
+                                color: #fff;
 
                                 th{
+                                    padding: 5px 0;
                                     &:nth-child(1){
-                                        width: 10%;
-                                        border-right: 1px solid black;
+                                        width: 45%;
+                                        text-align: center;
                                     }
                                     &:nth-child(2){
                                         width: 15%;
-                                        border-right: 1px solid black;
+                                        text-align: center;
                                     }
                                     &:nth-child(3){
                                         width: 10%;
-                                        border-right: 1px solid black;
+                                        text-align: center;
                                     }
                                     &:nth-child(4){
                                         width: 15%;
-                                        border-right: 1px solid black;
+                                        text-align: center;
                                     }
                                     &:nth-child(5){
-                                        width: 25%;
+                                        width: 15%;
+                                        text-align: center;
                                     }
                                 }
                             }
                         }
                         tbody{
                             font-size: 20px;
+                            width: 100%;
+                            overflow-y: scroll;
+                            height: calc(100% - 10px);
+
+                            display:block;
+                            // height: 500px;
+                            overflow:auto;
+
                             tr{
+                                display:table;
+                                width:100%;
+                                table-layout:fixed;
                                 border-bottom: 1px solid black;
                                 td{
                                     padding: 5px 0;
                                     &:nth-child(1){
-                                        width: 55%;
+                                        width: 45%;
                                         white-space: nowrap;
+                                        overflow: hidden;
                                     }
                                     &:nth-child(2){
-                                        width: 10%;
+                                        width: 15%;
                                         text-align: center;
                                     }
                                     &:nth-child(3){
@@ -180,7 +200,7 @@
                                         text-align: center;
                                     }
                                     &:nth-child(4){
-                                        width: 10%;
+                                        width: 15%;
                                         text-align: center;
                                     }
                                     &:nth-child(5){
@@ -194,8 +214,9 @@
                 }
                 .total-con{
                     width: 100%;
-                    height: 150px;
+                    height: 160px;
                     border-top: 1px solid black;
+                    background-color: #4dd4ac;
 
                     .row1{
                         display: flex;
@@ -211,6 +232,9 @@
                             span{
                                 line-height: 50px;
                                 font-size: 25px;
+                                font-weight: 900;
+                                color: #000;
+                                letter-spacing: 1px;
 
                                 &:nth-child(2){
                                     float: right;
@@ -221,6 +245,9 @@
                         .col2{
                             width: 50%;
                             padding: 0 30px;
+                            font-weight: 900;
+                            color: #000;
+                            letter-spacing: 1px;
 
                             span{
                                 line-height: 50px;
@@ -237,6 +264,9 @@
                         height: 50px;
                         padding: 0 30px;
                         border-bottom: 1px solid black;
+                        font-weight: 900;
+                        color: #000;
+                        letter-spacing: 1px;
                         
                         span{
                             line-height: 50px;
@@ -244,6 +274,14 @@
 
                             &:nth-child(2){
                                 float: right;
+                            }
+                        }
+
+                        &:nth-child(3){
+                            height: 60px;
+                            span{
+                                line-height: 60px;
+                                font-size: 40px;
                             }
                         }
                     }

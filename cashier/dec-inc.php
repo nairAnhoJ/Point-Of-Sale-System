@@ -3,7 +3,12 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
 
-    $nQty = $_SESSION['lastQty'] - 1;
+    if($_SESSION['lastQty'] == 1){
+        $nQty = $_SESSION['lastQty'];
+    }else{
+        $nQty = $_SESSION['lastQty'] - 1;
+    }
+
     $itemCode = $_SESSION['lastCode'];
 
     $updateTempItem = "UPDATE `temp_item` SET `temp_quantity`='$nQty' WHERE `item_code` = $itemCode";

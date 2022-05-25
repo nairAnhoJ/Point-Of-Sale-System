@@ -23,7 +23,7 @@
         <script crossorigin src="../js/react.production.min.js"></script>
         <script crossorigin src="../js/react-dom.production.min.js"></script>
     </head>
-    <body id="nchome-body" onload="onloadFunction()">
+    <body id="nchome-body">
 
 
         <?php
@@ -58,23 +58,32 @@
                             swal({
                                 icon: "success",
                                 title: "Transaction has been cancel.",
+                            }).then((value) => {
+                                $('#inputItemCode').focus();
                             });
                         </script>
                     <?php
                     $_SESSION['deleteAllSuccess'] = false;
                 }
             }
+
+            if(!isset($_SESSION['removeSuccess'])){
+            }else{
+                if ($_SESSION['removeSuccess'] == true){
+                    ?>
+                        <script>
+                            swal({
+                                icon: "success",
+                                title: "Item has been remove.",
+                            }).then((value) => {
+                                $('#inputItemCode').focus();
+                            });
+                        </script>
+                    <?php
+                    $_SESSION['removeSuccess'] = false;
+                }
+            }
         ?>
-
-            <table id="hiddenTable">
-
-            </table>
-
-
-
-
-
-
 
         <div class="nchome-container">
             <div class="left-con">
@@ -94,19 +103,12 @@
                 <div class="right-bottom-con shadow">
                     <div class="scanned-item-table">
                         <table id="scanned-items">
-                            <colgroup>
-                                <col style="width: 45%">
-                                <col style="width: 15%">
-                                <col style="width: 10%">
-                                <col style="width: 15%">
-                                <col style="width: 15%">
-                            </colgroup>
-                            <thead>
+                            <thead id="tableHead">
                                 <tr>
                                     <th>Item Name</th>
                                     <th>Price (₱)</th>
                                     <th>Qty</th>
-                                    <th>Total</th>
+                                    <th>Total (₱)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -157,7 +159,7 @@
                                                         <td><?php echo number_format($rowTempItems['item_price'], 2); ?></td>
                                                         <td><?php echo $rowTempItems['temp_quantity']; ?></td>
                                                         <td><?php echo number_format($totalOfItem, 2); ?></td>
-                                                        <td><a class="btn btn-danger" href="#">Remove</a></td>
+                                                        <td><button class="btn btn-danger remTempItem" data-item-code="<?php echo $rowTempItems['item_code'] ?>">Remove</button></td>
                                                     </tr>
                                                 <?php
                                                 $subTotal = $subTotal + $totalOfItem;
@@ -165,7 +167,7 @@
                                             }
                                         }else{
                                             ?>
-                                                <!-- <tr style="text-align: center;"><td colspan="5"></td></tr> -->
+                                                <tr style="text-align: center;"><td colspan="5">NO RECORD</td></tr>
                                             <?php
                                         }
                                 ?>
@@ -215,143 +217,263 @@
         </div>
 
         <script type="text/javascript">
-            function onloadFunction(){
-                $('#grandTotal').html()
-            }
 
-            $("#inputItemCode").on("keyup", function(e) {
-                var keyUp = e.which || e.keyCode;
-                // console.log(keyUp);
+                // function onloadFunction(){
+                //     $('#grandTotal').html()
+                // }
 
-                if(keyUp == 107){
-                    console.log('plus');
-                    $("#inputItemCode").val("");
-                    window.location.href = './inc-qty.php';
-                }else if(keyUp == 109){
-                    console.log('minus');
-                    $("#inputItemCode").val("");
-                    window.location.href = './dec-inc.php';
-                }else if(keyUp == 110){
-                    console.log('manual');
-                    $("#inputItemCode").val("");
-                    
-                    swal({
-                        title: "QUANTITY",
-                        closeOnClickOutside: false,
-                        content: {
-                            element: "input",
-                            attributes: {
-                                name: "manualQty",
-                                id: "manualQty",
-                                type: "number",
-                                min: "1",
-                                max: "999",
-                                step: "1",
-                            },
-                        },
-                        buttons:{
-                            submit: {
-                                text: "Submit",
-                                value: 'sbmtQty',
-                                visible: true,
-                                className: "sbmtQty",
-                                closeModal: true,
-                            },
-                            cancel: {
-                                text: "Cancel",
-                                value: null,
-                                visible: true,
-                                className: "cncl",
-                                closeModal: true,
-                            },
-                        },
-                    })
-                }else if(keyUp == 120){
-                    console.log('cancel');
-                    $("#inputItemCode").val("");
-                    
-                    swal({
-                        icon: "warning",
-                        title: "CANCEL TRANSACTION",
-                        text: "Are you sure you want to cancel the transactions?",
-                        closeOnClickOutside: false,
-                        dangerMode: true,
-                        buttons:{
-                            confirm: {
-                                text: "YES",
-                                visible: true,
-                                className: "yesCancel",
-                                closeModal: true,
+            $(document).ready(function(){
+
+                $("#inputItemCode").on("keyup", function(e) {
+                    var keyUp = e.which || e.keyCode;
+                    console.log(keyUp);
+
+                    if(keyUp == 107){
+                        console.log('plus');
+                        $("#inputItemCode").val("");
+                        window.location.href = './inc-qty.php';
+                    }else if(keyUp == 109){
+                        console.log('minus');
+                        $("#inputItemCode").val("");
+                        window.location.href = './dec-inc.php';
+                    }else if(keyUp == 110){
+                        console.log('manual');
+                        $("#inputItemCode").val("");
+                        
+                        swal({
+                            title: "QUANTITY",
+                            closeOnClickOutside: false,
+                            content: {
+                                element: "input",
                                 attributes: {
-                                    autofocus: true,
+                                    name: "manualQty",
+                                    id: "manualQty",
+                                    type: "number",
+                                    min: "1",
+                                    max: "999",
+                                    step: "1",
                                 },
                             },
-                            cancel: {
-                                text: "NO",
-                                visible: true,
-                                className: "cncl",
-                                closeModal: true,
+                            buttons:{
+                                submit: {
+                                    text: "Submit",
+                                    value: 'sbmtQty',
+                                    visible: true,
+                                    className: "sbmtQty",
+                                    closeModal: true,
+                                },
+                                cancel: {
+                                    text: "Cancel",
+                                    value: null,
+                                    visible: true,
+                                    className: "cncl",
+                                    closeModal: true,
+                                },
                             },
-                        },
+                        })
+                    }else if(keyUp == 120){
+                        console.log('cancel');
+                        $("#inputItemCode").val("");
+                        
+                        swal({
+                            icon: "warning",
+                            title: "CANCEL TRANSACTION",
+                            text: "Are you sure you want to cancel the transactions?",
+                            closeOnClickOutside: false,
+                            dangerMode: true,
+                            buttons:{
+                                confirm: {
+                                    text: "YES",
+                                    visible: true,
+                                    className: "yesCancel",
+                                    closeModal: true,
+                                    attributes: {
+                                        autofocus: true,
+                                    },
+                                },
+                                cancel: {
+                                    text: "NO",
+                                    visible: true,
+                                    className: "cncl",
+                                    closeModal: true,
+                                },
+                            },
+                        })
+                    }else if(keyUp == 115){
+                        console.log('delete last item');
+                        $("#inputItemCode").val("");
+                        
+                        swal({
+                            icon: "warning",
+                            title: "REMOVE LAST ITEM",
+                            text: "Are you sure you want to remove the last item?",
+                            closeOnClickOutside: false,
+                            dangerMode: true,
+                            buttons:{
+                                confirm: {
+                                    text: "YES",
+                                    visible: true,
+                                    className: "yesRemove",
+                                    closeModal: true,
+                                    attributes: {
+                                        autofocus: true,
+                                    },
+                                },
+                                cancel: {
+                                    text: "NO",
+                                    visible: true,
+                                    className: "cncl",
+                                    closeModal: true,
+                                },
+                            },
+                        })
+                    }else if(keyUp == 123){
+                        e.preventDefault();
+                        console.log('retail/wholesale');
+                        $("#inputItemCode").val("");
+                        var retailWholesale = $('#end-buyer').html();
+                        var changeTo;
+                        console.log(retailWholesale);
+                        if(retailWholesale == "RETAIL"){
+                            changeTo = "WHOLESALE";
+                        }else if(retailWholesale == "WHOLESALE"){
+                            changeTo = "RETAIL";
+                        }
+
+                        swal({
+                        title: "Are you sure you want to change to "+changeTo+"?",
+                        text: "All scanned Items will be removed.",
+                        icon: "warning",
+                        dangerMode: true,buttons:{
+                                confirm: {
+                                    text: "YES",
+                                    visible: true,
+                                    closeModal: true,
+                                    attributes: {
+                                        autofocus: true,
+                                    },
+                                },
+                                cancel: {
+                                    text: "NO",
+                                    visible: true,
+                                    className: "cncl",
+                                    closeModal: true,
+                                },
+                            },
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                window.location.href = './remove-temp-item.php?tempCode=' + thisItemCode;
+                            } else {
+                                $("#inputItemCode").focus();
+                            }
+                        });
+                    }
+                });
+
+                $('.remTempItem').click(function(){
+                    var thisItemCode = $(this).data('item-code');
+                    console.log(thisItemCode);
+                    swal({
+                        title: "Delete Item",
+                        text: "Are you sure you want to delete this item?",
+                        icon: "warning",
+                        dangerMode: true,buttons:{
+                                confirm: {
+                                    text: "YES",
+                                    visible: true,
+                                    closeModal: true,
+                                    attributes: {
+                                        autofocus: true,
+                                    },
+                                },
+                                cancel: {
+                                    text: "NO",
+                                    visible: true,
+                                    className: "cncl",
+                                    closeModal: true,
+                                },
+                            },
                     })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location.href = './remove-temp-item.php?tempCode=' + thisItemCode;
+                        } else {
+                            $("#inputItemCode").focus();
+                        }
+                    });
+                });
+
+                function sbtManualQty(){
+                    var manualQty = $('#manualQty').val()
+                    console.log(manualQty);
+                    window.location.href = './manual-qty.php?mqty=' + manualQty;
                 }
-            });
 
-            function sbtManualQty(){
-                var manualQty = $('#manualQty').val()
-                console.log(manualQty);
-                window.location.href = './manual-qty.php?mqty=' + manualQty;
-            }
+                function cancelTran(){
+                    window.location.href = './del-temp-table.php';
+                }
 
-            function cancelTran(){
-                window.location.href = './del-temp-table.php';
-            }
 
-            jQuery(document).on( "keyup", "#manualQty", function(em){
-                var emKey = em.which || em.keyCode;
-                // console.log(emKey);
-                
-                if(emKey == 13){
+                function removeLastItem(){
+                    window.location.href = './remove-last-item.php';
+                }
+
+                jQuery(document).on( "keyup", "#manualQty", function(em){
+                    var emKey = em.which || em.keyCode;
+                    // console.log(emKey);
+                    
+                    if(emKey == 13){
+                        if($('#manualQty').val() != ""){
+                            sbtManualQty();
+                        }else{
+                            $("#inputItemCode").focus();
+                        }
+
+                    }else if(emKey == 27){
+                        $("#inputItemCode").focus();
+                    }
+
+                    if(event.key==='.'){event.preventDefault();}
+                });
+
+                jQuery(document).on( "click", ".sbmtQty", function(){
                     if($('#manualQty').val() != ""){
                         sbtManualQty();
                     }else{
                         $("#inputItemCode").focus();
                     }
+                });
 
-                }else if(emKey == 27){
+                jQuery(document).on( "click", ".cncl", function(){
                     $("#inputItemCode").focus();
+                });
+
+                jQuery(document).on( "keyup", ".swal-modal", function(ec){
+                    var ecKey = ec.which || ec.keyCode;
+                    console.log(ecKey);
+                    
+                    if(ecKey == 27){
+                        $("#inputItemCode").focus();
+                    }
+                });
+
+                jQuery(document).on( "click", ".yesCancel", function(){
+                    cancelTran();
+                });
+
+                jQuery(document).on( "click", ".yesRemove", function(){
+                    removeLastItem();
+                });
+
+                const itemCount = <?php echo json_encode($totalItems); ?>;
+                if(screen.height <= '1080'){
+                    console.log(screen.height);
+                    if(itemCount > 12){
+                        $('#tableHead').css("width","calc(100% - 15px)");
+                    }
                 }
-
-                if(event.key==='.'){event.preventDefault();}
             });
-
-            jQuery(document).on( "click", ".sbmtQty", function(){
-                if($('#manualQty').val() != ""){
-                    sbtManualQty();
-                }else{
-                    $("#inputItemCode").focus();
-                }
-            });
-
-            jQuery(document).on( "click", ".cncl", function(){
-                $("#inputItemCode").focus();
-            });
-
-            jQuery(document).on( "keyup", ".swal-modal", function(ec){
-                var ecKey = ec.which || ec.keyCode;
-                console.log(ecKey);
-                
-                if(ecKey == 27){
-                    $("#inputItemCode").focus();
-                }
-            });
-
-            jQuery(document).on( "click", ".yesCancel", function(){
-                cancelTran();
-            });
-
-
-
         </script>
 
     </body>
