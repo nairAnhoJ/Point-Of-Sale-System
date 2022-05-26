@@ -4,6 +4,10 @@
     include("../db/conn.php");
     $subTotal = 0.00;
     $totalItems = 0.00;
+
+    if(!isset($_SESSION['endBuyer'])){
+        $_SESSION['endBuyer'] = "RETAIL";
+    }
 ?>
 
 
@@ -78,6 +82,23 @@
                     $_SESSION['removeSuccess'] = false;
                 }
             }
+
+            if(!isset($_SESSION['changeSuccess'])){
+            }else{
+                if ($_SESSION['changeSuccess'] == true){
+                    ?>
+                        <script>
+                            swal({
+                                icon: "success",
+                                title: "End buyer has been change.",
+                            }).then((value) => {
+                                $('#inputItemCode').focus();
+                            });
+                        </script>
+                    <?php
+                    $_SESSION['changeSuccess'] = false;
+                }
+            }
         ?>
 
         <div class="nchome-container">
@@ -90,7 +111,7 @@
                         </div>
                     </div>
                     <div class="search-con">
-                        <input type="text" placeholder="Search..." class="form-control">
+                        <input type="text" placeholder="Search..." class="form-control" id="searchItem">
                     </div>
                 </div>
                 <div class="left-mid-con">
@@ -124,11 +145,21 @@
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="v-pills-all-tab">
                                 <div class="con-con">
-                                    <div class="item-con">
-                                        <a class="con-item" href="#">
-                                            <img src="../images/items/skyflakes.png" alt="">
-                                            <p>SkyFlakes Crackers | 25g 24pcs</p>
-                                        </a>
+                                    <div class="item-con" id="all-con">
+                                        <?php
+                                            $queryAllNoBarcode = "SELECT * FROM `item_no_barcode` ORDER BY `itemnb_name` ASC";
+                                            $resultAllNoBarcode = mysqli_query($con, $queryAllNoBarcode);
+                                            if(mysqli_num_rows($resultAllNoBarcode) > 0){
+                                                while($rowAllNoBarcode = mysqli_fetch_assoc($resultAllNoBarcode)){
+                                                    ?>
+                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowAllNoBarcode['item_code']; ?>">
+                                                            <img src="<?php echo $rowAllNoBarcode['itemnb_img']; ?>" alt="">
+                                                            <p><?php echo $rowAllNoBarcode['itemnb_name']; ?></p>
+                                                        </a>
+                                                    <?php
+                                                }
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +171,23 @@
                                         ?>
                                             <div class="tab-pane fade" id="<?php echo str_replace(" ", "-", $rowCatCon['cat_name']); ?>" role="tabpanel" aria-labelledby="v-pills-<?php echo str_replace(" ", "-", $rowCatCon['cat_name']); ?>-tab">
                                                 <div class="con-con">
-                                                    <?php echo strtoupper(str_replace(" ", "-", $rowCatCon['cat_name'])); ?>
+                                                    <div class="item-con">
+                                                        <?php
+                                                            $thisCategory = ucwords($rowCatCon['cat_name']);
+                                                            $queryCatNoBarcode = "SELECT * FROM `item_no_barcode` WHERE `itemnb_category` = '$thisCategory' ORDER BY `itemnb_name` ASC";
+                                                            $resultCatNoBarcode = mysqli_query($con, $queryCatNoBarcode);
+                                                            if(mysqli_num_rows($resultCatNoBarcode) > 0){
+                                                                while($rowCatNoBarcode = mysqli_fetch_assoc($resultCatNoBarcode)){
+                                                                    ?>
+                                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowCatNoBarcode['item_code']; ?>">
+                                                                            <img src="<?php echo $rowCatNoBarcode['itemnb_img']; ?>" alt="">
+                                                                            <p><?php echo $rowCatNoBarcode['itemnb_name']; ?></p>
+                                                                        </a>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                        ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         <?php
@@ -151,7 +198,58 @@
                     </div>
                 </div>
                 <div class="left-bot-con">
+                    <div class="bot-btn-con">
+                        <div class="btn-con">
+                            <button class="btn btn-secondary btnHome">
+                                <p class="skey">HOME</p>
+                                <p>CHANGE BUYER</p>
+                            </button>
+                            <button class="btn btn-secondary btnF4">
+                                <p class="skey">F4</p>
+                                <p>REMOVE LAST</p>
+                            </button>
+                            <button class="btn btn-secondary btnPlus">
+                                <svg viewBox="0 0 448 512">
+                                    <path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/>
+                                </svg>
+                                <p>INCREMENT</p>
+                            </button>
+                            <button class="btn btn-secondary btnMinus">
+                                <svg viewBox="0 0 448 512">
+                                    <path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"/>
+                                    </svg>
+                                <p>DECREMENT</p>
+                            </button>
+                            <button class="btn btn-secondary btnDot">
+                                <svg width="10px" viewBox="0 0 512 512">
+                                    <path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"/>
+                                </svg>
+                                <p>MANUAL INPUT</p>
+                            </button>
+                            <button class="btn btn-secondary btnInventory">
+                                <svg viewBox="0 0 640 512">
+                                    <path d="M0 488V171.3C0 145.2 15.93 121.6 40.23 111.9L308.1 4.753C315.7 1.702 324.3 1.702 331.9 4.753L599.8 111.9C624.1 121.6 640 145.2 640 171.3V488C640 501.3 629.3 512 616 512H568C554.7 512 544 501.3 544 488V223.1C544 206.3 529.7 191.1 512 191.1H128C110.3 191.1 96 206.3 96 223.1V488C96 501.3 85.25 512 72 512H24C10.75 512 0 501.3 0 488zM152 512C138.7 512 128 501.3 128 488V432H512V488C512 501.3 501.3 512 488 512H152zM128 336H512V400H128V336zM128 224H512V304H128V224z"/>
+                                </svg>
+                                <p>INVENTORY</p>
+                            </button>
+                            <button class="btn btn-secondary btnEmpIn">
+                            <svg viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
+                                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                                    <path d="M2480 5104 c-42 -18 -86 -58 -108 -99 -15 -27 -17 -108 -22 -810 l-5 -780 -375 -5 c-340 -5 -379 -7 -403 -23 -32 -21 -64 -68 -72 -108 -16 -72 -10 -80 491 -610 261 -277 487 -510 502 -518 39 -21 113 -19 150 5 16 10 241 243 499 516 508 537 506 534 483 617 -11 43 -41 85 -73 104 -16 9 -124 13 -397 17 l-375 5 -5 780 c-5 702 -7 783 -22 810 -53 96 -172 140 -268 99z"/>
+                                    <path d="M259 2115 c-108 -34 -204 -132 -239 -244 -19 -60 -20 -93 -20 -705 0 -607 1 -647 20 -720 28 -110 74 -190 155 -271 81 -81 161 -127 271 -155 76 -20 118 -20 2114 -20 1996 0 2038 0 2114 20 110 28 190 74 271 155 81 81 127 161 155 271 19 73 20 113 20 720 0 612 -1 645 -20 705 -36 117 -131 211 -245 245 -45 12 -114 14 -427 12 -361 -3 -375 -4 -421 -25 -57 -27 -140 -103 -172 -158 -13 -22 -70 -195 -126 -384 -113 -379 -123 -400 -214 -456 l-48 -30 -887 0 -887 0 -48 30 c-91 56 -101 77 -214 456 -56 189 -113 362 -126 384 -32 55 -115 131 -172 158 -47 21 -59 22 -428 24 -308 2 -389 -1 -426 -12z"/>
+                                </g>
+                                </svg>
+                                <p>EMPLOYEE IN</p>
+                            </button>
+                            <button class="btn btn-secondary btnLogout">
+                                <svg viewBox="0 0 512 512">
+                                    <path d="M96 480h64C177.7 480 192 465.7 192 448S177.7 416 160 416H96c-17.67 0-32-14.33-32-32V128c0-17.67 14.33-32 32-32h64C177.7 96 192 81.67 192 64S177.7 32 160 32H96C42.98 32 0 74.98 0 128v256C0 437 42.98 480 96 480zM504.8 238.5l-144.1-136c-6.975-6.578-17.2-8.375-26-4.594c-8.803 3.797-14.51 12.47-14.51 22.05l-.0918 72l-128-.001c-17.69 0-32.02 14.33-32.02 32v64c0 17.67 14.34 32 32.02 32l128 .001l.0918 71.1c0 9.578 5.707 18.25 14.51 22.05c8.803 3.781 19.03 1.984 26-4.594l144.1-136C514.4 264.4 514.4 247.6 504.8 238.5z"/>
+                                </svg>
+                                <p>LOG OUT</p>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="right-con">
@@ -162,7 +260,7 @@
                         <input type="submit" name="itemCodeSubmit" id="codeSubmit" tabindex="-1">
                     </form>
                     <div class="end-buyer-con">
-                        <h1 id="end-buyer">RETAIL</h1>
+                        <h1 id="end-buyer"><?php echo $_SESSION['endBuyer']; ?></h1>
                     </div>
                 </div>
                 <div class="right-bottom-con">
@@ -193,21 +291,28 @@
                                                     mysqli_query($con, $deleteTemp);
                                                     $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemCode','$newQty')";
                                                     mysqli_query($con, $updateTemp);
-                                                    // header('location: home.php');
                                                 }
                                             }else{
                                                 $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemCode','1')";
                                                 mysqli_query($con, $insertTemp);
-                                                // header('location: home.php');
                                             }
 
                                         }else{
-                                            $_SESSION['unregItemError'] = true;
-                                            // header('location: home.php');
+
+                                            ?>
+                                                <script>
+                                                    swal({
+                                                        icon: "error",
+                                                        title: "Unregistered Item!",
+                                                    }).then((value) => {
+                                                        $('#inputItemCode').focus();
+                                                    });
+                                                </script>
+                                            <?php
                                         }
                                     }
 
-                                        $queryTempItems = "SELECT tmp.temp_id, itm.item_code, itm.item_name, itm.item_price, itm.item_stock, tmp.temp_quantity FROM item_with_barcode AS itm INNER JOIN temp_item AS tmp ON itm.item_code = tmp.item_code ORDER BY tmp.temp_id DESC";
+                                        $queryTempItems = "SELECT tmp.temp_id, itm.item_code, itm.item_name, itm.item_price, itm.item_stock, tmp.temp_quantity FROM item_with_barcode AS itm INNER JOIN temp_item AS tmp ON itm.item_code = tmp.item_code UNION SELECT tmp.temp_id, inb.item_code, inb.itemnb_name, inb.itemnb_price, inb.itemnb_stock, tmp.temp_quantity FROM item_no_barcode AS inb INNER JOIN temp_item AS tmp ON inb.item_code = tmp.item_code ORDER BY temp_id DESC";
                                         $resultTempItems = mysqli_query($con, $queryTempItems);
                                         if(mysqli_num_rows($resultTempItems) > 0){
                                             $c = 0;
@@ -221,7 +326,7 @@
                                                 ?>
                                                     <tr>
                                                         <td><?php echo $rowTempItems['item_name']; ?></td>
-                                                        <td><?php echo number_format($rowTempItems['item_price'], 2); ?></td>
+                                                        <td><?php if($_SESSION['endBuyer'] == "WHOLESALE"){ echo number_format(($rowTempItems['item_price'] - ($rowTempItems['item_price'] * 0.05)), 2); }else{ echo number_format($rowTempItems['item_price'], 2); } ?></td>
                                                         <td><?php echo $rowTempItems['temp_quantity']; ?></td>
                                                         <td><?php echo number_format($totalOfItem, 2); ?></td>
                                                         <td><button class="btn btn-danger remTempItem" data-item-code="<?php echo $rowTempItems['item_code'] ?>">Remove</button></td>
@@ -236,16 +341,6 @@
                                             <?php
                                         }
                                 ?>
-
-
-                                
-                                <!-- <tr>
-                                    <td>Cheese (Eden 165g)</td>
-                                    <td>5550.00</td>
-                                    <td>1</td>
-                                    <td>5550.00</td>
-                                    <td><a class="btn btn-danger" href="#">Remove</a></td>
-                                </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -271,10 +366,10 @@
                     </div>
                     <div class="button-con">
                         <div class="payment-con">
-                            <a href="#" class="btn btn-primary">PAYMENT (F8)</a>
+                            <button href="#" class="btn btn-primary btnPayment">PAYMENT (F8)</button>
                         </div>
                         <div class="cancel-con">
-                            <a href="#" class="btn btn-danger">CANCEL (F9)</a>
+                            <button class="btn btn-danger btnCancel">CANCEL (F9)</button>
                         </div>
                     </div>
                 </div>
@@ -283,11 +378,194 @@
 
         <script type="text/javascript">
 
-                // function onloadFunction(){
-                //     $('#grandTotal').html()
-                // }
-
             $(document).ready(function(){
+
+                $('.btnLogout').click(function(){
+                    window.location.href = './logout.php';
+                });
+
+                $('.btnPayment').click(function(){
+                    
+                });
+
+                $('.btnEmpIn').click(function(){
+                    
+                });
+
+                $('.btnInventory').click(function(){
+                    
+                });
+
+                $('.btnDot').click(function(){console.log('manual');
+                    $("#inputItemCode").val("");
+                    
+                    swal({
+                        title: "QUANTITY",
+                        closeOnClickOutside: false,
+                        content: {
+                            element: "input",
+                            attributes: {
+                                name: "manualQty",
+                                id: "manualQty",
+                                type: "number",
+                                min: "1",
+                                max: "999",
+                                step: "1",
+                            },
+                        },
+                        buttons:{
+                            submit: {
+                                text: "Submit",
+                                value: 'sbmtQty',
+                                visible: true,
+                                className: "sbmtQty",
+                                closeModal: true,
+                            },
+                            cancel: {
+                                text: "Cancel",
+                                value: null,
+                                visible: true,
+                                className: "cncl",
+                                closeModal: true,
+                            },
+                        },
+                    })
+                });
+
+                $('.btnMinus').click(function(){
+                    console.log('minus');
+                    $("#inputItemCode").val("");
+                    window.location.href = './dec-inc.php';
+                });
+
+                $('.btnPlus').click(function(){
+                    console.log('plus');
+                    $("#inputItemCode").val("");
+                    window.location.href = './inc-qty.php';
+                });
+
+                $('.btnF4').click(function(){
+                    console.log('delete last item');
+                    $("#inputItemCode").val("");
+                    
+                    swal({
+                        icon: "warning",
+                        title: "REMOVE LAST ITEM",
+                        text: "Are you sure you want to remove the last item?",
+                        closeOnClickOutside: false,
+                        dangerMode: true,
+                        buttons:{
+                            confirm: {
+                                text: "YES",
+                                visible: true,
+                                className: "yesRemove",
+                                closeModal: true,
+                                attributes: {
+                                    autofocus: true,
+                                },
+                            },
+                            cancel: {
+                                text: "NO",
+                                visible: true,
+                                className: "cncl",
+                                closeModal: true,
+                            },
+                        },
+                    })
+                });
+
+                $('.btnHome').click(function(){
+                    console.log('retail/wholesale');
+                    $("#inputItemCode").val("");
+                    var retailWholesale = $('#end-buyer').html();
+                    var changeTo;
+                    console.log(retailWholesale);
+                    if(retailWholesale == "RETAIL"){
+                        changeTo = "WHOLESALE";
+                    }else if(retailWholesale == "WHOLESALE"){
+                        changeTo = "RETAIL";
+                    }
+
+                    swal({
+                    title: "Are you sure you want to change to "+changeTo+"?",
+                    text: "All scanned Items will be removed.",
+                    icon: "warning",
+                    dangerMode: true,buttons:{
+                            confirm: {
+                                text: "YES",
+                                visible: true,
+                                closeModal: true,
+                                attributes: {
+                                    autofocus: true,
+                                },
+                            },
+                            cancel: {
+                                text: "NO",
+                                visible: true,
+                                className: "cncl",
+                                closeModal: true,
+                            },
+                        },
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location.href = './change-end-buyer.php?endBuyer=' + changeTo;
+                        } else {
+                            $("#inputItemCode").focus();
+                        }
+                    });
+                });
+
+                $("#searchItem").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#all-con a").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+
+                $('tbody').click(function(){
+                    $("#inputItemCode").focus();
+                });
+                $('.right-con').click(function(){
+                    $("#inputItemCode").focus();
+                });
+                $('.btnCancel').click(function(){
+                    console.log('cancel');
+                    $("#inputItemCode").val("");
+                    
+                    swal({
+                        icon: "warning",
+                        title: "CANCEL TRANSACTION",
+                        text: "Are you sure you want to cancel the transactions?",
+                        closeOnClickOutside: false,
+                        dangerMode: true,
+                        buttons:{
+                            confirm: {
+                                text: "YES",
+                                visible: true,
+                                className: "yesCancel",
+                                closeModal: true,
+                                attributes: {
+                                    autofocus: true,
+                                },
+                            },
+                            cancel: {
+                                text: "NO",
+                                visible: true,
+                                className: "cncl",
+                                closeModal: true,
+                            },
+                        },
+                    })
+                });
+
+                $('#searchItem').on('keyup', function(){
+                    $('#v-pills-all-tab').click();
+                });
+
+                $('.nav-link:not(:first)').click(function(){
+                    $('#searchItem').val("");
+                });
 
                 $("#inputItemCode").on("keyup", function(e) {
                     var keyUp = e.which || e.keyCode;
@@ -392,7 +670,7 @@
                                 },
                             },
                         })
-                    }else if(keyUp == 123){
+                    }else if(keyUp == 36){
                         e.preventDefault();
                         console.log('retail/wholesale');
                         $("#inputItemCode").val("");
@@ -428,7 +706,7 @@
                         })
                         .then((willDelete) => {
                             if (willDelete) {
-                                window.location.href = './remove-temp-item.php?tempCode=' + thisItemCode;
+                                window.location.href = './change-end-buyer.php?endBuyer=' + changeTo;
                             } else {
                                 $("#inputItemCode").focus();
                             }
