@@ -1,6 +1,9 @@
 <?php
     session_start();
     include("./db/conn.php");
+
+    $deleteTempItem = "TRUNCATE `temp_item`";
+    mysqli_query($con, $deleteTempItem);
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +53,7 @@
                 <form action="./login-check.php" method="POST">
                     <div class="mb-4">
                         <label for="InputUsername" class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control" id="InputUsername" required autocomplete="off">
+                        <input type="text" name="username" class="form-control" id="InputUsername" required autofocus autocomplete="off">
                     </div>
                     <div class="mb-4">
                         <label for="InputPassword" class="form-label">Password</label>

@@ -15,7 +15,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../bootstrap-5.1.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="../styles/styles.css?v=<?php echo time(); ?>">
-        <title>Home</title>
+        <link rel="icon" href="../images/logo/shops.png">
+        <title>POS</title>
 
         <script src="../js/jquery-3.6.0.min.js"></script>
         <script src="../bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
@@ -31,17 +32,11 @@
             }else{
                 if ($_SESSION['unregItemError'] == true){
                     ?>
-                        <div id="unregItem-bg">
-                            <div id="unregItem">
-                                <h1>ERROR!</h1>
-                                <h2>UNREGISTERED ITEM!</h2>
-                                <button id="unregBtn" class="btn btn-primary px-5 mt-3">OK</button>
-                            </div>
-                        </div>
                         <script>
-                            $('#unregBtn').focus();
-                            $('#unregBtn').click(function(){
-                                $('#unregItem-bg').css("visibility", "hidden");
+                            swal({
+                                icon: "error",
+                                title: "Unregistered Item!",
+                            }).then((value) => {
                                 $('#inputItemCode').focus();
                             });
                         </script>
@@ -87,7 +82,77 @@
 
         <div class="nchome-container">
             <div class="left-con">
+                <div class="left-top-con">
+                    <div class="logo-con">
+                        <div class="the-logo">
+                            <img src="../images/logo/shops.png" alt="">
+                            <h1>RolNette's Store</h1>
+                        </div>
+                    </div>
+                    <div class="search-con">
+                        <input type="text" placeholder="Search..." class="form-control">
+                    </div>
+                </div>
+                <div class="left-mid-con">
+                    <div class="left-nav-con">
+                        <div class="top-title"><span>Category</span></div>
+                        <div class="nav-content">
+                            <div class="nav flex-column nav-pills me-3 btn-nav-con" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <button class="nav-link active" id="v-pills-all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button" role="tab" aria-controls="v-pills-all" aria-selected="true">All</button>
+                                <?php
+                                    $queryCategoryNav = "SELECT * FROM `category`";
+                                    $resultCategoryNav = mysqli_query($con, $queryCategoryNav);
+                                    if(mysqli_num_rows($resultCategoryNav) > 0){
+                                        while($rowCatNav = mysqli_fetch_assoc($resultCategoryNav)){
+                                            ?>
+                                                <button class="nav-link" id="v-pills-<?php echo str_replace(" ", "-", $rowCatNav['cat_name']); ?>-tab" data-bs-toggle="pill" data-bs-target="#<?php echo str_replace(" ", "-", $rowCatNav['cat_name']);  ?>" type="button" role="tab" aria-controls="v-pills-<?php echo str_replace(" ", "-", $rowCatNav['cat_name']);  ?>" aria-selected="false"><?php echo ucfirst($rowCatNav['cat_name']);  ?></button>
+                                            <?php
+                                        }
+                                    }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="down-arrow">
+                            <button class="btnArrow">
+                                <svg height="30px" viewBox="0 0 384 512">
+                                    <path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="content-con">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="v-pills-all-tab">
+                                <div class="con-con">
+                                    <div class="item-con">
+                                        <a class="con-item" href="#">
+                                            <img src="../images/items/skyflakes.png" alt="">
+                                            <p>SkyFlakes Crackers | 25g 24pcs</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                                $queryCategoryCon = "SELECT * FROM `category`";
+                                $resultCategoryCon = mysqli_query($con, $queryCategoryCon);
+                                if(mysqli_num_rows($resultCategoryCon) > 0){
+                                    while($rowCatCon = mysqli_fetch_assoc($resultCategoryCon)){
+                                        ?>
+                                            <div class="tab-pane fade" id="<?php echo str_replace(" ", "-", $rowCatCon['cat_name']); ?>" role="tabpanel" aria-labelledby="v-pills-<?php echo str_replace(" ", "-", $rowCatCon['cat_name']); ?>-tab">
+                                                <div class="con-con">
+                                                    <?php echo strtoupper(str_replace(" ", "-", $rowCatCon['cat_name'])); ?>
+                                                </div>
+                                            </div>
+                                        <?php
+                                    }
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-bot-con">
 
+                </div>
             </div>
             <div class="right-con">
                 <div class="right-top-con">
@@ -100,7 +165,7 @@
                         <h1 id="end-buyer">RETAIL</h1>
                     </div>
                 </div>
-                <div class="right-bottom-con shadow">
+                <div class="right-bottom-con">
                     <div class="scanned-item-table">
                         <table id="scanned-items">
                             <thead id="tableHead">
@@ -128,17 +193,17 @@
                                                     mysqli_query($con, $deleteTemp);
                                                     $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemCode','$newQty')";
                                                     mysqli_query($con, $updateTemp);
-                                                    header('location: home.php');
+                                                    // header('location: home.php');
                                                 }
                                             }else{
                                                 $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemCode','1')";
                                                 mysqli_query($con, $insertTemp);
-                                                header('location: home.php');
+                                                // header('location: home.php');
                                             }
 
                                         }else{
                                             $_SESSION['unregItemError'] = true;
-                                            header('location: home.php');
+                                            // header('location: home.php');
                                         }
                                     }
 
