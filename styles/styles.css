@@ -385,12 +385,13 @@
 
 #nchome-body .nchome-container .right-con .right-top-con .item-code-con label {
   font-size: 25px;
-  line-height: 10vh;
+  line-height: 12vh;
 }
 
 #nchome-body .nchome-container .right-con .right-top-con .item-code-con #inputItemCode {
   display: inline;
   width: 50%;
+  font-size: 20px;
 }
 
 #nchome-body .nchome-container .right-con .right-top-con .item-code-con #codeSubmit, #nchome-body .nchome-container .right-con .right-top-con .item-code-con #addQty, #nchome-body .nchome-container .right-con .right-top-con .item-code-con #minusQty {
