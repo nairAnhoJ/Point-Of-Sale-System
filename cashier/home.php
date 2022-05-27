@@ -4,6 +4,7 @@
     include("../db/conn.php");
     $subTotal = 0.00;
     $totalItems = 0.00;
+    $totalQty = 0;
 
     if(!isset($_SESSION['endBuyer'])){
         $_SESSION['endBuyer'] = "RETAIL";
@@ -97,6 +98,23 @@
                         </script>
                     <?php
                     $_SESSION['changeSuccess'] = false;
+                }
+            }
+
+            if(!isset($_SESSION['TranComSuccess'])){
+            }else{
+                if ($_SESSION['TranComSuccess'] == true){
+                    ?>
+                        <script>
+                            swal({
+                                icon: "success",
+                                title: "Transaction Completed",
+                            }).then((value) => {
+                                $('#inputItemCode').focus();
+                            });
+                        </script>
+                    <?php
+                    $_SESSION['TranComSuccess'] = false;
                 }
             }
         ?>
@@ -202,7 +220,7 @@
                         <div class="btn-con">
                             <button class="btn btn-secondary btnHome">
                                 <p class="skey">HOME</p>
-                                <p>CHANGE BUYER</p>
+                                <p style="font-size: 14px;">CHANGE BUYER</p>
                             </button>
                             <button class="btn btn-secondary btnF4">
                                 <p class="skey">F4</p>
@@ -212,19 +230,19 @@
                                 <svg viewBox="0 0 448 512">
                                     <path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/>
                                 </svg>
-                                <p>INCREMENT</p>
+                                <p>ADD QTY</p>
                             </button>
                             <button class="btn btn-secondary btnMinus">
                                 <svg viewBox="0 0 448 512">
                                     <path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"/>
                                     </svg>
-                                <p>DECREMENT</p>
+                                <p>MINUS QTY</p>
                             </button>
                             <button class="btn btn-secondary btnDot">
                                 <svg width="10px" viewBox="0 0 512 512">
                                     <path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"/>
                                 </svg>
-                                <p>MANUAL INPUT</p>
+                                <p>CUSTOM QTY</p>
                             </button>
                             <button class="btn btn-secondary btnInventory">
                                 <svg viewBox="0 0 640 512">
@@ -240,7 +258,7 @@
                                     <path d="M259 2115 c-108 -34 -204 -132 -239 -244 -19 -60 -20 -93 -20 -705 0 -607 1 -647 20 -720 28 -110 74 -190 155 -271 81 -81 161 -127 271 -155 76 -20 118 -20 2114 -20 1996 0 2038 0 2114 20 110 28 190 74 271 155 81 81 127 161 155 271 19 73 20 113 20 720 0 612 -1 645 -20 705 -36 117 -131 211 -245 245 -45 12 -114 14 -427 12 -361 -3 -375 -4 -421 -25 -57 -27 -140 -103 -172 -158 -13 -22 -70 -195 -126 -384 -113 -379 -123 -400 -214 -456 l-48 -30 -887 0 -887 0 -48 30 c-91 56 -101 77 -214 456 -56 189 -113 362 -126 384 -32 55 -115 131 -172 158 -47 21 -59 22 -428 24 -308 2 -389 -1 -426 -12z"/>
                                 </g>
                                 </svg>
-                                <p>EMPLOYEE IN</p>
+                                <p>DTR</p>
                             </button>
                             <button class="btn btn-secondary btnLogout">
                                 <svg viewBox="0 0 512 512">
@@ -333,8 +351,13 @@
                                                     </tr>
                                                 <?php
                                                 $subTotal = $subTotal + $totalOfItem;
+                                                $totalQty = $totalQty + $rowTempItems['temp_quantity'];
                                                 $totalItems++;
                                             }
+
+                                            $_SESSION['totalItems'] = $totalItems;
+                                            $_SESSION['subTotal'] = $subTotal;
+                                            $_SESSION['totalQty'] = $totalQty;
                                         }else{
                                             ?>
                                                 <tr style="text-align: center;"><td colspan="5">NO RECORD</td></tr>
@@ -385,18 +408,120 @@
                 });
 
                 $('.btnPayment').click(function(){
+                    console.log('payment');
+                    $("#inputItemCode").val("");
                     
+                    swal({
+                        title: "Amount Received",
+                        closeOnClickOutside: false,
+                        content: {
+                            element: "input",
+                            attributes: {
+                                id: "amountRecieved",
+                                type: "number",
+                                min: "1",
+                                max: "999999",
+                                step: "1",
+                            },
+                        },
+                        buttons:{
+                            submit: {
+                                text: "Submit",
+                                value: 'sbmtQty',
+                                visible: true,
+                                className: "sbmtAmount",
+                                closeModal: true,
+                            },
+                            cancel: {
+                                text: "Cancel",
+                                value: null,
+                                visible: true,
+                                className: "cncl",
+                                closeModal: true,
+                            },
+                        },
+                    });
                 });
 
-                $('.btnEmpIn').click(function(){
+                jQuery(document).on( "click", ".sbmtAmount", function(){
+                    if($('#amountRecieved').val() != ""){
+                            var amRec = Number($('#amountRecieved').val()).toFixed(2);
+                            var amPay = Number(<?php echo json_encode($subTotal); ?>).toFixed(2);
+                            var amChange = Number(amRec - amPay).toFixed(2);
+                            console.log(amChange);
+
+                            if(amChange < 0){
+                                swal({
+                                    icon: "error",
+                                    title: "Invalid Amount",
+                                }).then((value) => {
+                                    $('#inputItemCode').focus();
+                                });
+                            }else{
+                                swal({
+                                    icon: "info",
+                                    title: "Transaction Processing",
+                                    text: "\nAmount Payable:   ₱ "+amPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Amount Recieved:   ₱ "+amRec.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Change:   ₱ "+amChange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                                }).then((value) => {
+                                    // window.open("./reciept.php?amRec="+amRec);
+                                    window.location.href = "./reciept.php?amRec="+amRec;
+                                });
+                            }
+                        }else{
+                            $("#inputItemCode").focus();
+                        }
+                });
+
+                jQuery(document).on( "keyup", "#amountRecieved", function(ep){
+                    var epKey = ep.which || ep.keyCode;
                     
+                    if(epKey == 13){
+                        if($('#amountRecieved').val() != ""){
+                            var amRec = Number($('#amountRecieved').val()).toFixed(2);
+                            var amPay = Number(<?php echo json_encode($subTotal); ?>).toFixed(2);
+                            var amChange = Number(amRec - amPay).toFixed(2);
+                            console.log(amChange);
+
+                            if(amChange < 0){
+                                swal({
+                                    icon: "error",
+                                    title: "Invalid Amount",
+                                }).then((value) => {
+                                    $('#inputItemCode').focus();
+                                });
+                            }else{
+                                swal({
+                                    icon: "info",
+                                    title: "Transaction Processing",
+                                    text: "\nAmount Payable:   ₱ "+amPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Amount Recieved:   ₱ "+amRec.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Change:   ₱ "+amChange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                                }).then((value) => {
+                                    // window.open("./reciept.php?amRec="+amRec);
+                                    window.location.href = "./reciept.php?amRec="+amRec;
+                                });
+                            }
+                        }else{
+                            $("#inputItemCode").focus();
+                        }
+
+                    }else if(epKey == 27){
+                        $("#inputItemCode").focus();
+                    }
+
+                    if(event.key==='.'){event.preventDefault();}
+                });
+
+
+
+                $('.btnEmpIn').click(function(){
+                    console.log('DTR');
                 });
 
                 $('.btnInventory').click(function(){
-                    
+                    console.log('Inventory');
                 });
 
-                $('.btnDot').click(function(){console.log('manual');
+                $('.btnDot').click(function(){
+                    console.log('manual');
                     $("#inputItemCode").val("");
                     
                     swal({
@@ -429,7 +554,7 @@
                                 closeModal: true,
                             },
                         },
-                    })
+                    });
                 });
 
                 $('.btnMinus').click(function(){
@@ -710,6 +835,40 @@
                             } else {
                                 $("#inputItemCode").focus();
                             }
+                        });
+                    }else if(keyUp == 119){
+                        console.log('payment');
+                        $("#inputItemCode").val("");
+                        
+                        swal({
+                            title: "Amount Received",
+                            closeOnClickOutside: false,
+                            content: {
+                                element: "input",
+                                attributes: {
+                                    id: "amountRecieved",
+                                    type: "number",
+                                    min: "1",
+                                    max: "999999",
+                                    step: "1",
+                                },
+                            },
+                            buttons:{
+                                submit: {
+                                    text: "Submit",
+                                    value: 'sbmtQty',
+                                    visible: true,
+                                    className: "sbmtAmount",
+                                    closeModal: true,
+                                },
+                                cancel: {
+                                    text: "Cancel",
+                                    value: null,
+                                    visible: true,
+                                    className: "cncl",
+                                    closeModal: true,
+                                },
+                            },
                         });
                     }
                 });

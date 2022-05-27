@@ -3,6 +3,26 @@
     height: 100vh;
     overflow: hidden;
 
+    .swal-modal{
+        width: 600px;
+
+        .swal-title{
+            font-size: 45px;
+        }
+
+        .swal-content{
+            .swal-content__input{
+                font-size: 25px;
+            }
+        }
+    
+        .swal-text{
+            text-align: center;
+            font-size: 30px;
+        }
+    }
+
+
     .nchome-container{
         display: flex;
         width: 100%;
@@ -388,12 +408,11 @@
                         tbody{
                             font-size: 20px;
                             width: 100%;
-                            overflow-y: scroll;
                             height: calc(100% - 10px);
+                            max-height: calc(100% - 10px);
 
                             display:block;
-                            // height: 500px;
-                            overflow:auto;
+                            overflow: auto;
 
                             tr{
                                 display:table;

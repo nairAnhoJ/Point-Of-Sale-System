@@ -30,6 +30,23 @@
   overflow: hidden;
 }
 
+#nchome-body .swal-modal {
+  width: 600px;
+}
+
+#nchome-body .swal-modal .swal-title {
+  font-size: 45px;
+}
+
+#nchome-body .swal-modal .swal-content .swal-content__input {
+  font-size: 25px;
+}
+
+#nchome-body .swal-modal .swal-text {
+  text-align: center;
+  font-size: 30px;
+}
+
 #nchome-body .nchome-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -474,8 +491,8 @@
 #nchome-body .nchome-container .right-con .right-bottom-con .scanned-item-table table tbody {
   font-size: 20px;
   width: 100%;
-  overflow-y: scroll;
   height: calc(100% - 10px);
+  max-height: calc(100% - 10px);
   display: block;
   overflow: auto;
 }
