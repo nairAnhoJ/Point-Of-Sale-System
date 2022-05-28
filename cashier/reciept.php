@@ -30,7 +30,7 @@
                 <span>D/T: </span><span id="dateTimeNow"></span>
             </div>
             <div class="top-bot-con">
-                <span>Cashier: </span><span class="cashierName">John Arian</span>
+                <span>Cashier: </span><span class="cashierName"><?php echo $_SESSION['cashier_name']; ?></span>
             </div>
         </div>
 
@@ -48,13 +48,29 @@
                         $resultTempItems = mysqli_query($con, $queryTempItems);
                         if(mysqli_num_rows($resultTempItems) > 0){
                             $c = 0;
+
+                            $getWSDisc = "SELECT * FROM `admin_settings` WHERE `set_id` = 1";
+                            $resultWSDisc = mysqli_query($con, $getWSDisc);
+                            $rowDisc = mysqli_fetch_assoc($resultWSDisc);
+
+                            $wholesaleDisc = ($rowDisc['wholesale'] / 100);
+
                             while($rowTempItems = mysqli_fetch_assoc($resultTempItems)){
                                 $c++;
-                                $totalOfItem = (($rowTempItems['temp_quantity'] * $rowTempItems['item_price']));
+
+                                $itemPrice;
+
+                                if($_SESSION['endBuyer'] == "WHOLESALE"){
+                                    $itemPrice = number_format(($rowTempItems['item_price'] - ($rowTempItems['item_price'] * $wholesaleDisc)), 2);
+                                }else{
+                                    $itemPrice = number_format($rowTempItems['item_price'], 2);
+                                }
+
+                                $totalOfItem = (($rowTempItems['temp_quantity'] * $itemPrice));
                                 ?>
                                     <tr>
                                         <td style="text-align: left;"><?php echo $c." ".$rowTempItems['item_name']; ?></td>
-                                        <td><?php if($_SESSION['endBuyer'] == "WHOLESALE"){ echo number_format(($rowTempItems['item_price'] - ($rowTempItems['item_price'] * 0.05)), 2); }else{ echo number_format($rowTempItems['item_price'], 2); } ?></td>
+                                        <td><?php echo $itemPrice; ?></td>
                                         <td><?php echo $rowTempItems['temp_quantity']; ?></td>
                                         <td><?php echo number_format($totalOfItem, 2); ?></td>
                                     </tr>
@@ -93,12 +109,13 @@
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date+' '+time;
             $('#dateTimeNow').html(dateTime);
+            var invNo = $('.invoiceNumber').html();
 
             window.print();
             swal({
                 title: "Printing Reciept...",
             }).then((value) => {
-                window.location.href = './del-temp-after-transaction.php';
+                window.location.href = './del-temp-after-transaction.php?invNo='+invNo;
             });
         }
     </script>

@@ -3,8 +3,17 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
     $subTotal = 0.00;
+    $grandTotal = 0.00;
     $totalItems = 0.00;
     $totalQty = 0;
+    $manualDisc = 0;
+
+    $getWSDisc = "SELECT * FROM `admin_settings` WHERE `set_id` = 1";
+    $resultWSDisc = mysqli_query($con, $getWSDisc);
+    $rowDisc = mysqli_fetch_assoc($resultWSDisc);
+
+    $wholesaleDisc = ($rowDisc['wholesale'] / 100);
+    $manualDisc = ($rowDisc['discount'] / 100);
 
     if(!isset($_SESSION['endBuyer'])){
         $_SESSION['endBuyer'] = "RETAIL";
@@ -30,7 +39,6 @@
         <script crossorigin src="../js/react-dom.production.min.js"></script>
     </head>
     <body id="nchome-body">
-
 
         <?php
             if(!isset($_SESSION['unregItemError'])){
@@ -115,6 +123,23 @@
                         </script>
                     <?php
                     $_SESSION['TranComSuccess'] = false;
+                }
+            }
+
+            if(!isset($_SESSION['discUpdateSuccessful'])){
+            }else{
+                if ($_SESSION['discUpdateSuccessful'] == true){
+                    ?>
+                        <script>
+                            swal({
+                                icon: "success",
+                                title: "Discount Updated",
+                            }).then((value) => {
+                                $('#inputItemCode').focus();
+                            });
+                        </script>
+                    <?php
+                    $_SESSION['discUpdateSuccessful'] = false;
                 }
             }
         ?>
@@ -244,6 +269,10 @@
                                 </svg>
                                 <p>CUSTOM QTY</p>
                             </button>
+                            <button class="btn btn-secondary btnDiscount">
+                                <p class="skey">PgDn</p>
+                                <p>DISCOUNT</p>
+                            </button>
                             <button class="btn btn-secondary btnInventory">
                                 <svg viewBox="0 0 640 512">
                                     <path d="M0 488V171.3C0 145.2 15.93 121.6 40.23 111.9L308.1 4.753C315.7 1.702 324.3 1.702 331.9 4.753L599.8 111.9C624.1 121.6 640 145.2 640 171.3V488C640 501.3 629.3 512 616 512H568C554.7 512 544 501.3 544 488V223.1C544 206.3 529.7 191.1 512 191.1H128C110.3 191.1 96 206.3 96 223.1V488C96 501.3 85.25 512 72 512H24C10.75 512 0 501.3 0 488zM152 512C138.7 512 128 501.3 128 488V432H512V488C512 501.3 501.3 512 488 512H152zM128 336H512V400H128V336zM128 224H512V304H128V224z"/>
@@ -330,39 +359,55 @@
                                         }
                                     }
 
-                                        $queryTempItems = "SELECT tmp.temp_id, itm.item_code, itm.item_name, itm.item_price, itm.item_stock, tmp.temp_quantity FROM item_with_barcode AS itm INNER JOIN temp_item AS tmp ON itm.item_code = tmp.item_code UNION SELECT tmp.temp_id, inb.item_code, inb.itemnb_name, inb.itemnb_price, inb.itemnb_stock, tmp.temp_quantity FROM item_no_barcode AS inb INNER JOIN temp_item AS tmp ON inb.item_code = tmp.item_code ORDER BY temp_id DESC";
-                                        $resultTempItems = mysqli_query($con, $queryTempItems);
-                                        if(mysqli_num_rows($resultTempItems) > 0){
-                                            $c = 0;
-                                            while($rowTempItems = mysqli_fetch_assoc($resultTempItems)){
-                                                if($c == 0){
-                                                    $_SESSION['lastCode'] = $rowTempItems['item_code'];
-                                                    $_SESSION['lastQty'] = $rowTempItems['temp_quantity'];
-                                                    $c++;
-                                                }
-                                                $totalOfItem = (($rowTempItems['temp_quantity'] * $rowTempItems['item_price']));
-                                                ?>
-                                                    <tr>
-                                                        <td><?php echo $rowTempItems['item_name']; ?></td>
-                                                        <td><?php if($_SESSION['endBuyer'] == "WHOLESALE"){ echo number_format(($rowTempItems['item_price'] - ($rowTempItems['item_price'] * 0.05)), 2); }else{ echo number_format($rowTempItems['item_price'], 2); } ?></td>
-                                                        <td><?php echo $rowTempItems['temp_quantity']; ?></td>
-                                                        <td><?php echo number_format($totalOfItem, 2); ?></td>
-                                                        <td><button class="btn btn-danger remTempItem" data-item-code="<?php echo $rowTempItems['item_code'] ?>">Remove</button></td>
-                                                    </tr>
-                                                <?php
-                                                $subTotal = $subTotal + $totalOfItem;
-                                                $totalQty = $totalQty + $rowTempItems['temp_quantity'];
-                                                $totalItems++;
+                                    $queryTempItems = "SELECT tmp.temp_id, itm.item_code, itm.item_name, itm.item_price, itm.item_stock, tmp.temp_quantity FROM item_with_barcode AS itm INNER JOIN temp_item AS tmp ON itm.item_code = tmp.item_code UNION SELECT tmp.temp_id, inb.item_code, inb.itemnb_name, inb.itemnb_price, inb.itemnb_stock, tmp.temp_quantity FROM item_no_barcode AS inb INNER JOIN temp_item AS tmp ON inb.item_code = tmp.item_code ORDER BY temp_id DESC";
+                                    $resultTempItems = mysqli_query($con, $queryTempItems);
+                                    if(mysqli_num_rows($resultTempItems) > 0){
+                                        $c = 0;
+
+                                        
+
+                                        while($rowTempItems = mysqli_fetch_assoc($resultTempItems)){
+                                            if($c == 0){
+                                                $_SESSION['lastCode'] = $rowTempItems['item_code'];
+                                                $_SESSION['lastQty'] = $rowTempItems['temp_quantity'];
+                                                $c++;
                                             }
 
-                                            $_SESSION['totalItems'] = $totalItems;
-                                            $_SESSION['subTotal'] = $subTotal;
-                                            $_SESSION['totalQty'] = $totalQty;
-                                        }else{
+                                            $itemPrice;
+
+                                            if($_SESSION['endBuyer'] == "WHOLESALE"){
+                                                $itemPrice = number_format(($rowTempItems['item_price'] - ($rowTempItems['item_price'] * $wholesaleDisc)), 2);
+                                            }else{
+                                                $itemPrice = number_format($rowTempItems['item_price'], 2);
+                                            }
+
+                                            $totalOfItem = (($rowTempItems['temp_quantity'] * $itemPrice));
+
                                             ?>
-                                                <tr style="text-align: center;"><td colspan="5">NO RECORD</td></tr>
+                                                <tr>
+                                                    <td><?php echo $rowTempItems['item_name']; ?></td>
+                                                    <td><?php echo $itemPrice; ?></td>
+                                                    <td><?php echo $rowTempItems['temp_quantity']; ?></td>
+                                                    <td><?php echo number_format($totalOfItem, 2); ?></td>
+                                                    <td><button class="btn btn-danger remTempItem" data-item-code="<?php echo $rowTempItems['item_code'] ?>">Remove</button></td>
+                                                </tr>
                                             <?php
+                                            $subTotal = $subTotal + $totalOfItem;
+                                            $totalQty = $totalQty + $rowTempItems['temp_quantity'];
+                                            $totalItems++;
                                         }
+
+                                        $_SESSION['totalItems'] = $totalItems;
+
+                                        $_SESSION['subTotal'] = $subTotal;
+                                        $_SESSION['totalQty'] = $totalQty;
+
+                                        $grandTotal = $subTotal - ($subTotal * $manualDisc);
+                                    }else{
+                                        ?>
+                                            <tr style="text-align: center;"><td colspan="5">NO RECORD</td></tr>
+                                        <?php
+                                    }
                                 ?>
                             </tbody>
                         </table>
@@ -380,11 +425,11 @@
                         </div>
                         <div class="srow">
                             <span>Discount</span>
-                            <span>0.00%</span>
+                            <span><?php echo number_format(($manualDisc*100),2) ?>%</span>
                         </div>
                         <div class="srow">
                             <span>GRAND TOTAL</span>
-                            <span id="grandTotal"><span>₱ </span><?php echo number_format($subTotal, 2); ?></span>
+                            <span id="grandTotal"><span>₱ </span><?php echo number_format(($grandTotal), 2); ?></span>
                         </div>
                     </div>
                     <div class="button-con">
@@ -402,6 +447,75 @@
         <script type="text/javascript">
 
             $(document).ready(function(){
+
+
+                $('tbody').click(function(){
+                    // $("#inputItemCode").focus();
+                });
+                $('.right-con').click(function(){
+                    // $("#inputItemCode").focus();
+                });
+
+                $('.btnDiscount').click(function(){
+                    $("#inputItemCode").val("");
+                    
+                    swal({
+                        title: "Discount (%)",
+                        closeOnClickOutside: false,
+                        content: {
+                            element: "input",
+                            attributes: {
+                                id: "perDisc",
+                                type: "number",
+                                min: "1",
+                                max: "100",
+                                step: "1",
+                            },
+                        },
+                        buttons:{
+                            submit: {
+                                text: "Submit",
+                                value: 'sbmtQty',
+                                visible: true,
+                                className: "sbmtDiscount",
+                                closeModal: true,
+                            },
+                            cancel: {
+                                text: "Cancel",
+                                value: null,
+                                visible: true,
+                                className: "cncl",
+                                closeModal: true,
+                            },
+                        },
+                    });
+                });
+
+                jQuery(document).on( "click", ".sbmtDiscount", function(){
+                    if($('#perDisc').val() != ""){
+                        var manDisc = $('#perDisc').val();
+                        window.location.href = './change-manual-discount.php?manDisc='+manDisc;
+                    }else{
+                        $("#inputItemCode").focus();
+                    }
+                });
+
+                jQuery(document).on( "keyup", "#perDisc", function(ep){
+                    var epKey = ep.which || ep.keyCode;
+
+                    if($('#perDisc').val() > 100){
+                        $('#perDisc').val("100");
+                    }
+        
+                    if(epKey == 13){
+                        if($('#perDisc').val() != ""){
+                            var manDisc = $('#perDisc').val();
+                            window.location.href = './change-manual-discount.php?manDisc='+manDisc;
+                        }   
+                    }else if(epKey == 27){
+                        $("#inputItemCode").focus();
+                    }
+                });
 
                 $('.btnLogout').click(function(){
                     window.location.href = './logout.php';
@@ -450,26 +564,26 @@
                             var amChange = Number(amRec - amPay).toFixed(2);
                             console.log(amChange);
 
-                            if(amChange < 0){
-                                swal({
-                                    icon: "error",
-                                    title: "Invalid Amount",
-                                }).then((value) => {
-                                    $('#inputItemCode').focus();
-                                });
-                            }else{
-                                swal({
-                                    icon: "info",
-                                    title: "Transaction Processing",
-                                    text: "\nAmount Payable:   ₱ "+amPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Amount Recieved:   ₱ "+amRec.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Change:   ₱ "+amChange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                                }).then((value) => {
-                                    // window.open("./reciept.php?amRec="+amRec);
-                                    window.location.href = "./reciept.php?amRec="+amRec;
-                                });
-                            }
+                        if(amChange < 0){
+                            swal({
+                                icon: "error",
+                                title: "Invalid Amount",
+                            }).then((value) => {
+                                $('#inputItemCode').focus();
+                            });
                         }else{
-                            $("#inputItemCode").focus();
+                            swal({
+                                icon: "info",
+                                title: "Transaction Processing",
+                                text: "\nAmount Payable:   ₱ "+amPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Amount Recieved:   ₱ "+amRec.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Change:   ₱ "+amChange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                            }).then((value) => {
+                                // window.open("./reciept.php?amRec="+amRec);
+                                window.location.href = "./reciept.php?amRec="+amRec;
+                            });
                         }
+                    }else{
+                        $("#inputItemCode").focus();
+                    }
                 });
 
                 jQuery(document).on( "keyup", "#amountRecieved", function(ep){
@@ -517,7 +631,7 @@
                 });
 
                 $('.btnInventory').click(function(){
-                    console.log('Inventory');
+                    window.location.href = "./inventory.php";
                 });
 
                 $('.btnDot').click(function(){
@@ -648,12 +762,6 @@
                     });
                 });
 
-                $('tbody').click(function(){
-                    $("#inputItemCode").focus();
-                });
-                $('.right-con').click(function(){
-                    $("#inputItemCode").focus();
-                });
                 $('.btnCancel').click(function(){
                     console.log('cancel');
                     $("#inputItemCode").val("");
@@ -870,16 +978,49 @@
                                 },
                             },
                         });
+                    }else if(keyUp == 34){
+                        $("#inputItemCode").val("");
+                        
+                        swal({
+                            title: "Discount (%)",
+                            closeOnClickOutside: false,
+                            content: {
+                                element: "input",
+                                attributes: {
+                                    id: "perDisc",
+                                    type: "number",
+                                    min: "1",
+                                    max: "100",
+                                    step: "1",
+                                },
+                            },
+                            buttons:{
+                                submit: {
+                                    text: "Submit",
+                                    value: 'sbmtQty',
+                                    visible: true,
+                                    className: "sbmtDiscount",
+                                    closeModal: true,
+                                },
+                                cancel: {
+                                    text: "Cancel",
+                                    value: null,
+                                    visible: true,
+                                    className: "cncl",
+                                    closeModal: true,
+                                },
+                            },
+                        });
                     }
                 });
 
                 $('.remTempItem').click(function(){
                     var thisItemCode = $(this).data('item-code');
-                    console.log(thisItemCode);
                     swal({
                         title: "Delete Item",
                         text: "Are you sure you want to delete this item?",
                         icon: "warning",
+                        closeOnClickOutside: false,
                         dangerMode: true,buttons:{
                                 confirm: {
                                     text: "YES",

@@ -10,5 +10,4 @@
     mysqli_query($con, $updateTempItem);
     header("location: home.php");
 
-
 ?>

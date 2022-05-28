@@ -270,12 +270,12 @@
                     .btn-con{
                         width: 98%;
                         height: 98%;
-                        padding: 0 calc(20% - 30px);
+                        padding: 0 calc(10% - 30px);
                         display: flex;
                         flex-flow: row wrap;
 
                         button{
-                            width: calc(25% - 30px);
+                            width: calc(20% - 30px);
                             height: calc(50% - 15px);
                             margin: 10px 15px 0 15px;
                             padding: 0;
@@ -517,6 +517,7 @@
                             span{
                                 line-height: 60px;
                                 font-size: 40px;
+
                             }
                         }
                     }

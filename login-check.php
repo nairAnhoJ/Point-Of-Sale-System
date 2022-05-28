@@ -10,11 +10,11 @@
     if(mysqli_num_rows($resultUser) > 0){
         $userRow = mysqli_fetch_assoc($resultUser);
         if (password_verify($userpass, $userRow['user_pass'])){
-            $_SESSION['userName'] = '$username';
 
-            if($_SESSION['userName'] == 'admin'){
+            if($username == 'admin'){
                 header('Location: ./admin/home.php');
             }else{
+                $_SESSION['cashier_name'] = $userRow['cashier_name'];
                 header('Location: ./cashier/home.php');
             }
         } else {
