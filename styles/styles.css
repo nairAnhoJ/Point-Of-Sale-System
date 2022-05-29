@@ -759,7 +759,7 @@
 .inv-con .content-con .tbl-con table tbody {
   overflow-y: auto;
   display: block;
-  height: calc(100% - 70px);
+  height: calc(100% - 100px);
   width: 100%;
 }
 

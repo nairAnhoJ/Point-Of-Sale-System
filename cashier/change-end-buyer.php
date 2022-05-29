@@ -8,9 +8,9 @@
     $_SESSION['endBuyer'] = $endBuyer;
 
 
-    $deleteTempItem = "TRUNCATE `temp_item`";
-    mysqli_query($con, $deleteTempItem);
-    $_SESSION['changeSuccess'] = true;
+    // $deleteTempItem = "TRUNCATE `temp_item`";
+    // mysqli_query($con, $deleteTempItem);
+    // $_SESSION['changeSuccess'] = true;
     header("location: home.php");
 
 

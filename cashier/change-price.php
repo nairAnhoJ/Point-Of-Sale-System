@@ -4,16 +4,39 @@
     include("../db/conn.php");
 
     $itemCode = $_GET['itemCode'];
-    $newPrice = $_GET['newPrice'];
 
-    $updatePrice = "UPDATE `item_with_barcode` SET `item_price` = '$newPrice' WHERE `item_code` = $itemCode";
-    mysqli_query($con, $updatePrice);
+    if(isset($_GET['newRetailPrice'])){
+
+        $newPrice = $_GET['newRetailPrice'];
+
+        $updatePrice = "UPDATE `item_with_barcode` SET `item_retail_price` = '$newPrice' WHERE `item_code` = $itemCode";
+        mysqli_query($con, $updatePrice);
+    
+    
+        $updatePrice = "UPDATE `item_no_barcode` SET `itemnb_retail_price` = '$newPrice' WHERE `item_code` = $itemCode";
+        mysqli_query($con, $updatePrice);
+    
+        $_SESSION['updateSuccessful'] = true;
+        header("location: inventory.php");
+    }
+
+    if(isset($_GET['newWholesalePrice'])){
+
+        $newPrice = $_GET['newWholesalePrice'];
+
+        $updatePrice = "UPDATE `item_with_barcode` SET `item_wholesale_price` = '$newPrice' WHERE `item_code` = $itemCode";
+        mysqli_query($con, $updatePrice);
+    
+    
+        $updatePrice = "UPDATE `item_no_barcode` SET `itemnb_wholesale_price` = '$newPrice' WHERE `item_code` = $itemCode";
+        mysqli_query($con, $updatePrice);
+    
+        $_SESSION['updateSuccessful'] = true;
+        header("location: inventory.php");
+    }
 
 
-    $updatePrice = "UPDATE `item_no_barcode` SET `itemnb_price` = '$newPrice' WHERE `item_code` = $itemCode";
-    mysqli_query($con, $updatePrice);
 
-    $_SESSION['updateSuccessful'] = true;
-    header("location: inventory.php");
+
 
 ?>

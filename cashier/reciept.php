@@ -3,6 +3,11 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
 
+    $getDisc = "SELECT * FROM `admin_settings` WHERE `set_id` = 1";
+    $resultDisc = mysqli_query($con, $getDisc);
+    $rowDisc = mysqli_fetch_assoc($resultDisc);
+    $wholesaleDisc = ($rowDisc['discount'] / 100);
+
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +25,7 @@
     <div class="rec-con">
         <div class="title-con">
             <h6>RolNette's Store</h6>
-            <p>60 LuckyR wet&dry mkt<br>Mapulang Lupa, Pandi, Bulacan</p>
+            <p>60 Lucky8 wet&dry mkt<br>Mapulang Lupa, Pandi, Bulacan</p>
         </div>
         <div class="top-con">
             <div class="top-top-con">
@@ -38,48 +43,29 @@
             <table>
                 <thead>
                     <th>Item</th>
-                    <th>Qty</th>
                     <th>Price</th>
+                    <th>Qty</th>
                     <th>Total</th>
                 </thead>
                 <tbody>
                     <?php
-                        $queryTempItems = "SELECT tmp.temp_id, itm.item_code, itm.item_name, itm.item_price, itm.item_stock, tmp.temp_quantity FROM item_with_barcode AS itm INNER JOIN temp_item AS tmp ON itm.item_code = tmp.item_code UNION SELECT tmp.temp_id, inb.item_code, inb.itemnb_name, inb.itemnb_price, inb.itemnb_stock, tmp.temp_quantity FROM item_no_barcode AS inb INNER JOIN temp_item AS tmp ON inb.item_code = tmp.item_code ORDER BY temp_id DESC";
+                        $queryTempItems = "SELECT * FROM `temp_item` ORDER BY temp_id DESC";
                         $resultTempItems = mysqli_query($con, $queryTempItems);
                         if(mysqli_num_rows($resultTempItems) > 0){
                             $c = 0;
-
-                            $getWSDisc = "SELECT * FROM `admin_settings` WHERE `set_id` = 1";
-                            $resultWSDisc = mysqli_query($con, $getWSDisc);
-                            $rowDisc = mysqli_fetch_assoc($resultWSDisc);
-
-                            $wholesaleDisc = ($rowDisc['wholesale'] / 100);
-
                             while($rowTempItems = mysqli_fetch_assoc($resultTempItems)){
                                 $c++;
-
-                                $itemPrice;
-
-                                if($_SESSION['endBuyer'] == "WHOLESALE"){
-                                    $itemPrice = number_format(($rowTempItems['item_price'] - ($rowTempItems['item_price'] * $wholesaleDisc)), 2);
-                                }else{
-                                    $itemPrice = number_format($rowTempItems['item_price'], 2);
-                                }
-
-                                $totalOfItem = (($rowTempItems['temp_quantity'] * $itemPrice));
                                 ?>
                                     <tr>
-                                        <td style="text-align: left;"><?php echo $c." ".$rowTempItems['item_name']; ?></td>
-                                        <td><?php echo $itemPrice; ?></td>
+                                        <td style="text-align: left;"><?php echo $c." ".$rowTempItems['temp_name']; ?></td>
+                                        <td><?php echo number_format($rowTempItems['temp_price'],2); ?></td>
                                         <td><?php echo $rowTempItems['temp_quantity']; ?></td>
-                                        <td><?php echo number_format($totalOfItem, 2); ?></td>
+                                        <td><?php echo number_format($rowTempItems['temp_total'],2); ?></td>
                                     </tr>
                                 <?php
                             }
-                        }else{
-                            ?>
-                                <tr style="text-align: center;"><td colspan="5">NO RECORD</td></tr>
-                            <?php
+                            $gTotal = ($_SESSION['subTotal'] - ($_SESSION['subTotal']*$wholesaleDisc));
+                            $_SESSION['gTotal'] = $gTotal;
                         }
                     ?>
                 </tbody>
@@ -87,12 +73,12 @@
         </div>
         <hr width="90%">
         <div class="bot-con">
-            <div class="bot-bot-con"><span style="float: left; margin-left: 10px;">Total Items: <?php echo $_SESSION['totalItems']; ?></span><span style="float: right; margin-right: 10px;">Total Quantity: <?php echo $_SESSION['totalQty']; ?></span></div>
-            <div class="subTotal" style="text-align: right; margin-right: 10px; margin-bottom: 10px;">Subtotal: ₱ <?php echo number_format($_SESSION['subTotal'],2); ?></div>
+            <div class="bot-bot-con"><span style="float: left; margin-left: 10px;">Total Items: <?php echo $_SESSION['totalItems']; ?></span><span style="float: right; margin-right: 10px;">Subtotal: ₱ <?php echo number_format($_SESSION['subTotal'],2); ?></span></div>
+            <div class="subTotal" style="margin-bottom: 10px;"><span style="float: left; margin-left: 10px;">Total Quantity: <?php echo $_SESSION['totalQty']; ?></span><span style="text-align: right; margin-left: 25px;">Discount: <?php echo ($wholesaleDisc*100); ?>%</span></div>
         </div>
         <hr width="90%">
         <div class="grand-total">
-            <p style="font-size: 12px; text-align: right; margin-right: 10px; margin-top: 5px;">Grand Total: ₱ <?php echo number_format($_SESSION['subTotal'],2); ?></p>
+            <p style="font-size: 12px; text-align: right; margin-right: 10px; margin-top: 5px;">Grand Total: ₱ <?php echo number_format($gTotal,2); ?></p>
         </div>
         <hr width="90%">
         <div class="footer">

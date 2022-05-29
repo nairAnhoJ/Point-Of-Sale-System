@@ -12,7 +12,6 @@
     $resultWSDisc = mysqli_query($con, $getWSDisc);
     $rowDisc = mysqli_fetch_assoc($resultWSDisc);
 
-    $wholesaleDisc = ($rowDisc['wholesale'] / 100);
     $manualDisc = ($rowDisc['discount'] / 100);
 
     if(!isset($_SESSION['endBuyer'])){
@@ -194,8 +193,16 @@
                                             $resultAllNoBarcode = mysqli_query($con, $queryAllNoBarcode);
                                             if(mysqli_num_rows($resultAllNoBarcode) > 0){
                                                 while($rowAllNoBarcode = mysqli_fetch_assoc($resultAllNoBarcode)){
+                                                    if($_SESSION['endBuyer'] == "WHOLESALE"){
+                                                        $itemPrice = $rowAllNoBarcode['itemnb_wholesale_price'];
+                                                        $itemName = "(W)".$rowAllNoBarcode['itemnb_name'];
+                                                    }else{
+                                                        $itemPrice = $rowAllNoBarcode['itemnb_retail_price'];
+                                                        $itemName = $rowAllNoBarcode['itemnb_name'];
+                                                    }
+
                                                     ?>
-                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowAllNoBarcode['item_code']; ?>">
+                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowAllNoBarcode['item_code']; ?>&itemName=<?php echo $itemName; ?>&itemPrice=<?php echo $itemPrice; ?>">
                                                             <img src="<?php echo $rowAllNoBarcode['itemnb_img']; ?>" alt="">
                                                             <p><?php echo $rowAllNoBarcode['itemnb_name']; ?></p>
                                                         </a>
@@ -221,8 +228,16 @@
                                                             $resultCatNoBarcode = mysqli_query($con, $queryCatNoBarcode);
                                                             if(mysqli_num_rows($resultCatNoBarcode) > 0){
                                                                 while($rowCatNoBarcode = mysqli_fetch_assoc($resultCatNoBarcode)){
+                                                                    if($_SESSION['endBuyer'] == "WHOLESALE"){
+                                                                        $itemPrice = $rowCatNoBarcode['itemnb_wholesale_price'];
+                                                                        $itemName = "(W)".$rowCatNoBarcode['itemnb_name'];
+                                                                    }else{
+                                                                        $itemPrice = $rowCatNoBarcode['itemnb_retail_price'];
+                                                                        $itemName = $rowCatNoBarcode['itemnb_name'];
+                                                                    }
+
                                                                     ?>
-                                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowCatNoBarcode['item_code']; ?>">
+                                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowCatNoBarcode['item_code']; ?>&itemName=<?php echo $itemName; ?>&itemPrice=<?php echo $itemPrice; ?>">
                                                                             <img src="<?php echo $rowCatNoBarcode['itemnb_img']; ?>" alt="">
                                                                             <p><?php echo $rowCatNoBarcode['itemnb_name']; ?></p>
                                                                         </a>
@@ -329,18 +344,32 @@
                                         $checkItem = "SELECT * FROM `item_with_barcode` WHERE `item_code` = '$itemCode'";
                                         $resultItem = mysqli_query($con, $checkItem);
                                         if(mysqli_num_rows($resultItem) > 0){
+                                            $rowItem = mysqli_fetch_assoc($resultItem);
+                                            
+
+                                            if($_SESSION['endBuyer'] == "WHOLESALE"){
+                                                $itemPrice = $rowItem['item_wholesale_price'];
+                                                $itemName = "(W)".$rowItem['item_name'];
+                                            }else{
+                                                $itemPrice = $rowItem['item_retail_price'];
+                                                $itemName = $rowItem['item_name'];
+                                            }
+
                                             $checkTemp = "SELECT * FROM `temp_item` WHERE `item_code` = '$itemCode'";
                                             $resultTemp = mysqli_query($con, $checkTemp);
                                             if(mysqli_num_rows($resultTemp) > 0){
                                                 while($rowTemp = mysqli_fetch_assoc($resultTemp)){
                                                     $newQty = $rowTemp['temp_quantity'] + 1;
+                                                    $newTotal = $newQty * $rowTemp['temp_price'];
+                                                    $tempPrice = $rowTemp['temp_price'];
+
                                                     $deleteTemp = "DELETE FROM `temp_item` WHERE `item_code` = '$itemCode'";
                                                     mysqli_query($con, $deleteTemp);
-                                                    $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemCode','$newQty')";
+                                                    $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`) VALUES (null,'$itemCode','$newQty','$tempPrice','$itemName','$newTotal')";
                                                     mysqli_query($con, $updateTemp);
                                                 }
                                             }else{
-                                                $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemCode','1')";
+                                                $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`) VALUES (null,'$itemCode','1','$itemPrice','$itemName','$itemPrice')";
                                                 mysqli_query($con, $insertTemp);
                                             }
 
@@ -359,12 +388,10 @@
                                         }
                                     }
 
-                                    $queryTempItems = "SELECT tmp.temp_id, itm.item_code, itm.item_name, itm.item_price, itm.item_stock, tmp.temp_quantity FROM item_with_barcode AS itm INNER JOIN temp_item AS tmp ON itm.item_code = tmp.item_code UNION SELECT tmp.temp_id, inb.item_code, inb.itemnb_name, inb.itemnb_price, inb.itemnb_stock, tmp.temp_quantity FROM item_no_barcode AS inb INNER JOIN temp_item AS tmp ON inb.item_code = tmp.item_code ORDER BY temp_id DESC";
+                                    $queryTempItems = "SELECT * FROM `temp_item` ORDER BY temp_id DESC";
                                     $resultTempItems = mysqli_query($con, $queryTempItems);
                                     if(mysqli_num_rows($resultTempItems) > 0){
                                         $c = 0;
-
-                                        
 
                                         while($rowTempItems = mysqli_fetch_assoc($resultTempItems)){
                                             if($c == 0){
@@ -373,26 +400,16 @@
                                                 $c++;
                                             }
 
-                                            $itemPrice;
-
-                                            if($_SESSION['endBuyer'] == "WHOLESALE"){
-                                                $itemPrice = number_format(($rowTempItems['item_price'] - ($rowTempItems['item_price'] * $wholesaleDisc)), 2);
-                                            }else{
-                                                $itemPrice = number_format($rowTempItems['item_price'], 2);
-                                            }
-
-                                            $totalOfItem = (($rowTempItems['temp_quantity'] * $itemPrice));
-
                                             ?>
                                                 <tr>
-                                                    <td><?php echo $rowTempItems['item_name']; ?></td>
-                                                    <td><?php echo $itemPrice; ?></td>
+                                                    <td><?php echo $rowTempItems['temp_name']; ?></td>
+                                                    <td><?php echo number_format($rowTempItems['temp_price'],2); ?></td>
                                                     <td><?php echo $rowTempItems['temp_quantity']; ?></td>
-                                                    <td><?php echo number_format($totalOfItem, 2); ?></td>
+                                                    <td><?php echo number_format($rowTempItems['temp_total'],2); ?></td>
                                                     <td><button class="btn btn-danger remTempItem" data-item-code="<?php echo $rowTempItems['item_code'] ?>">Remove</button></td>
                                                 </tr>
                                             <?php
-                                            $subTotal = $subTotal + $totalOfItem;
+                                            $subTotal = $subTotal + $rowTempItems['temp_total'];
                                             $totalQty = $totalQty + $rowTempItems['temp_quantity'];
                                             $totalItems++;
                                         }
@@ -415,8 +432,8 @@
                     <div class="total-con">
                         <div class="row1">
                             <div class="col1">
-                                <span>Total Items</span>
-                                <span><?php echo $totalItems; ?></span>
+                                <span>Total Quantity</span>
+                                <span><?php echo $totalQty; ?></span>
                             </div>
                             <div class="col2">
                                 <span>Subtotal</span>
@@ -560,7 +577,7 @@
                 jQuery(document).on( "click", ".sbmtAmount", function(){
                     if($('#amountRecieved').val() != ""){
                             var amRec = Number($('#amountRecieved').val()).toFixed(2);
-                            var amPay = Number(<?php echo json_encode($subTotal); ?>).toFixed(2);
+                            var amPay = Number(<?php echo json_encode($grandTotal); ?>).toFixed(2);
                             var amChange = Number(amRec - amPay).toFixed(2);
                             console.log(amChange);
 
@@ -577,7 +594,6 @@
                                 title: "Transaction Processing",
                                 text: "\nAmount Payable:   ₱ "+amPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Amount Recieved:   ₱ "+amRec.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Change:   ₱ "+amChange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                             }).then((value) => {
-                                // window.open("./reciept.php?amRec="+amRec);
                                 window.location.href = "./reciept.php?amRec="+amRec;
                             });
                         }
@@ -592,7 +608,7 @@
                     if(epKey == 13){
                         if($('#amountRecieved').val() != ""){
                             var amRec = Number($('#amountRecieved').val()).toFixed(2);
-                            var amPay = Number(<?php echo json_encode($subTotal); ?>).toFixed(2);
+                            var amPay = Number(<?php echo json_encode($grandTotal); ?>).toFixed(2);
                             var amChange = Number(amRec - amPay).toFixed(2);
                             console.log(amChange);
 
@@ -609,7 +625,6 @@
                                     title: "Transaction Processing",
                                     text: "\nAmount Payable:   ₱ "+amPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Amount Recieved:   ₱ "+amRec.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ "\n\n" +"Change:   ₱ "+amChange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                                 }).then((value) => {
-                                    // window.open("./reciept.php?amRec="+amRec);
                                     window.location.href = "./reciept.php?amRec="+amRec;
                                 });
                             }
@@ -724,35 +739,7 @@
                     }else if(retailWholesale == "WHOLESALE"){
                         changeTo = "RETAIL";
                     }
-
-                    swal({
-                    title: "Are you sure you want to change to "+changeTo+"?",
-                    text: "All scanned Items will be removed.",
-                    icon: "warning",
-                    dangerMode: true,buttons:{
-                            confirm: {
-                                text: "YES",
-                                visible: true,
-                                closeModal: true,
-                                attributes: {
-                                    autofocus: true,
-                                },
-                            },
-                            cancel: {
-                                text: "NO",
-                                visible: true,
-                                className: "cncl",
-                                closeModal: true,
-                            },
-                        },
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            window.location.href = './change-end-buyer.php?endBuyer=' + changeTo;
-                        } else {
-                            $("#inputItemCode").focus();
-                        }
-                    });
+                    window.location.href = './change-end-buyer.php?endBuyer=' + changeTo;
                 });
 
                 $("#searchItem").on("keyup", function() {
@@ -800,7 +787,7 @@
                     $('#searchItem').val("");
                 });
 
-                $("#inputItemCode").on("keyup", function(e) {
+                $(document).on("keyup", function(e) {
                     var keyUp = e.which || e.keyCode;
                     console.log(keyUp);
 
@@ -915,35 +902,7 @@
                         }else if(retailWholesale == "WHOLESALE"){
                             changeTo = "RETAIL";
                         }
-
-                        swal({
-                        title: "Are you sure you want to change to "+changeTo+"?",
-                        text: "All scanned Items will be removed.",
-                        icon: "warning",
-                        dangerMode: true,buttons:{
-                                confirm: {
-                                    text: "YES",
-                                    visible: true,
-                                    closeModal: true,
-                                    attributes: {
-                                        autofocus: true,
-                                    },
-                                },
-                                cancel: {
-                                    text: "NO",
-                                    visible: true,
-                                    className: "cncl",
-                                    closeModal: true,
-                                },
-                            },
-                        })
-                        .then((willDelete) => {
-                            if (willDelete) {
-                                window.location.href = './change-end-buyer.php?endBuyer=' + changeTo;
-                            } else {
-                                $("#inputItemCode").focus();
-                            }
-                        });
+                        window.location.href = './change-end-buyer.php?endBuyer=' + changeTo;
                     }else if(keyUp == 119){
                         console.log('payment');
                         $("#inputItemCode").val("");

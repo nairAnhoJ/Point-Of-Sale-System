@@ -63,14 +63,15 @@
                         <tr>
                             <th>Item Code</th>
                             <th>Description</th>
-                            <th>Price (₱)</th>
+                            <th>Retail Price (₱)</th>
+                            <th style="width: 250px;">Wholesale Price (₱)</th>
                             <th>Stock</th>
                             <th>Category</th>
                         </tr>
                     </thead>
                     <tbody id="itemTable">
                         <?php
-                            $queryItems = "SELECT `item_code`, `itemnb_name`, `itemnb_price`, `itemnb_stock`, `itemnb_category` FROM `item_no_barcode` UNION SELECT `item_code`, `item_name`, `item_price`, `item_stock`, `item_category` FROM `item_with_barcode` ORDER BY itemnb_name ASC";
+                            $queryItems = "SELECT `item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_wholesale_price`, `itemnb_stock`, `itemnb_category` FROM `item_no_barcode` UNION SELECT `item_code`, `item_name`, `item_retail_price`, `item_wholesale_price`, `item_stock`, `item_category` FROM `item_with_barcode` ORDER BY itemnb_name ASC";
                             $resultItems = mysqli_query($con, $queryItems);
                             if(mysqli_num_rows($resultItems) > 0){
                                 while($rowItems = mysqli_fetch_assoc($resultItems)){
@@ -78,7 +79,8 @@
                                         <tr>
                                             <td><?php echo $rowItems['item_code']; ?></td>
                                             <td><?php echo $rowItems['itemnb_name']; ?></td>
-                                            <td><?php echo number_format($rowItems['itemnb_price'],2); ?><button class="btn-edit" data-item-code="<?php echo $rowItems['item_code']; ?>"><svg height="20px" viewBox="0 0 512 512"><path d="M421.7 220.3L188.5 453.4L154.6 419.5L158.1 416H112C103.2 416 96 408.8 96 400V353.9L92.51 357.4C87.78 362.2 84.31 368 82.42 374.4L59.44 452.6L137.6 429.6C143.1 427.7 149.8 424.2 154.6 419.5L188.5 453.4C178.1 463.8 165.2 471.5 151.1 475.6L30.77 511C22.35 513.5 13.24 511.2 7.03 504.1C.8198 498.8-1.502 489.7 .976 481.2L36.37 360.9C40.53 346.8 48.16 333.9 58.57 323.5L291.7 90.34L421.7 220.3zM492.7 58.75C517.7 83.74 517.7 124.3 492.7 149.3L444.3 197.7L314.3 67.72L362.7 19.32C387.7-5.678 428.3-5.678 453.3 19.32L492.7 58.75z"/></svg></button></td>
+                                            <td><?php echo number_format($rowItems['itemnb_retail_price'],2); ?><button class="btn-retail-edit" data-item-code="<?php echo $rowItems['item_code']; ?>"><svg height="20px" viewBox="0 0 512 512"><path d="M421.7 220.3L188.5 453.4L154.6 419.5L158.1 416H112C103.2 416 96 408.8 96 400V353.9L92.51 357.4C87.78 362.2 84.31 368 82.42 374.4L59.44 452.6L137.6 429.6C143.1 427.7 149.8 424.2 154.6 419.5L188.5 453.4C178.1 463.8 165.2 471.5 151.1 475.6L30.77 511C22.35 513.5 13.24 511.2 7.03 504.1C.8198 498.8-1.502 489.7 .976 481.2L36.37 360.9C40.53 346.8 48.16 333.9 58.57 323.5L291.7 90.34L421.7 220.3zM492.7 58.75C517.7 83.74 517.7 124.3 492.7 149.3L444.3 197.7L314.3 67.72L362.7 19.32C387.7-5.678 428.3-5.678 453.3 19.32L492.7 58.75z"/></svg></button></td>
+                                            <td style="width: 250px;"><?php echo number_format($rowItems['itemnb_wholesale_price'],2); ?><button class="btn-wholesale-edit" data-item-code="<?php echo $rowItems['item_code']; ?>"><svg height="20px" viewBox="0 0 512 512"><path d="M421.7 220.3L188.5 453.4L154.6 419.5L158.1 416H112C103.2 416 96 408.8 96 400V353.9L92.51 357.4C87.78 362.2 84.31 368 82.42 374.4L59.44 452.6L137.6 429.6C143.1 427.7 149.8 424.2 154.6 419.5L188.5 453.4C178.1 463.8 165.2 471.5 151.1 475.6L30.77 511C22.35 513.5 13.24 511.2 7.03 504.1C.8198 498.8-1.502 489.7 .976 481.2L36.37 360.9C40.53 346.8 48.16 333.9 58.57 323.5L291.7 90.34L421.7 220.3zM492.7 58.75C517.7 83.74 517.7 124.3 492.7 149.3L444.3 197.7L314.3 67.72L362.7 19.32C387.7-5.678 428.3-5.678 453.3 19.32L492.7 58.75z"/></svg></button></td>
                                             <td><?php echo $rowItems['itemnb_stock']; ?></td>
                                             <td><?php echo $rowItems['itemnb_category']; ?></td>
                                         </tr>
@@ -108,16 +110,16 @@
             });
 
             var itemCode;
-            $('.btn-edit').click(function(){
+            $('.btn-retail-edit').click(function(){
                 itemCode = $(this).data('item-code');
                 
                 swal({
-                    title: "Update Price",
+                    title: "Update Retail Price",
                     closeOnClickOutside: false,
                     content: {
                         element: "input",
                         attributes: {
-                            id: "updatePrice",
+                            id: "updateRetailPrice",
                             type: "number",
                             min: "1",
                             max: "999999",
@@ -128,7 +130,7 @@
                             text: "Submit",
                             value: 'sbmtQty',
                             visible: true,
-                            className: "sbmtPrice",
+                            className: "sbmtRetailPrice",
                             closeModal: true,
                         },
                         cancel: {
@@ -142,33 +144,108 @@
                 });
             });
 
-            jQuery(document).on( "click", ".sbmtPrice", function(){
-                if($('#updatePrice').val() != ""){
-                    if($('#updatePrice').val() < 0){
+            jQuery(document).on( "click", ".sbmtRetailPrice", function(){
+                if($('#updateRetailPrice').val() != ""){
+                    if($('#updateRetailPrice').val() < 0){
                         swal({
                             icon: "error",
                             title: "Invalid Price",
                         })
                     }else{
-                        var newPrice = $('#updatePrice').val();
-                        window.location.href = "./change-price.php?itemCode="+itemCode+"&newPrice="+newPrice;
+                        var newPrice = $('#updateRetailPrice').val();
+                        window.location.href = "./change-price.php?itemCode="+itemCode+"&newRetailPrice="+newPrice;
                     }
                 }
             });
 
-            jQuery(document).on( "keyup", "#updatePrice", function(ep){
+            jQuery(document).on( "keyup", "#updateRetailPrice", function(ep){
                 var epKey = ep.which || ep.keyCode;
                 
                 if(epKey == 13){
-                    if($('#updatePrice').val() != ""){
-                        if($('#updatePrice').val() < 0){
+                    if($('#updateRetailPrice').val() != ""){
+                        if($('#updateRetailPrice').val() < 0){
                             swal({
                                 icon: "error",
                                 title: "Invalid Price",
                             })
                         }else{
-                            var newPrice = $('#updatePrice').val();
-                            window.location.href = "./change-price.php?itemCode="+itemCode+"&newPrice="+newPrice;
+                            var newPrice = $('#updateRetailPrice').val();
+                            window.location.href = "./change-price.php?itemCode="+itemCode+"&newRetailPrice="+newPrice;
+                        }
+                    }
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+            $('.btn-wholesale-edit').click(function(){
+                itemCode = $(this).data('item-code');
+                
+                swal({
+                    title: "Update Wholesale Price",
+                    closeOnClickOutside: false,
+                    content: {
+                        element: "input",
+                        attributes: {
+                            id: "updateWholesalePrice",
+                            type: "number",
+                            min: "1",
+                            max: "999999",
+                        },
+                    },
+                    buttons:{
+                        submit: {
+                            text: "Submit",
+                            value: 'sbmtQty',
+                            visible: true,
+                            className: "sbmtWholesalePrice",
+                            closeModal: true,
+                        },
+                        cancel: {
+                            text: "Cancel",
+                            value: null,
+                            visible: true,
+                            className: "cncl",
+                            closeModal: true,
+                        },
+                    },
+                });
+            });
+
+            jQuery(document).on( "click", ".sbmtRetailPrice", function(){
+                if($('#updateWholesalePrice').val() != ""){
+                    if($('#updateWholesalePrice').val() < 0){
+                        swal({
+                            icon: "error",
+                            title: "Invalid Price",
+                        })
+                    }else{
+                        var newPrice = $('#updateWholesalePrice').val();
+                        window.location.href = "./change-price.php?itemCode="+itemCode+"&newWholesalePrice="+newPrice;
+                    }
+                }
+            });
+
+            jQuery(document).on( "keyup", "#updateWholesalePrice", function(ep){
+                var epKey = ep.which || ep.keyCode;
+                
+                if(epKey == 13){
+                    if($('#updateWholesalePrice').val() != ""){
+                        if($('#updateWholesalePrice').val() < 0){
+                            swal({
+                                icon: "error",
+                                title: "Invalid Price",
+                            })
+                        }else{
+                            var newPrice = $('#updateWholesalePrice').val();
+                            window.location.href = "./change-price.php?itemCode="+itemCode+"&newWholesalePrice="+newPrice;
                         }
                     }
                 }

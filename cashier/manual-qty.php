@@ -3,16 +3,21 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
 
-    if(isset($_GET['mqty'])){
+   
         $manualQty = $_GET['mqty'];
+
         $itemCode = $_SESSION['lastCode'];
-        echo $manualQty;
-        echo $itemCode;
 
-        $manualUpdateTempItem = "UPDATE `temp_item` SET `temp_quantity`='$manualQty' WHERE `item_code` = $itemCode";
-        mysqli_query($con, $manualUpdateTempItem);
+        $checkTemp = "SELECT * FROM `temp_item` WHERE `item_code` = '$itemCode'";
+        $resultTemp = mysqli_query($con, $checkTemp);
+        if(mysqli_num_rows($resultTemp) > 0){
+            while($rowTemp = mysqli_fetch_assoc($resultTemp)){
+                $newTotal = $manualQty * $rowTemp['temp_price'];
+    
+                $updateTemp = "UPDATE `temp_item` SET `temp_quantity`='$manualQty',`temp_total`='$newTotal' WHERE `item_code` = $itemCode";
+                mysqli_query($con, $updateTemp);
+            }
+        }
+
         header("location: home.php");
-    }
-
-
 ?>
