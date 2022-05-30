@@ -4,6 +4,11 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+body {
+  height: 100vh;
+  width: 100vw;
+}
+
 #login-body .login-container {
   width: 100vw;
   height: 100vh;
@@ -798,5 +803,131 @@
 .inv-con .content-con .tbl-con table tbody::-webkit-scrollbar {
   width: 0px;
   background: transparent;
+}
+
+.nav-con {
+  height: 100%;
+  width: 80px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #4d5bf9;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  overflow: hidden;
+}
+
+.nav-con:hover {
+  width: 300px;
+}
+
+.nav-con .logo-con {
+  height: 80px;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+
+.nav-con .logo-con img {
+  width: 50px;
+  margin-left: 15px;
+  -webkit-transform: translate(0, -4px);
+          transform: translate(0, -4px);
+}
+
+.nav-con .logo-con span {
+  display: inline-block;
+  height: 80px;
+  line-height: 80px;
+  font-size: 25px;
+  font-weight: 900;
+  margin-left: 10px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.nav-con ul {
+  width: 100%;
+  padding-left: 10px;
+  position: relative;
+}
+
+.nav-con ul .active {
+  background-color: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.nav-con ul .active::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #4d5bf9;
+  -webkit-box-shadow: 10px 10px 0 #fff;
+          box-shadow: 10px 10px 0 #fff;
+}
+
+.nav-con ul .active::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  right: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #4d5bf9;
+  -webkit-box-shadow: 10px -10px 0 #fff;
+          box-shadow: 10px -10px 0 #fff;
+}
+
+.nav-con ul .active a {
+  color: #333;
+}
+
+.nav-con ul .active a .icon svg {
+  fill: #333;
+}
+
+.nav-con ul li {
+  position: relative;
+  width: 100%;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.nav-con ul li a {
+  position: relative;
+  display: block;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-decoration: none;
+  color: #fff;
+}
+
+.nav-con ul li a .icon {
+  position: relative;
+  display: block;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  padding: 0 15px;
+}
+
+.nav-con ul li a .icon svg {
+  width: 30px;
+  fill: #fff;
+}
+
+.nav-con ul li a .title {
+  line-height: 60px;
+  font-weight: 900;
+  padding-left: 20px;
 }
 /*# sourceMappingURL=styles.css.map */

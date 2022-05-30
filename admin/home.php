@@ -22,7 +22,12 @@
 </head>
 <body>
 
-    
+    <?php require_once('./nav.php'); ?>
+
+    Monthly Sales
+    Weekly Sales
+    Yesterday's Sales
+    Today's Sales
     
 </body>
 </html>

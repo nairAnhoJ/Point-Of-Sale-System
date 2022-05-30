@@ -8,6 +8,17 @@
     $rowDisc = mysqli_fetch_assoc($resultDisc);
     $wholesaleDisc = ($rowDisc['discount'] / 100);
 
+    $lastInvNo;
+
+    $getLastTran = "SELECT * FROM `transaction_logs` ORDER BY `log_id` DESC LIMIT 1";
+    $resultLastTran = mysqli_query($con, $getLastTran);
+    if(mysqli_num_rows($resultLastTran) > 0){
+        $rowLastTran = mysqli_fetch_assoc($resultLastTran);
+        $lastInvNo = substr($rowLastTran['tran_num'], 6) + 1;
+    }else{
+        $lastInvNo = 1;
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -91,11 +102,32 @@
         function prinThis(){
 
             var today = new Date();
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var year = today.getFullYear();
+            var month = today.getMonth()+1;
+            if(month < 10){
+                var nmonth = "0" + month;
+            }else{
+                var nmonth = month;
+            }
+            var day = today.getDate();
+            if(day < 10){
+                var nday = "0" + day;
+            }else{
+                var nday = day;
+            }
+
+            var invYear = year.toString().slice(-2);
+            var invNo = invYear + nmonth + nday + <?php echo json_encode($lastInvNo); ?>;
+            $('.invoiceNumber').html(invNo);
+
+
+            var date = year+'-'+nmonth+'-'+nday;
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date+' '+time;
             $('#dateTimeNow').html(dateTime);
-            var invNo = $('.invoiceNumber').html();
+
+
+
 
             window.print();
             swal({
