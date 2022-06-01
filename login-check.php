@@ -12,7 +12,7 @@
         if (password_verify($userpass, $userRow['user_pass'])){
 
             if($username == 'admin'){
-                header('Location: ./admin/home.php');
+                header('Location: ./admin/dashboard.php');
             }else{
                 $_SESSION['cashier_name'] = $userRow['cashier_name'];
                 header('Location: ./cashier/home.php');

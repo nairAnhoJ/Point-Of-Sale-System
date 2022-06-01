@@ -7,10 +7,12 @@
 body{
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
 }
 
 @import 'login.scss';
 @import './cashier/home.scss';
 @import './cashier/inventory.scss';
-@import './admin/home.scss';
 @import './admin/nav.scss';
+@import './admin/dashboard.scss';
+@import './admin/inventory.scss';

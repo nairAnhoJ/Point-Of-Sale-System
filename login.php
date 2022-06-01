@@ -4,6 +4,14 @@
 
     $deleteTempItem = "TRUNCATE `temp_item`";
     mysqli_query($con, $deleteTempItem);
+
+    $querySettings = "SELECT * FROM `admin_settings`";
+    $resultSettings = mysqli_query($con, $querySettings);
+    $rowSettings = mysqli_fetch_assoc($resultSettings);
+
+    $_SESSION['logo'] = $rowSettings['branch_logo'];
+    $_SESSION['branch_name'] = $rowSettings['branch_name'];
+    $_SESSION['branch_loc'] = $rowSettings['branch_location'];
 ?>
 
 <!DOCTYPE html>

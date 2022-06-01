@@ -28,7 +28,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../bootstrap-5.1.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="../styles/styles.css?v=<?php echo time(); ?>">
-        <link rel="icon" href="../images/logo/shops.png">
+        <link rel="icon" href="../images/logo/<?php echo $_SESSION['logo']; ?>">
         <title>POS</title>
 
         <script src="../js/jquery-3.6.0.min.js"></script>
@@ -148,7 +148,7 @@
                 <div class="left-top-con">
                     <div class="logo-con">
                         <div class="the-logo">
-                            <img src="../images/logo/shops.png" alt="">
+                            <img src="../images/logo/<?php echo $_SESSION['logo']; ?>" alt="">
                             <h1>RolNette's Store</h1>
                         </div>
                     </div>

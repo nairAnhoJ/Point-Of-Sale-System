@@ -15,6 +15,7 @@
             $itemName = $rowTempItems['temp_name'];
             $itemQty = $rowTempItems['temp_quantity'];
             $gTotal = $_SESSION['gTotal'];
+            $loc = $_SESSION['branch_loc'];
 
             $updateStock = "UPDATE `item_no_barcode` SET `itemnb_stock` = (`itemnb_stock` - $itemQty) WHERE `item_code` = '$itemCode'";
             mysqli_query($con, $updateStock);
@@ -22,7 +23,7 @@
             $updateStock = "UPDATE `item_with_barcode` SET `item_stock` = (`item_stock` - $itemQty) WHERE `item_code` = '$itemCode'";
             mysqli_query($con, $updateStock);
 
-            $insertTranLog = "INSERT INTO `transaction_logs`(`log_id`, `tran_num`, `tran_item`, `tran_qty`, `tran_total`, `tran_date_time`, `tran_cashier`) VALUES (null,'$invNo','$itemName','$itemQty','$gTotal','$dateTimeNow','$cashierName')";
+            $insertTranLog = "INSERT INTO `transaction_logs`(`log_id`, `tran_num`, `tran_item`, `tran_qty`, `tran_total`, `tran_date_time`, `tran_cashier`, `tran_location`) VALUES (null,'$invNo','$itemName','$itemQty','$gTotal','$dateTimeNow','$cashierName','$loc')";
             mysqli_query($con, $insertTranLog);
         }
     }

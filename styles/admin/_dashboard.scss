@@ -1,0 +1,71 @@
+#admin-dashboard-con{
+    width: calc(100% - 80px);
+    height: 100%;
+    transform: translate(80px, 0);
+    overflow: hidden;
+
+    .title-con{
+        width: 100%;
+        height: 100px;
+
+        span{
+            font-weight: 900;
+            font-size: 40px;
+            line-height: 100px;
+            margin-left: 50px;
+        }
+    }
+
+    .overview-con{
+        width: 100%;
+        height: 200px;
+        padding: 25px 50px;
+
+        .sales-con{
+            height: 150px;
+            display: flex;
+
+            .each-con{
+                width: 21.2%;
+                margin-right: 5%;
+                border-radius: 20px;
+                padding-top: 20px;
+                background-color: #4d5bf9;
+                color: #fff;
+                box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.5);
+
+                &:nth-child(4){
+                margin-right: 0;
+                }
+
+                h1{
+                    text-align: center;
+                    font-size: 35px;
+                    font-weight: 900;
+                }
+
+                p{
+                    position: relative;
+                    top: 10px;
+                    text-align: center;
+                    font-size: 30px;
+                    font-weight: 900;
+                }
+            }
+        }
+    }
+
+    .chart-con{
+        width: 100%;
+        height: calc(100% - 300px);
+        padding: 50px 50px;
+
+        #wholeMonth{
+            max-width: 100%;
+            max-height: 100%;
+            padding: 20px 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.4);
+        }
+    }
+}

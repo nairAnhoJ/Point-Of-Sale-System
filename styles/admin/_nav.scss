@@ -9,6 +9,7 @@
     background-color: #4d5bf9;
     transition: 0.5s;
     overflow: hidden;
+    z-index: 99;
 
     &:hover{
         width: 300px;
@@ -42,10 +43,15 @@
         padding-left: 10px;
         position: relative;
 
+        .disabled{
+            pointer-events: none;
+        }
+
         .active{
             background-color: #fff;
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
+            z-index: 95;
             
             &::before{
                 content: '';
@@ -88,6 +94,12 @@
             list-style: none;
             white-space: nowrap;
 
+            &:hover{
+                background-color: #6470f7;
+                border-radius: 10px;
+                z-index: 99;
+            }
+
             a{
                 position: relative;
                 display: block;
@@ -102,7 +114,7 @@
                     height: 60px;
                     text-align: center;
                     // width: 60px;
-                    line-height: 60px;
+                    line-height: 55px;
                     padding: 0 15px;
 
                     svg{
