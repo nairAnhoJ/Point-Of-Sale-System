@@ -13,6 +13,7 @@
 
             if($username == 'admin'){
                 header('Location: ./admin/dashboard.php');
+                $_SESSION['cashier_name'] = $userRow['cashier_name'];
             }else{
                 $_SESSION['cashier_name'] = $userRow['cashier_name'];
                 header('Location: ./cashier/home.php');

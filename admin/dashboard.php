@@ -123,13 +123,6 @@
         </div>
     </div>
 
-    <!--
-        Monthly Sales
-        Weekly Sales
-        Yesterday's Sales
-        Today's Sales
-    -->
-
     <script>
 
         function navF(){
