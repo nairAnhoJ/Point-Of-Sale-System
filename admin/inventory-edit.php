@@ -6,8 +6,7 @@
     $ItemDesc = $_POST['aeItemDesc'];
     $ItemRP = $_POST['aeItemRP'];
     $ItemWP = $_POST['aeItemWP'];
-    $ItemStock = $_POST['aeItemStock'];
-    $ItemCat = $_POST['aeItemCat'];
+    $ItemCat = ucwords($_POST['aeItemCat']);
     $ItemSup = $_POST['aeItemSup'];
     $ItemRemark = $_POST['aeItemRemark'];
 
@@ -20,7 +19,7 @@
         $itemCode = $_POST['aeItemCode'];
         $ItemId = $_POST['aeItemIdwb'];
 
-        $editItem = "UPDATE `item_with_barcode` SET `item_code`='$itemCode',`item_name`='$ItemDesc',`item_retail_price`='$ItemRP',`item_stock`='$ItemStock',`item_category`='$ItemCat',`item_supplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`item_remarks`='$ItemRemark',`item_wholesale_price`='$ItemWP' WHERE `item_id` = $ItemId";
+        $editItem = "UPDATE `item_with_barcode` SET `item_code`='$itemCode',`item_name`='$ItemDesc',`item_retail_price`='$ItemRP',`item_category`='$ItemCat',`item_supplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`item_remarks`='$ItemRemark',`item_wholesale_price`='$ItemWP' WHERE `item_id` = $ItemId";
         mysqli_query($con, $editItem);
     }else{
         $ItemId = $_POST['aeItemIdwob'];
@@ -40,10 +39,10 @@
             
             move_uploaded_file($fileTmpName, $fileDest);
 
-            $editItem = "UPDATE `item_no_barcode` SET `itemnb_name`='$ItemDesc',`itemnb_retail_price`='$ItemRP',`itemnb_stock`='$ItemStock',`itemnb_category`='$ItemCat',`itemnb_suppplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`itemnb_remarks`='$ItemRemark',`itemnb_img`='$fileDest',`itemnb_wholesale_price`='$ItemWP' WHERE `item_code` = '$ItemId'";
+            $editItem = "UPDATE `item_no_barcode` SET `itemnb_name`='$ItemDesc',`itemnb_retail_price`='$ItemRP',`itemnb_category`='$ItemCat',`itemnb_suppplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`itemnb_remarks`='$ItemRemark',`itemnb_img`='$fileDest',`itemnb_wholesale_price`='$ItemWP' WHERE `item_code` = '$ItemId'";
             mysqli_query($con, $editItem);
         }else{
-            $editItem = "UPDATE `item_no_barcode` SET `itemnb_name`='$ItemDesc',`itemnb_retail_price`='$ItemRP',`itemnb_stock`='$ItemStock',`itemnb_category`='$ItemCat',`itemnb_suppplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`itemnb_remarks`='$ItemRemark',`itemnb_wholesale_price`='$ItemWP' WHERE `item_code` = '$ItemId'";
+            $editItem = "UPDATE `item_no_barcode` SET `itemnb_name`='$ItemDesc',`itemnb_retail_price`='$ItemRP',`itemnb_category`='$ItemCat',`itemnb_suppplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`itemnb_remarks`='$ItemRemark',`itemnb_wholesale_price`='$ItemWP' WHERE `item_code` = '$ItemId'";
             mysqli_query($con, $editItem);
         }
     }

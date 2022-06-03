@@ -6,7 +6,6 @@
     $ItemDesc = $_POST['aeItemDesc'];
     $ItemRP = $_POST['aeItemRP'];
     $ItemWP = $_POST['aeItemWP'];
-    $ItemStock = $_POST['aeItemStock'];
     $ItemCat = ucwords($_POST['aeItemCat']);
     $ItemSup = $_POST['aeItemSup'];
 

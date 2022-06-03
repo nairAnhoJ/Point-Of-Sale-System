@@ -12,11 +12,6 @@
     $dateNow = date('Y-m-d H:i:s');
     $cName = $_SESSION['cashier_name'];
     $loc = $_SESSION['branch_loc'];
-
-    echo $itemCode;
-    echo $itemName;
-    echo $drNum;
-    echo $addStock;
     
     $updateStock = "UPDATE `item_no_barcode` SET `itemnb_stock` = (`itemnb_stock` + $addStock) WHERE `item_code` = '$itemCode'";
     mysqli_query($con, $updateStock);

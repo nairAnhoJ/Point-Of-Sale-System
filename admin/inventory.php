@@ -534,7 +534,7 @@
                 $('.modal-item-name').html(addItemName);
                 $('.modal-current-stock').html(addCurStock);
                 $('#addStockItemCode').val(addItemCode);
-                $('#addStockItemNamee').val(addItemName);
+                $('#addStockItemName').val(addItemName);
                 $('#inputAddStock').focus();
             });
 
