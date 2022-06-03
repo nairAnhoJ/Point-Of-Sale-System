@@ -23,7 +23,7 @@
             $updateStock = "UPDATE `item_with_barcode` SET `item_stock` = (`item_stock` - $itemQty) WHERE `item_code` = '$itemCode'";
             mysqli_query($con, $updateStock);
 
-            $insertTranLog = "INSERT INTO `transaction_logs`(`log_id`, `tran_num`, `tran_item`, `tran_qty`, `tran_total`, `tran_date_time`, `tran_cashier`, `tran_location`) VALUES (null,'$invNo','$itemName','$itemQty','$gTotal','$dateTimeNow','$cashierName','$loc')";
+            $insertTranLog = "INSERT INTO `transaction_logs`(`log_id`, `tran_num`, `tran_item`, `tran_qty`, `tran_total`, `tran_date_time`, `tran_cashier`, `tran_location`, `tran_type`) VALUES (null,'$invNo','$itemName','$itemQty','$gTotal','$dateTimeNow','$cashierName','$loc','Out')";
             mysqli_query($con, $insertTranLog);
         }
     }

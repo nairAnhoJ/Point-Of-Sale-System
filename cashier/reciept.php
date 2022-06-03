@@ -35,12 +35,12 @@
 <body onload="prinThis()">
     <div class="rec-con">
         <div class="title-con">
-            <h6>RolNette's Store</h6>
-            <p>60 Lucky8 wet&dry mkt<br>Mapulang Lupa, Pandi, Bulacan</p>
+            <h6><?php echo $_SESSION['branch_name']; ?></h6>
+            <p><?php echo $_SESSION['branch_loc']; ?></p>
         </div>
         <div class="top-con">
             <div class="top-top-con">
-                <span>Invoice No:</span><span class="invoiceNumber">44050</span>
+                <span>Invoice No:</span><span class="invoiceNumber"></span>
             </div>
             <div class="top-mid-con">
                 <span>D/T: </span><span id="dateTimeNow"></span>

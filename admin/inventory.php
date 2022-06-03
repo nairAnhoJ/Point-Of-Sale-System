@@ -6,7 +6,6 @@
     
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,12 +94,45 @@
                 $_SESSION['RemoveSuccess'] = false;
             }
         }
+
+        if(!isset($_SESSION['importSuccess'])){
+        }else{
+            if ($_SESSION['importSuccess'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Import Has Been Successfully Finished!",
+                        }).then((value) => {
+                            $('#itemSearch').focus();
+                        });
+                    </script>
+                <?php
+                $_SESSION['importSuccess'] = false;
+            }
+        }
     ?>
 
     <div id="admin-inventory-con">
         <div class="top-con">
             <div class="title-con">
                 INVENTORY
+                <div class="menu-con">
+                    <div class="option-con">
+                        <button class="btnImport">
+                            <div class="svg-con">
+                                <img src="../images/other/csv-import.png" alt="">
+                            </div>
+                            <span>IMPORT</span>
+                        </button>
+                        <button class="btnExport">
+                            <div class="svg-con">
+                                <img src="../images/other/csv-export.png" alt="">
+                            </div>
+                            <span>EXPORT</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="control-con">
@@ -149,7 +181,7 @@
                     <tbody id="tableBody">
                         <?php
                             // Query and Display all Items
-                            $queryItems = "SELECT `item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_wholesale_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`,`itemnb_img` FROM `item_no_barcode` UNION SELECT `item_code`, `item_name`, `item_retail_price`, `item_wholesale_price`, `item_stock`, `item_category`, `item_supplier`, `date_updated`, `updated_by`, `item_remarks`, `item_id` FROM `item_with_barcode` ORDER BY `itemnb_name` ASC";
+                            $queryItems = "SELECT `item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_wholesale_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`,`itemnb_img` FROM `item_no_barcode` UNION SELECT `item_code`, `item_name`, `item_retail_price`, `item_wholesale_price`, `item_stock`, `item_category`, `item_supplier`, `date_updated`, `updated_by`, `item_remarks`, `item_id` FROM `item_with_barcode` ORDER BY `itemnb_stock` ASC";
                             $resultItems = mysqli_query($con, $queryItems);
                             if(mysqli_num_rows($resultItems) > 0){
                                 while($rowItems = mysqli_fetch_assoc($resultItems)){
@@ -168,8 +200,8 @@
                                             </td>
                                             <td><?php echo $rowItems['item_code']; ?></td>
                                             <td><?php echo $rowItems['itemnb_name']; ?></td>
-                                            <td><?php echo $rowItems['itemnb_retail_price']; ?></td>
-                                            <td><?php echo $rowItems['itemnb_wholesale_price']; ?></td>
+                                            <td><?php echo number_format($rowItems['itemnb_retail_price'],2); ?></td>
+                                            <td><?php echo number_format($rowItems['itemnb_wholesale_price'],2); ?></td>
                                             <td><?php echo $rowItems['itemnb_stock']; ?></td>
                                             <td><?php echo $rowItems['itemnb_category']; ?></td>
                                             <td><?php echo $rowItems['itemnb_suppplier']; ?></td>
@@ -179,6 +211,8 @@
                                         </tr>
                                     <?php
                                 }
+                            }else{
+                                ?> <tr><td colspan="11"><h1>NO RECORD</h1></td></tr> <?php
                             }
                         ?>
                     </tbody>
@@ -215,12 +249,21 @@
                 <div class="form-con">
                     <form action="inventory-update.php" method="POST">
                         <input type="hidden" id="addStockItemCode" name="addStockItemCode" value="">
+                        <input type="hidden" id="addStockItemName" name="addStockItemName" value="">
                         <div class="row">
                             <div class="row-col col-4">
                                 <h1>STOCK:</h1>
                             </div>
                             <div class="row-col col-8">
                                 <input type="number" id="inputAddStock" name="stockValue" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row-col col-4">
+                                <h1>DR NUMBER:</h1>
+                            </div>
+                            <div class="row-col col-8">
+                                <input type="text" id="inputDRNum" name="drNum" class="form-control" value="<?php if(isset($_SESSION['drNum'])){ echo $_SESSION['drNum']; } ?>" required autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
@@ -245,7 +288,7 @@
             <div class="modal-title-con">
                 <h1 id="titleAE"></h1>
             </div>
-            <form class="form-con" id="formAE" method="POST" action="inventory-add.php">
+            <form class="form-con" id="formAE" method="POST" action="inventory-add.php" enctype="multipart/form-data">
                 <div class="radio-con row">
                     <div class="radioInput col-6">
                         <input class="form-check-input" type="radio" name="barcode" value="with-barcode" id="wB" checked>
@@ -298,14 +341,14 @@
                         <input type="number" step="0.01" id="aeItemWP" name="aeItemWP" class="form-control" required autocomplete="off">
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="rowStock row">
                     <div class="col-5">
                         <h1>STOCK:</h1>
                     </div>
                     <div class="col-7">
                         <input type="number" step="1" id="aeItemStock" name="aeItemStock" class="form-control" required autocomplete="off">
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-5">
                         <h1>CATEGORY:</h1>
@@ -348,7 +391,7 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="btn-con">
-                            <input type="submit" class="btnSave btn btn-primary" value="SAVE">
+                            <input type="submit" name="submit" class="btnSave btn btn-primary" value="SAVE">
                         </div>
                     </div>
                     <div class="col-6">
@@ -392,6 +435,39 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL FOR IMPORTING ITEMS -->
+    <div class="modal-import visually-hidden">
+        <div class="modal-inner-con">
+                <div class="modal-title-con">
+                    <h1>IMPORT</h1>
+                </div>
+                <form class="content-con" method="POST" action="./inventory-import.php" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-5">
+                            <h1>Browse your computer:</h1>
+                        </div>
+                        <div class="col-7">
+                            <input type="file" id="importFile" name="importFile" class="form-control"  accept="Text/csv" tabindex="-1" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="btn-con">
+                                <input type="submit" class="btnImport btn btn-primary" value="IMPORT">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="btn-con">
+                                <input type="button" class="btnCancel btn btn-secondary" value="CANCEL">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script>
 
@@ -438,6 +514,14 @@
                     e.preventDefault();
                 }
             });
+            $(document).on('keydown', function(de){
+                var upKey = de.which || de.keyCode;
+                if(upKey == 33){
+                    $('#addBtn').click();
+                }else if(upKey == 27){
+                    $('.btnCancel').click();
+                }
+            });
 
             // Update Stock (PLUS BUTTON)
             $('.inv-btn-plus').click(function(){
@@ -450,6 +534,7 @@
                 $('.modal-item-name').html(addItemName);
                 $('.modal-current-stock').html(addCurStock);
                 $('#addStockItemCode').val(addItemCode);
+                $('#addStockItemNamee').val(addItemName);
                 $('#inputAddStock').focus();
             });
 
@@ -457,7 +542,12 @@
             $('#addBtn').click(function(){
                 $('.modal-edit-item').removeClass('visually-hidden');
                 $('.rowRemarks').addClass('visually-hidden');
+                $('.radio-con').removeClass('visually-hidden');
+                $('.rowItemCode').removeClass('visually-hidden');
+                $('.rowImage').addClass('visually-hidden');
+                $('#aeItemCode').attr('required', true);
                 $('#aeItemRemark').attr('required', false);
+                $('#aeItemCode').focus();
                 $('#titleAE').html("ADD");
             });
 
@@ -467,6 +557,7 @@
                 $('.modal-update-stock').addClass('visually-hidden');
                 $('.modal-edit-item').addClass('visually-hidden');
                 $('.modal-delete-item').addClass('visually-hidden');
+                $('.modal-import').addClass('visually-hidden');
                 $('#itemSearch').focus();
             });
 
@@ -549,6 +640,9 @@
                 $('.modal-edit-item').removeClass('visually-hidden');
                 $('#titleAE').html("EDIT");
                 $('.rowRemarks').removeClass('visually-hidden');
+                // $('.rowStock').removeClass('visually-hidden');
+                // $('#aeItemStock').attr('required', true);
+                // $('#aeItemStock').attr('tabindex', true);
 
                 if($.isNumeric(editItemImg)){
                     barEdit = 'wB';
@@ -557,12 +651,14 @@
                     $('.rowImage').addClass('visually-hidden');
                     $('#aeItemCode').attr('required', true);
                     $('#aeItemCode').val(editItemCode);
+                    $('#aeItemCode').focus();
                 }else{
                     barEdit = 'woB';
                     $("#woB").prop("checked", true);
                     $('#aeItemCode').attr('required', false);
                     $('.rowItemCode').addClass('visually-hidden');
                     $('.rowImage').removeClass('visually-hidden');
+                    $('#aeItemDesc').focus();
                 }
                 $('.radio-con').addClass('visually-hidden');
                 $('#aeItemIdwb').val(editItemImg);
@@ -587,6 +683,19 @@
             $('.btnDelete').click(function(){
                 window.location.href = "./inventory-remove.php?delId="+delId;
             });
+
+            $('.btnImport').click(function(){
+                $('.modal-import').removeClass('visually-hidden');
+            });
+
+            $('.btnExport').click(function(){
+                myWindow = window.open("./inventory-export.php");
+                setTimeout(close, 50);
+            });
+
+            function close(){
+                myWindow.close();
+            }
         });
 
     </script>

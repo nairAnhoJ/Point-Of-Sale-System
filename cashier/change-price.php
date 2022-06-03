@@ -5,15 +5,18 @@
 
     $itemCode = $_GET['itemCode'];
 
+    $dateNow = date('Y-m-d');
+    $cName = $_SESSION['cashier_name'];
+
     if(isset($_GET['newRetailPrice'])){
 
         $newPrice = $_GET['newRetailPrice'];
 
-        $updatePrice = "UPDATE `item_with_barcode` SET `item_retail_price` = '$newPrice' WHERE `item_code` = $itemCode";
+        $updatePrice = "UPDATE `item_with_barcode` SET `item_retail_price` = '$newPrice', `date_updated` = '$dateNow', `updated_by` = '$cName' , `item_remarks` = 'Changed Retail Price' WHERE `item_code` = '$itemCode'";
         mysqli_query($con, $updatePrice);
     
     
-        $updatePrice = "UPDATE `item_no_barcode` SET `itemnb_retail_price` = '$newPrice' WHERE `item_code` = $itemCode";
+        $updatePrice = "UPDATE `item_no_barcode` SET `itemnb_retail_price` = '$newPrice', `date_updated`='$dateNow',`updated_by`='$cName', `itemnb_remarks`='Changed Retail Price' WHERE `item_code` = '$itemCode'";
         mysqli_query($con, $updatePrice);
     
         $_SESSION['updateSuccessful'] = true;
@@ -24,11 +27,11 @@
 
         $newPrice = $_GET['newWholesalePrice'];
 
-        $updatePrice = "UPDATE `item_with_barcode` SET `item_wholesale_price` = '$newPrice' WHERE `item_code` = $itemCode";
+        $updatePrice = "UPDATE `item_with_barcode` SET `item_wholesale_price` = '$newPrice',`date_updated`='$dateNow',`updated_by`='$cName',`item_remarks`='Changed Retail Price' WHERE `item_code` = '$itemCode'";
         mysqli_query($con, $updatePrice);
     
     
-        $updatePrice = "UPDATE `item_no_barcode` SET `itemnb_wholesale_price` = '$newPrice' WHERE `item_code` = $itemCode";
+        $updatePrice = "UPDATE `item_no_barcode` SET `itemnb_wholesale_price` = '$newPrice',`date_updated`='$dateNow',`updated_by`='$cName',`itemnb_remarks`='Changed Retail Price' WHERE `item_code` = '$itemCode'";
         mysqli_query($con, $updatePrice);
     
         $_SESSION['updateSuccessful'] = true;

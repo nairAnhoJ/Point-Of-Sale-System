@@ -25,15 +25,27 @@
     }else{
         $ItemId = $_POST['aeItemIdwob'];
 
-        if($_POST['aeItemImage'] == ""){
-            $editItem = "UPDATE `item_no_barcode` SET `itemnb_name`='$ItemDesc',`itemnb_retail_price`='$ItemRP',`itemnb_stock`='$ItemStock',`itemnb_category`='$ItemCat',`itemnb_suppplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`itemnb_remarks`='$ItemRemark',`itemnb_wholesale_price`='$ItemWP' WHERE `item_code` = '$ItemId'";
+        if($_FILES['aeItemImage']['name'] != ""){
+            $file = $_FILES['aeItemImage'];
+   
+            $fileName = $_FILES['aeItemImage']['name'];
+            $fileTmpName = $_FILES['aeItemImage']['tmp_name'];
+            $fileType = $_FILES['aeItemImage']['type'];
+
+            $fileTempExt = explode('.', $fileName);
+            $fileExt = strtolower(end($fileTempExt));
+
+            $newFileName = uniqid('', true).".".$fileExt;
+            $fileDest = "../images/items/".$newFileName;
+            
+            move_uploaded_file($fileTmpName, $fileDest);
+
+            $editItem = "UPDATE `item_no_barcode` SET `itemnb_name`='$ItemDesc',`itemnb_retail_price`='$ItemRP',`itemnb_stock`='$ItemStock',`itemnb_category`='$ItemCat',`itemnb_suppplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`itemnb_remarks`='$ItemRemark',`itemnb_img`='$fileDest',`itemnb_wholesale_price`='$ItemWP' WHERE `item_code` = '$ItemId'";
             mysqli_query($con, $editItem);
         }else{
-            $ItemImage = "../images/items/".$_POST['aeItemImage'];
-            $editItem = "UPDATE `item_no_barcode` SET `itemnb_name`='$ItemDesc',`itemnb_retail_price`='$ItemRP',`itemnb_stock`='$ItemStock',`itemnb_category`='$ItemCat',`itemnb_suppplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`itemnb_remarks`='$ItemRemark',`itemnb_img`='$ItemImage',`itemnb_wholesale_price`='$ItemWP' WHERE `item_code` = '$ItemId'";
+            $editItem = "UPDATE `item_no_barcode` SET `itemnb_name`='$ItemDesc',`itemnb_retail_price`='$ItemRP',`itemnb_stock`='$ItemStock',`itemnb_category`='$ItemCat',`itemnb_suppplier`='$ItemSup',`date_updated`='$dateUpdated',`updated_by`='$updatedBy',`itemnb_remarks`='$ItemRemark',`itemnb_wholesale_price`='$ItemWP' WHERE `item_code` = '$ItemId'";
             mysqli_query($con, $editItem);
         }
-        echo $_POST['aeItemImage'];
     }
 
     $_SESSION['editItemSuccess'] = true;
