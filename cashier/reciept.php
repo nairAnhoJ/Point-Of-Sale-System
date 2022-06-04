@@ -14,7 +14,7 @@
     $resultLastTran = mysqli_query($con, $getLastTran);
     if(mysqli_num_rows($resultLastTran) > 0){
         $rowLastTran = mysqli_fetch_assoc($resultLastTran);
-        $lastInvNo = substr($rowLastTran['tran_num'], 6) + 1;
+        $lastInvNo = $rowLastTran['log_id'] + 1;
     }else{
         $lastInvNo = 1;
     }

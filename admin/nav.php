@@ -25,7 +25,7 @@
             </a>
         </li>
         <li class="tran">
-            <a href="#">
+            <a href="./transaction-history.php?dateFrom=<?php echo date('Y-m-d'); ?>&dateTo=<?php echo date("Y-m-d"); ?>&typeFilter=Out&locFilter=All&searchDate">
                 <span class="icon">
                     <svg viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
                         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">

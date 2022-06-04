@@ -355,7 +355,7 @@
                     </div>
                     <div class="col-7">
                         <select class="form-select" id="aeItemCat" name="aeItemCat" required>
-                            <option hidden> - - Select Category - - </option>
+                            <option hidden> - - - Select Category - - - </option>
                             <?php
                                 // Query and Display all categories
                                 $queryCat = "SELECT * FROM `category`";
@@ -377,7 +377,26 @@
                         <h1>SUPPLIER:</h1>
                     </div>
                     <div class="col-7">
-                        <input type="text" id="aeItemSup" name="aeItemSup" class="form-control" required autocomplete="off">
+                        <select class="form-select" id="aeItemSup" name="aeItemSup" required>
+                            <option hidden> - - - Select Supplier - - - </option>
+                            <?php
+                                // Query and Display all categories
+                                $querySup = "SELECT * FROM `supplier`";
+                                $resultsup = mysqli_query($con, $querySup);
+                                if(mysqli_num_rows($resultsup) > 0){
+                                    while($rowSup = mysqli_fetch_assoc($resultsup)){
+                                        ?>
+                                            <option value="<?php echo $rowSup['sup_name']; ?>"><?php echo ucwords($rowSup['sup_name']); ?></option>
+                                        <?php
+                                    }
+                                }
+                            ?>
+                        </select>
+
+
+
+
+                        <!-- <input type="text" id="aeItemSup" name="aeItemSup" class="form-control" required autocomplete="off"> -->
                     </div>
                 </div>
                 <div class="rowRemarks row">
