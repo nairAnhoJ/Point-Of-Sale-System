@@ -3,9 +3,6 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
 
-    $Y = date('Y');
-    $m = date('m');
-    $d = date('d');
 
     $todaySales = 0;
     $yesSales = 0;
@@ -13,61 +10,58 @@
     $mSales = 0;
     $dailySales = 0;
     $arrayDaily = array();
-
-    $prevInvNo = 0;
-    
     $numDays=cal_days_in_month(CAL_GREGORIAN,date('m'),date('Y'));
 
+
+    // FOR WEEKLY SALES
     $ws = date("Y-m-d H:i:s", strtotime("sunday -1 week"));
     $we = date("Y-m-d H:i:s", strtotime("sunday 0 week")-1);
 
-    $querySales = "SELECT * FROM `transaction_logs` WHERE  `tran_date_time` BETWEEN '$ws' AND '$we'";
-    $resultSales = mysqli_query($con, $querySales);
-    if(mysqli_num_rows($resultSales) > 0){
-        while($rowSales = mysqli_fetch_assoc($resultSales)){
-            if($prevInvNo != $rowSales['tran_num']){
-                $prevInvNo = $rowSales['tran_num'];
-                $weekSales = $weekSales + $rowSales['tran_total'];
-            }
+    $queryWeekSales = "SELECT COUNT(`tran_num`), SUM(`tran_total`) FROM (SELECT `tran_num`, `tran_total` FROM `transaction_logs` WHERE `tran_type` = 'Out' AND `tran_date_time` BETWEEN '$ws' AND '$we' GROUP BY `tran_num`) AS WSUM";
+    $resultWeekSales = mysqli_query($con, $queryWeekSales);
+    if(mysqli_num_rows($resultWeekSales) > 0){ 
+        while($rowWeekSales = mysqli_fetch_assoc($resultWeekSales)){
+            $weekSales = $rowWeekSales['SUM(`tran_total`)'];
         }
     }
 
+    // FOR YESTERDAY SALES
     $ys = date("Y-m-d H:i:s", strtotime("yesterday"));
     $ye = date("Y-m-d H:i:s", strtotime("today")-1);
 
-    $querySales = "SELECT * FROM `transaction_logs` WHERE  `tran_date_time` BETWEEN '$ys' AND '$ye'";
-    $resultSales = mysqli_query($con, $querySales);
-    if(mysqli_num_rows($resultSales) > 0){
-        while($rowSales = mysqli_fetch_assoc($resultSales)){
-            if($prevInvNo != $rowSales['tran_num']){
-                $prevInvNo = $rowSales['tran_num'];
-                $yesSales = $yesSales + $rowSales['tran_total'];
-            }
+    $queryYesSales = "SELECT COUNT(`tran_num`), SUM(`tran_total`) FROM (SELECT `tran_num`, `tran_total` FROM `transaction_logs` WHERE `tran_type` = 'Out' AND `tran_date_time` BETWEEN '$ys' AND '$ye' GROUP BY `tran_num`) AS YSUM";
+    $resultYesSales = mysqli_query($con, $queryYesSales);
+    if(mysqli_num_rows($resultYesSales) > 0){
+        while($rowYesSales = mysqli_fetch_assoc($resultYesSales)){
+            $yesSales = $rowYesSales['SUM(`tran_total`)'];
         }
     }
 
+    // FOR TODAY SALES
+    $ts = date("Y-m-d H:i:s", strtotime(date('Y-m-d')));
+    $te = date("Y-m-d H:i:s", strtotime(date("Y-m-d")." +1 day")-1);
+
+    $queryTodaySales = "SELECT COUNT(`tran_num`), SUM(`tran_total`) FROM (SELECT `tran_num`, `tran_total` FROM `transaction_logs` WHERE `tran_type` = 'Out' AND `tran_date_time` BETWEEN '$ts' AND '$te' GROUP BY `tran_num`) AS YSUM";
+    $resultTodaySales = mysqli_query($con, $queryTodaySales);
+    if(mysqli_num_rows($resultTodaySales) > 0){
+        while($rowTodaySales = mysqli_fetch_assoc($resultTodaySales)){
+            $todaySales = $rowTodaySales['SUM(`tran_total`)'];
+        }
+    }
+
+    // FOR DAILY SALES ON CHART AND FOR MONTH SALES
     for($i = 1; $i<=$numDays; $i++){
-        $fromDate = $Y.'-'.$m.'-'.$i.' 00:00:00';
-        $toDate = $Y.'-'.$m.'-'.$i.' 23:00:00';
+        $fromDate = date("Y-m-d H:i:s", strtotime(date('Y-m-'.$i)));
+        $toDate = date("Y-m-d H:i:s", strtotime(date('Y-m-'.$i)." +1 day")-1);
         $dailySales = 0;
-        $querySales = "SELECT * FROM `transaction_logs` WHERE  `tran_date_time` BETWEEN '$fromDate' AND '$toDate'";
+        $querySales = "SELECT `tran_num`, `tran_total` FROM `transaction_logs` WHERE `tran_type` = 'Out' AND `tran_date_time` BETWEEN '$fromDate' AND '$toDate' GROUP BY `tran_num`";
         $resultSales = mysqli_query($con, $querySales);
         if(mysqli_num_rows($resultSales) > 0){
             while($rowSales = mysqli_fetch_assoc($resultSales)){
-                if($prevInvNo != $rowSales['tran_num']){
-                    $prevInvNo = $rowSales['tran_num'];
-                    $mSales = $mSales + $rowSales['tran_total'];
-                    $dailySales = $dailySales + $rowSales['tran_total'];
 
-                    $tranTime = strtotime($rowSales['tran_date_time']);
-                    
-                    if($tranTime >= strtotime("today") && $tranTime <= strtotime("tomorrow")-1){
-                        $todaySales = $todaySales + $rowSales['tran_total'];
-                    }
-                }
+                $dailySales = $dailySales + $rowSales['tran_total'];
+                $mSales = $mSales + $rowSales['tran_total'];
             }
-        }else{
-            
         }
         array_push($arrayDaily, $dailySales);
     }
@@ -97,6 +91,9 @@
     <div id="admin-dashboard-con">
         <div class="title-con">
             <span>Dashboard</span>
+            <div class="date-con">
+                <span><?php echo date('F j, Y'); ?></span>
+            </div>
         </div>
         <div class="overview-con">
             <div class="sales-con">
@@ -133,7 +130,60 @@
         var d = new Date();
         var y = d.getFullYear();
         var m = d.getMonth()+1;
+        var month;
         var numDay = new Date(y, m, 0).getDate();
+
+        switch (m){
+            case 1:
+                month = "January";
+                break;
+
+            case 2:
+                month = "February";
+                break;
+            
+            case 3:
+                month = "March";
+                break;
+            
+            case 4:
+                month = "April";
+                break;
+            
+            case 5:
+                month = "May";
+                break;
+            
+            case 6:
+                month = "June";
+                break;
+            
+            case 7:
+                month = "July";
+                break;
+            
+            case 8:
+                month = "August";
+                break;
+            
+            case 9:
+                month = "September";
+                break;
+            
+            case 10:
+                month = "October";
+                break;
+            
+            case 11:
+                month = "November";
+                break;
+            
+            case 12:
+                month = "December";
+                break;
+
+            default: "error";
+        }
 
         var dateArray = [];
         var sampleData = [];
@@ -177,7 +227,7 @@
                         display: true,
                         title: {
                             display: true,
-                            text: 'Week'
+                            text: month
                         }
                     },
                     y: {
