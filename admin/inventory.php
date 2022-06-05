@@ -533,6 +533,7 @@
                     e.preventDefault();
                 }
             });
+            
             $(document).on('keydown', function(de){
                 var upKey = de.which || de.keyCode;
                 if(upKey == 33){

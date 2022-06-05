@@ -25,12 +25,47 @@
 </head>
 <body onload="navF()">
 
-    <?php require_once('./nav.php'); ?>
+    <?php
+        require_once('./nav.php');
+    
+        if(!isset($_SESSION['importSuccess'])){
+        }else{
+            if ($_SESSION['importSuccess'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Import Has Been Successfully Finished!",
+                        }).then((value) => {
+                            $('#itemSearch').focus();
+                        });
+                    </script>
+                <?php
+                $_SESSION['importSuccess'] = false;
+            }
+        }
+    ?>
 
     <div id="admin-tran-con">
         <div class="top-con">
             <div class="title-con">
                 <span>Transaction History</span>
+                <div class="menu-con">
+                    <div class="option-con">
+                        <button class="btnImport">
+                            <div class="svg-con">
+                                <img src="../images/other/csv-import.png" alt="">
+                            </div>
+                            <span>IMPORT</span>
+                        </button>
+                        <button class="btnExport">
+                            <div class="svg-con">
+                                <img src="../images/other/csv-export.png" alt="">
+                            </div>
+                            <span>EXPORT</span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="control-con">
                 <div class="left-con">
@@ -148,6 +183,7 @@
         </div>
     </div>
 
+    <!-- MODAL FOR VIEWING DETAILED TRANSACTION HISTORY -->
     <?php
         if(isset($_GET['viewInv'])){
             $invNum = $_GET['viewInv'];
@@ -221,9 +257,37 @@
     ?>
 
 
-
-
-
+    <!-- MODAL FOR IMPORTING TRANSACTION HISTORY -->
+    <div class="modal-import visually-hidden">
+        <div class="modal-inner-con">
+                <div class="modal-title-con">
+                    <h1>IMPORT</h1>
+                </div>
+                <form class="content-con" method="POST" action="./transaction-history-import.php" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-5">
+                            <h1>Browse your computer:</h1>
+                        </div>
+                        <div class="col-7">
+                            <input type="file" id="importFile" name="importTran" class="form-control"  accept="Text/csv" tabindex="-1" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="btn-con">
+                                <input type="submit" class="btnImport btn btn-primary" value="IMPORT">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="btn-con">
+                                <input type="button" class="btnCancel btn btn-secondary" value="CANCEL">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
     <script>
@@ -232,7 +296,7 @@
             $('.tran').addClass('disabled');
 
             $('#dateFrom').val(<?php echo json_encode($dateFrom) ?>);
-            $('#dateGetTo').val(<?php echo json_encode($dateGetTo) ?>);
+            $('#dateTo').val(<?php echo json_encode($dateGetTo) ?>);
             $('#typeFilter').val(<?php echo json_encode($typeFilter) ?>);
             $('#locFilter').val(<?php echo json_encode($locFilter) ?>);
         }
@@ -264,6 +328,18 @@
                 window.location.href = currUrl + "&viewInv=" + invNum + "&tranType=" + tranType;
             });
 
+            // Esc Keypress to close Modal
+            $(document).on('keydown', function(em){
+                if(em.keyCode == 27){
+                    $('.btnCancel').click();
+                }
+            });
+
+            // Cancel Button
+            $('.btnCancel').click(function(){
+                $('.modal-import').addClass('visually-hidden');
+            });
+
             $('#closeModal').click(function(){
                 var currUrl = new URL(window.location.href);
                 var urlPar = currUrl.searchParams;
@@ -271,6 +347,21 @@
                 urlPar.delete('tranType');
                 window.location.href = currUrl;
             });
+            
+            $('.btnImport').click(function(){
+                $('.modal-import').removeClass('visually-hidden');
+            });
+
+            $('.btnExport').click(function(){
+                var dateFrom = $('#dateFrom').val();
+                var dateTo = $('#dateTo').val();
+                myWindow = window.open("./transaction-history-export.php?dateFrom="+dateFrom+"&dateTo="+dateTo);
+                setTimeout(close, 50);
+            });
+
+            function close(){
+                myWindow.close();
+            }
         });
     </script>
     

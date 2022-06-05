@@ -17,6 +17,49 @@
             text-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.2);
             position: relative;
             margin-bottom: 20px;
+
+            .menu-con{
+                width: 340px;
+                width: 50px;
+                position: absolute;
+                top: 5px;
+                right: 20px;
+
+                .option-con{
+                    width: 340px;
+                    height: 30px;
+                    position: absolute;
+                    right: 0;
+                    display: flex;
+
+                    button{
+                        width: 130px;
+                        height: 30px;
+                        margin-left: 20px;
+                        background-color: transparent;
+                        border: none;
+                        display: flex;
+
+                        .svg-con{
+                            width: 30px;
+                            height: 30px;
+                            padding-top: 5px;
+                            margin-left: 8px;
+
+                            img{
+                                height: 30px;
+                                vertical-align: top;
+                            }
+                        }
+
+                        span{
+                            font-size: 20px;
+                            font-weight: 900;
+                        }
+
+                    }
+                }
+            }
         }
 
         .control-con{

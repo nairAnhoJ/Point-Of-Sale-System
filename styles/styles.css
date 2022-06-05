@@ -1669,6 +1669,52 @@ body {
   margin-bottom: 20px;
 }
 
+#admin-tran-con .top-con .title-con .menu-con {
+  width: 340px;
+  width: 50px;
+  position: absolute;
+  top: 5px;
+  right: 20px;
+}
+
+#admin-tran-con .top-con .title-con .menu-con .option-con {
+  width: 340px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#admin-tran-con .top-con .title-con .menu-con .option-con button {
+  width: 130px;
+  height: 30px;
+  margin-left: 20px;
+  background-color: transparent;
+  border: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#admin-tran-con .top-con .title-con .menu-con .option-con button .svg-con {
+  width: 30px;
+  height: 30px;
+  padding-top: 5px;
+  margin-left: 8px;
+}
+
+#admin-tran-con .top-con .title-con .menu-con .option-con button .svg-con img {
+  height: 30px;
+  vertical-align: top;
+}
+
+#admin-tran-con .top-con .title-con .menu-con .option-con button span {
+  font-size: 20px;
+  font-weight: 900;
+}
+
 #admin-tran-con .top-con .control-con {
   height: 50px;
   display: -webkit-box;

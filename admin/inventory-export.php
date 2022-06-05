@@ -25,7 +25,7 @@
     </div>
 
     <table id="invTable">
-        <!-- <thead>
+        <thead>
             <tr>
                 <th>item_code</th>
                 <th>item_name</th>
@@ -33,10 +33,10 @@
                 <th>item_stock</th>
                 <th>item_category</th>
                 <th>item_supplier</th>
-                <th>item_wholesale_price</th>
+                <th>item_img</th>
                 <th>item_wholesale_price</th>
             </tr>
-        </thead> -->
+        </thead>
         <tbody>
             <?php
                 while($rowItems = mysqli_fetch_assoc($resultItemWB)){
@@ -48,8 +48,8 @@
                             <td><?php echo $rowItems['itemnb_stock']; ?></td>
                             <td><?php echo $rowItems['itemnb_category']; ?></td>
                             <td><?php echo $rowItems['itemnb_suppplier']; ?></td>
-                            <td><?php echo $rowItems['itemnb_wholesale_price']; ?></td>
                             <td><?php echo $rowItems['itemnb_img']; ?></td>
+                            <td><?php echo $rowItems['itemnb_wholesale_price']; ?></td>
                         </tr>
                     <?php
                 }
