@@ -11,7 +11,7 @@
         $userRow = mysqli_fetch_assoc($resultUser);
         if (password_verify($userpass, $userRow['user_pass'])){
 
-            if($username == 'admin'){
+            if($userRow['role'] == 'admin'){
                 header('Location: ./admin/dashboard.php');
                 $_SESSION['cashier_name'] = $userRow['cashier_name'];
             }else{

@@ -3,7 +3,7 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
 
-    $recentNum = 0;
+    $recentNum = "";
     $recentLoc = "";
 ?>
 
@@ -127,9 +127,10 @@
                         <tbody id="tableBody">
                             <?php
                                 if(isset($_GET['searchDate'])){
-                                    $dateFrom = $_GET['dateFrom'];
-                                    $dateGetTo = $_GET['dateTo'];
-                                    $dateTo = date('Y-m-d', strtotime("+1 day", strtotime($dateGetTo)));
+                                    $getDateFrom = $_GET['dateFrom'];
+                                    $getDateTo = $_GET['dateTo'];
+                                    $dateFrom = date("Y-m-d H:i:s", strtotime(date($getDateFrom)));
+                                    $dateTo = date("Y-m-d H:i:s", strtotime(date($getDateTo)." +1 day")-1);
                                     $typeFilter = $_GET['typeFilter'];
                                     $locFilter = $_GET['locFilter'];
 
@@ -295,8 +296,8 @@
             $('.tran').addClass('active');
             $('.tran').addClass('disabled');
 
-            $('#dateFrom').val(<?php echo json_encode($dateFrom) ?>);
-            $('#dateTo').val(<?php echo json_encode($dateGetTo) ?>);
+            $('#dateFrom').val(<?php echo json_encode($getDateFrom) ?>);
+            $('#dateTo').val(<?php echo json_encode($getDateTo) ?>);
             $('#typeFilter').val(<?php echo json_encode($typeFilter) ?>);
             $('#locFilter').val(<?php echo json_encode($locFilter) ?>);
         }

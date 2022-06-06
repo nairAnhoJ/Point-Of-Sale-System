@@ -12,6 +12,7 @@
     $_SESSION['logo'] = $rowSettings['branch_logo'];
     $_SESSION['branch_name'] = $rowSettings['branch_name'];
     $_SESSION['branch_loc'] = $rowSettings['branch_location'];
+    $_SESSION['branch_code'] = $rowSettings['reciept_code'];
 ?>
 
 <!DOCTYPE html>

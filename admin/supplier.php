@@ -197,7 +197,7 @@
         <div class="inner-modal">
             <div class="top-con">
                 <div class="title-con">REMOVE SUPPLIER</div>
-                <div class="text-con">Are you sure you want to delete this supplier?</div>
+                <div class="text-con">Are you sure you want to remove this supplier?</div>
             </div>
             <form class="content-con" action="./supplier-delete.php" method="POST">
                 <div class="row">
@@ -249,7 +249,7 @@
                 var supId = $(this).data('id');
                 var supCon = $(this).data('cont');
                 $('.modal-add-edit').removeClass('visually-hidden');
-                $('.modal-title-con').html('EDIT CATEGORY');
+                $('.modal-title-con').html('EDIT SUPPLIER');
                 $('#supName').val(supName);
                 $('#supId').val(supId);
                 $('#supCon').val(supCon);

@@ -9,6 +9,7 @@
     $wholesaleDisc = ($rowDisc['discount'] / 100);
 
     $lastInvNo;
+    $recieptCode = $_SESSION['branch_code'];
 
     $getLastTran = "SELECT * FROM `transaction_logs` ORDER BY `log_id` DESC LIMIT 1";
     $resultLastTran = mysqli_query($con, $getLastTran);
