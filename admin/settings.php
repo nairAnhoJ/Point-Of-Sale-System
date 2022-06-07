@@ -3,6 +3,14 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
 
+    $querySetting = "SELECT * FROM `admin_settings`";
+    $resultSetting = mysqli_query($con, $querySetting);
+    $rowSetting = mysqli_fetch_assoc($resultSetting);
+    $name = $rowSetting['branch_name'];
+    $location = $rowSetting['branch_location'];
+    $code = $rowSetting['reciept_code'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -26,26 +34,101 @@
     <?php
         require_once('./nav.php');
     
-        if(!isset($_SESSION['importSuccess'])){
+        if(!isset($_SESSION['success'])){
         }else{
-            if ($_SESSION['importSuccess'] == true){
+            if ($_SESSION['success'] == true){
+                $success = $_SESSION['success'];
                 ?>
                     <script>
                         swal({
                             icon: "success",
-                            title: "Import Has Been Successfully Finished!",
-                        }).then((value) => {
-                            $('#itemSearch').focus();
-                        });
+                            title: "Store <?php echo json_encode($success); ?> has been updated successfully!",
+                        })
                     </script>
                 <?php
-                $_SESSION['importSuccess'] = false;
+                $_SESSION['success'] = false;
+            }
+        }
+
+        if(!isset($_SESSION['successLoc'])){
+        }else{
+            if ($_SESSION['successLoc'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Store Location has been updated successfully!",
+                        })
+                    </script>
+                <?php
+                $_SESSION['successLoc'] = false;
+            }
+        }
+
+        if(!isset($_SESSION['successCode'])){
+        }else{
+            if ($_SESSION['successCode'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Store Code has been updated successfully!",
+                        })
+                    </script>
+                <?php
+                $_SESSION['successCode'] = false;
+            }
+        }
+
+        if(!isset($_SESSION['successLogo'])){
+        }else{
+            if ($_SESSION['successLogo'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Store Logo has been updated successfully!",
+                        })
+                    </script>
+                <?php
+                $_SESSION['successLogo'] = false;
             }
         }
     ?>
 
-    <div id="admin-tran-con">
-        
+    <div id="admin-settings-con">
+        <div class="top-con">
+            <div class="title-con">
+                <span>STORE SETTINGS</span>
+            </div>
+        </div>
+        <div class="settings-con">
+            <div class="logo-con">
+                <form action="./setting-logo.php" method="POST" enctype="multipart/form-data">
+                    <p>Logo</p>
+                    <img src="../images/logo/<?php echo $_SESSION['logo']; ?>" alt="">
+                    <span><input type="file" class="form-control" id="inputLogo" name="inputLogo" autocomplete="off" accept="image/*"><input type="submit" id="submitLogo" class="btn btn-primary" value="SAVE" disabled></span>
+                </form>
+            </div>
+            <div class="set-con">
+                <form action="./setting-name.php" method="POST">
+                    <p>Name</p>
+                    <span><input type="text" class="form-control" id="inputName" name="inputName" value="<?php echo $name; ?>" autocomplete="off"><input type="submit" id="submitName" class="btn btn-primary" value="SAVE" disabled></span>
+                </form>
+            </div>
+            <div class="set-con">
+                <form action="./setting-location.php" method="POST">
+                    <p>Location</p>
+                    <span><input type="text" class="form-control" id="inputLocation" name="inputLocation" value="<?php echo $location; ?>" autocomplete="off"><input type="submit" id="submitLocation" class="btn btn-primary" value="SAVE" disabled></span>
+                </form>
+            </div>
+            <div class="set-con">
+                <form action="./setting-code.php" method="POST">
+                    <p>Code</p>
+                    <span><input type="text" class="form-control" id="inputCode" name="inputCode" value="<?php echo $code; ?>" autocomplete="off"><input type="submit" id="submitCode" class="btn btn-primary" value="SAVE" disabled></span>
+                </form>
+            </div>
+        </div>
     </div>
 
 
@@ -56,7 +139,44 @@
         }
 
         $(document).ready(function(){
-        
+            const sName = <?php echo json_encode($name); ?>;
+            const sLocation = <?php echo json_encode($location); ?>;
+            const sCode = <?php echo json_encode($code); ?>;
+
+            console.log(sName);
+            console.log(sLocation);
+            console.log(sCode);
+
+            $('#inputLogo').change(function(){
+                $('#submitLogo').attr('disabled', false);
+            });
+            $('#inputName').on('keyup',function(){
+                if($(this).val() == sName){
+                    $('#submitName').attr('disabled', true);
+                }else{
+                    $('#submitName').attr('disabled', false);
+                }
+            });
+            $('#inputLocation').on('keyup',function(){
+                if($(this).val() == sLocation){
+                    $('#submitLocation').attr('disabled', true);
+                }else{
+                    $('#submitLocation').attr('disabled', false);
+                }
+            });
+            $('#inputCode').on('keyup',function(){
+                if($(this).val() == sCode){
+                    $('#submitCode').attr('disabled', true);
+                }else{
+                    $('#submitCode').attr('disabled', false);
+                }
+            });
+
+            // $(document).on('keydown', function(e){
+            //     if(e.keyCode == 13){
+            //         e.preventDefault();
+            //     }
+            // });
         });
             
     </script>

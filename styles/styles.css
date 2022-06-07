@@ -2636,4 +2636,101 @@ body {
 #admin-dtr-con .content-con .table-con table tbody tr:nth-child(even) {
   background-color: #eaedfc;
 }
+
+#admin-settings-con {
+  width: calc(100% - 80px);
+  height: 100%;
+  -webkit-transform: translate(80px, 0);
+          transform: translate(80px, 0);
+  overflow: hidden;
+}
+
+#admin-settings-con .top-con {
+  width: 100%;
+  height: 70px;
+}
+
+#admin-settings-con .top-con .title-con {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+#admin-settings-con .top-con .title-con span {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 70px;
+}
+
+#admin-settings-con .settings-con {
+  width: 100%;
+  height: calc(100% - 90px);
+  padding: 100px 100px;
+}
+
+#admin-settings-con .settings-con .logo-con {
+  width: 100%;
+  height: 250px;
+  margin-bottom: 20px;
+}
+
+#admin-settings-con .settings-con .logo-con form p {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+#admin-settings-con .settings-con .logo-con form img {
+  height: 150px;
+}
+
+#admin-settings-con .settings-con .logo-con form span {
+  margin-top: 15px;
+  width: 100%;
+  display: block;
+}
+
+#admin-settings-con .settings-con .logo-con form span input {
+  display: inline;
+}
+
+#admin-settings-con .settings-con .logo-con form span input[type=file] {
+  width: 400px;
+}
+
+#admin-settings-con .settings-con .logo-con form span input[type=submit] {
+  width: 100px;
+  font-weight: 900;
+  margin-left: 20px;
+}
+
+#admin-settings-con .settings-con .set-con {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+#admin-settings-con .settings-con .set-con form p {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+#admin-settings-con .settings-con .set-con form span {
+  margin-top: 15px;
+  width: 100%;
+  display: block;
+}
+
+#admin-settings-con .settings-con .set-con form span input {
+  display: inline;
+}
+
+#admin-settings-con .settings-con .set-con form span input[type=text] {
+  width: 400px;
+}
+
+#admin-settings-con .settings-con .set-con form span input[type=submit] {
+  width: 100px;
+  font-weight: 900;
+  margin-left: 20px;
+}
 /*# sourceMappingURL=styles.css.map */

@@ -73,6 +73,7 @@
                         <th>NAME</th>
                         <th>TIME IN</th>
                         <th>TIME OUT</th>
+                        <th>LOG DATE</th>
                     </thead>
                     <tbody>
                         <?php
@@ -87,6 +88,7 @@
                                             <td><?php echo $rowDTR['cashier']; ?></td>
                                             <td><?php echo $rowDTR['time_in']; ?></td>
                                             <td><?php echo $rowDTR['time_out']; ?></td>
+                                            <td><?php echo $rowDTR['log_date']; ?></td>
                                         </tr>
                                     <?php
                                 }
