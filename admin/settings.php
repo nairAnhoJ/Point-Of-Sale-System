@@ -103,30 +103,38 @@
             </div>
         </div>
         <div class="settings-con">
-            <div class="logo-con">
-                <form action="./setting-logo.php" method="POST" enctype="multipart/form-data">
-                    <p>Logo</p>
-                    <img src="../images/logo/<?php echo $_SESSION['logo']; ?>" alt="">
-                    <span><input type="file" class="form-control" id="inputLogo" name="inputLogo" autocomplete="off" accept="image/*"><input type="submit" id="submitLogo" class="btn btn-primary" value="SAVE" disabled></span>
-                </form>
-            </div>
-            <div class="set-con">
-                <form action="./setting-name.php" method="POST">
-                    <p>Name</p>
-                    <span><input type="text" class="form-control" id="inputName" name="inputName" value="<?php echo $name; ?>" autocomplete="off"><input type="submit" id="submitName" class="btn btn-primary" value="SAVE" disabled></span>
-                </form>
-            </div>
-            <div class="set-con">
-                <form action="./setting-location.php" method="POST">
-                    <p>Location</p>
-                    <span><input type="text" class="form-control" id="inputLocation" name="inputLocation" value="<?php echo $location; ?>" autocomplete="off"><input type="submit" id="submitLocation" class="btn btn-primary" value="SAVE" disabled></span>
-                </form>
-            </div>
-            <div class="set-con">
-                <form action="./setting-code.php" method="POST">
-                    <p>Code</p>
-                    <span><input type="text" class="form-control" id="inputCode" name="inputCode" value="<?php echo $code; ?>" autocomplete="off"><input type="submit" id="submitCode" class="btn btn-primary" value="SAVE" disabled></span>
-                </form>
+            <div class="left-con">
+                <div class="logo-con">
+                    <form action="./setting-logo.php" method="POST" enctype="multipart/form-data">
+                        <p>Logo</p>
+                        <img src="../images/logo/<?php echo $_SESSION['logo']; ?>" alt="">
+                        <span><input type="file" class="form-control" id="inputLogo" name="inputLogo" autocomplete="off" accept="image/*"><input type="submit" id="submitLogo" class="btn btn-primary" value="SAVE" disabled></span>
+                    </form>
+                </div>
+                <div class="set-con">
+                    <form action="./setting-name.php" method="POST">
+                        <p>Name</p>
+                        <span><input type="text" class="form-control" id="inputName" name="inputName" value="<?php echo $name; ?>" autocomplete="off"><input type="submit" id="submitName" class="btn btn-primary" value="SAVE" disabled></span>
+                    </form>
+                </div>
+                <div class="set-con">
+                    <form action="./setting-location.php" method="POST">
+                        <p>Location</p>
+                        <span><input type="text" class="form-control" id="inputLocation" name="inputLocation" value="<?php echo $location; ?>" autocomplete="off"><input type="submit" id="submitLocation" class="btn btn-primary" value="SAVE" disabled></span>
+                    </form>
+                </div>
+                <div class="set-con">
+                    <form action="./setting-code.php" method="POST">
+                        <p>Code</p>
+                        <span><input type="text" class="form-control" id="inputCode" name="inputCode" value="<?php echo $code; ?>" autocomplete="off"><input type="submit" id="submitCode" class="btn btn-primary" value="SAVE" disabled></span>
+                    </form>
+                </div>
+                <div class="backup-con">
+                    <p>Backup Database</p>
+                    <div class="button-con">
+                        <button class="btn btn-primary" id="btnBackup">INITIATE BACKUP</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -142,10 +150,6 @@
             const sName = <?php echo json_encode($name); ?>;
             const sLocation = <?php echo json_encode($location); ?>;
             const sCode = <?php echo json_encode($code); ?>;
-
-            console.log(sName);
-            console.log(sLocation);
-            console.log(sCode);
 
             $('#inputLogo').change(function(){
                 $('#submitLogo').attr('disabled', false);
@@ -170,6 +174,14 @@
                 }else{
                     $('#submitCode').attr('disabled', false);
                 }
+            });
+
+
+            $('#restoreFile').change(function(){
+                $('#submitRestore').attr('disabled', false);
+            });
+            $('#btnBackup').click(function(){
+                window.location.href = "./backup-database.php";
             });
 
             // $(document).on('keydown', function(e){

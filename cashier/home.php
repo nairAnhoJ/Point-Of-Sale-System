@@ -149,7 +149,7 @@
                     <div class="logo-con">
                         <div class="the-logo">
                             <img src="../images/logo/<?php echo $_SESSION['logo']; ?>" alt="">
-                            <h1>RolNette's Store</h1>
+                            <h1><?php echo $_SESSION['branch_name']; ?></h1>
                         </div>
                     </div>
                     <div class="search-con">

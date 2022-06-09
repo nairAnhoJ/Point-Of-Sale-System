@@ -4,9 +4,34 @@
         height: 100vh;
         position: relative;
 
+        .logo-name-con{
+            position: absolute;
+            left: 25%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+            .pic-con{
+                width: 500px;
+                height: 500px;
+
+                img{
+                    height: 480px;
+                }
+            }
+
+            .name-con{
+                p{
+                    font-size: 50px;
+                    font-weight: 900;
+                    letter-spacing: 1px;
+                }
+            }
+        }
+
         .login-inner-container{
             position: absolute;
-            left: 50%;
+            left: 75%;
             top: 50%;
             transform: translate(-50%, -50%);
             width: 350px;

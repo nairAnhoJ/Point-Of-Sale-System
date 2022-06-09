@@ -13,6 +13,8 @@
     $_SESSION['branch_name'] = $rowSettings['branch_name'];
     $_SESSION['branch_loc'] = $rowSettings['branch_location'];
     $_SESSION['branch_code'] = $rowSettings['reciept_code'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./bootstrap-5.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="./styles/styles.css?v=<?php echo time(); ?>">
-    <title>Login</title>
+    <title><?php echo $_SESSION['branch_name']; ?> | Login</title>
 
     <script src="./js/jquery-3.6.0.min.js"></script>
     <script src="./bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
@@ -53,7 +55,14 @@
     ?>
 
     <div class="login-container">
-        RolNette's Store
+        <div class="logo-name-con">
+            <div class="pic-con">
+                <img src="./images/logo/<?php echo $_SESSION['logo']; ?>" alt="">
+            </div>
+            <div class="name-con">
+                <p><?php echo strtoupper($_SESSION['branch_name']); ?></p>
+            </div>
+        </div>
         <div class="login-inner-container">
             <div class="w-100 text-center mt-4 mb-3">
                 <span class="fs-1 fw-bolder">SIGN IN</span>

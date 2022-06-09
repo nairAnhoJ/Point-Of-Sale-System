@@ -98,7 +98,7 @@
         <div class="overview-con">
             <div class="sales-con">
                 <div class="each-con todaySales">
-                    <h1>Today's Sales</h1>
+                    <h1 class="">Today's Sales</h1>
                     <p><span>₱ </span><?php echo number_format($todaySales,2); ?></p>
                 </div>
                 <div class="each-con yesterdaySales">
