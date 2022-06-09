@@ -188,7 +188,7 @@
                                     ?>
                                         <tr>
                                             <td>
-                                                <button class="inv-btn-plus" id="<?php echo $rowItems['item_code']; ?>" data-code="<?php echo $rowItems['item_code']; ?>" data-name="<?php echo $rowItems['itemnb_name']; ?>" data-stock="<?php echo $rowItems['itemnb_stock']; ?>">
+                                                <button class="inv-btn-plus" id="<?php echo $rowItems['item_code']; ?>" data-code="<?php echo $rowItems['item_code']; ?>" data-name="<?php echo $rowItems['itemnb_name']; ?>" data-stock="<?php echo $rowItems['itemnb_stock']; ?>" data-supplier="<?php echo $rowItems['itemnb_suppplier']; ?>">
                                                     <svg viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none"><path d="M2143 5105 c-87 -19 -176 -64 -254 -128 -77 -64 -132 -143 -168 -241 l-26 -71 -5 -570 c-5 -524 -6 -573 -23 -598 -42 -64 -16 -61 -627 -68 -544 -5 -556 -5 -625 -28 -206 -67 -359 -232 -401 -430 -20 -96 -20 -718 1 -816 42 -200 197 -371 395 -437 63 -21 83 -22 624 -26 607 -4 596 -3 633 -59 16 -25 18 -75 23 -588 6 -550 6 -561 29 -630 67 -206 232 -359 430 -401 96 -20 718 -20 816 1 200 42 372 197 437 395 21 63 22 86 27 637 l6 571 25 27 c14 15 34 32 45 38 14 9 184 14 585 17 542 5 567 6 620 26 221 84 352 227 395 431 20 95 21 718 1 813 -38 178 -153 324 -313 397 -123 57 -115 56 -725 62 l-566 6 -27 25 c-15 14 -32 34 -38 45 -9 14 -14 184 -17 585 -5 542 -6 567 -26 620 -84 221 -227 352 -431 395 -94 20 -728 20 -820 0z"/></g></svg>
                                                 </button>
                                                 <button class="inv-btn-edit" id="<?php echo $rowItems['item_code']; ?>" data-code="<?php echo $rowItems['item_code']; ?>" data-name="<?php echo $rowItems['itemnb_name']; ?>" data-rprice="<?php echo $rowItems['itemnb_retail_price']; ?>" data-wprice="<?php echo $rowItems['itemnb_wholesale_price']; ?>" data-stock="<?php echo $rowItems['itemnb_stock']; ?>" data-category="<?php echo $rowItems['itemnb_category']; ?>" data-supplier="<?php echo $rowItems['itemnb_suppplier']; ?>" data-img="<?php echo $rowItems['itemnb_img']; ?>">
@@ -250,6 +250,7 @@
                     <form action="inventory-update.php" method="POST">
                         <input type="hidden" id="addStockItemCode" name="addStockItemCode" value="">
                         <input type="hidden" id="addStockItemName" name="addStockItemName" value="">
+                        <input type="hidden" id="addStockItemSup" name="addStockItemSup" value="">
                         <div class="row">
                             <div class="row-col col-4">
                                 <h1>STOCK:</h1>
@@ -548,6 +549,7 @@
                 var addItemName = $(this).data('name');
                 var addCurStock = $(this).data('stock');
                 var addItemCode = $(this).data('code');
+                var addItemSup = $(this).data('supplier');
                 $('.modal-update-stock').removeClass('visually-hidden');
                 $('#inputAddStock').val("");
                 $('#itemSearch').val("");
@@ -555,6 +557,7 @@
                 $('.modal-current-stock').html(addCurStock);
                 $('#addStockItemCode').val(addItemCode);
                 $('#addStockItemName').val(addItemName);
+                $('#addStockItemSup').val(addItemSup);
                 $('#inputAddStock').focus();
             });
 

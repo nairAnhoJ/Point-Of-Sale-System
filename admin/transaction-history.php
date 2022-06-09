@@ -3,6 +3,8 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
 
+    $typeFilter = $_GET['typeFilter'];
+
     $recentNum = "";
     $recentLoc = "";
 ?>
@@ -115,9 +117,22 @@
                             <tr>
                                 <th>ACTION</th>
                                 <th>INVOICE/DR NUMBER</th>
+                                <?php
+                                    if($typeFilter == 'In'){
+                                        ?>
+                                            <th>SUPPLIER NAME</th>
+                                        <?php
+                                    }
+                                ?>
                                 <th>TOTAL ITEMS</th>
                                 <th>TOTAL QUANTITY</th>
-                                <th>TOTAL AMOUNT(₱)</th>
+                                <?php
+                                    if($typeFilter == 'Out'){
+                                        ?>
+                                            <th>TOTAL AMOUNT(₱)</th>
+                                        <?php
+                                    }
+                                ?>
                                 <th>DATE & TIME</th>
                                 <th>CASHIER</th>
                                 <th>LOCATION</th>
@@ -131,7 +146,6 @@
                                     $getDateTo = $_GET['dateTo'];
                                     $dateFrom = date("Y-m-d H:i:s", strtotime(date($getDateFrom)));
                                     $dateTo = date("Y-m-d H:i:s", strtotime(date($getDateTo)." +1 day")-1);
-                                    $typeFilter = $_GET['typeFilter'];
                                     $locFilter = $_GET['locFilter'];
 
                                     if($locFilter == 'All'){
@@ -161,9 +175,22 @@
                                                             </button>
                                                         </td>
                                                         <td><?php echo $rowTrans['tran_num']; ?></td>
+                                                        <?php
+                                                            if($typeFilter == 'In'){
+                                                                ?>
+                                                                    <td><?php echo $rowTrans['sup_name']; ?></td>
+                                                                <?php
+                                                            }
+                                                        ?>
                                                         <td><?php echo $resTotalItems; ?></td>
                                                         <td><?php echo $resTotalQty['SUM(`tran_qty`)']; ?></td>
-                                                        <td><?php echo number_format($rowTrans['tran_total'],2); ?></td>
+                                                        <?php
+                                                            if($typeFilter == 'Out'){
+                                                                ?>
+                                                                    <td><?php echo number_format($rowTrans['tran_total'],2); ?></td>
+                                                                <?php
+                                                            }
+                                                        ?>
                                                         <td><?php echo $rowTrans['tran_date_time']; ?></td>
                                                         <td><?php echo $rowTrans['tran_cashier']; ?></td>
                                                         <td><?php echo $rowTrans['tran_location']; ?></td>
