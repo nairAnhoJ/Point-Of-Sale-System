@@ -25,6 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./bootstrap-5.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="./styles/styles.css?v=<?php echo time(); ?>">
+    <link rel="icon" href="./images/logo/<?php echo $_SESSION['logo']; ?>">
     <title><?php echo $_SESSION['branch_name']; ?> | Login</title>
 
     <script src="./js/jquery-3.6.0.min.js"></script>

@@ -2,7 +2,6 @@
     session_start();
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
-
 ?>
 
 <!DOCTYPE html>
@@ -44,10 +43,37 @@
         }
     ?>
 
-    <div id="admin-tran-con">
-        
+    <div id="admin-report-con">
+        <div class="inner-con">
+            <div class="top-con">
+                <div class="title-con">
+                    <h1 class="page-title">REPORT</h1>
+                </div>
+            </div>
+            <div class="bottom-con">
+                <div class="left-con">
+                    <div class="stock-report">
+                        <div class="report-title-con">
+                            <h2 class="report-title">LOW STOCK REPORT</h2>
+                        </div>
+                        <div class="button-con">
+                            <a href="./stock-report.php" class="btn btn-primary" target="_blank">GENERATE REPORT</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-con">
+                    <div class="sales-report">
+                        <div class="report-title-con">
+                            <h2 class="report-title">SALES REPORT</h2>
+                        </div>
+                        <div class="button-con">
+                            <a href="./stock-report.php" class="btn btn-primary" target="_blank">GENERATE REPORT</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 
     <script>
         function navF(){

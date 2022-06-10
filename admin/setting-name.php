@@ -4,9 +4,10 @@
     include("../db/conn.php");
 
     $newName = $_POST['inputName'];
-    echo $newName;
+    $enewName = mysqli_real_escape_string($con, $newName);
+    echo $enewName;
 
-    $updateName = "UPDATE `admin_settings` SET `branch_name`='$newName' WHERE set_id='1'";
+    $updateName = "UPDATE `admin_settings` SET `branch_name`='$enewName' WHERE set_id='1'";
     mysqli_query($con, $updateName);
 
     $_SESSION['successName'] = true;

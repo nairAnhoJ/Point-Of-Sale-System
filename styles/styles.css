@@ -1,7 +1,6 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
@@ -14,6 +13,7 @@ body {
   width: 100vw;
   height: 100vh;
   position: relative;
+  background-image: linear-gradient(225deg, #4568DC, #B06AB3);
 }
 
 #login-body .login-container .logo-name-con {
@@ -32,12 +32,15 @@ body {
 
 #login-body .login-container .logo-name-con .pic-con img {
   height: 480px;
+  -webkit-filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.34));
+          filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.34));
 }
 
 #login-body .login-container .logo-name-con .name-con p {
   font-size: 50px;
   font-weight: 900;
   letter-spacing: 1px;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.34);
 }
 
 #login-body .login-container .login-inner-container {
@@ -49,9 +52,9 @@ body {
   width: 350px;
   height: 380px;
   border-radius: 25px;
-  border: 2px solid #3b3b3b;
-  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.54);
-          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.54);
+  -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.54);
+          box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.54);
+  background-color: white;
 }
 
 #nchome-body {
@@ -2816,5 +2819,64 @@ body {
   width: 100px;
   font-weight: 900;
   margin-left: 20px;
+}
+
+#admin-report-con {
+  width: calc(100% - 80px);
+  height: 100%;
+  -webkit-transform: translate(80px, 0);
+          transform: translate(80px, 0);
+  overflow: hidden;
+}
+
+#admin-report-con .inner-con {
+  width: 100%;
+  height: 100%;
+}
+
+#admin-report-con .inner-con .top-con {
+  width: 100%;
+  height: 80px;
+}
+
+#admin-report-con .inner-con .top-con .title-con {
+  width: 100%;
+  height: 100%;
+}
+
+#admin-report-con .inner-con .top-con .title-con .page-title {
+  text-align: center;
+  line-height: 80px;
+}
+
+#admin-report-con .inner-con .bottom-con {
+  width: 100%;
+  height: calc(100% - 200px);
+  margin-top: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#admin-report-con .inner-con .bottom-con .left-con {
+  width: 50%;
+  height: 100%;
+  text-align: center;
+}
+
+#admin-report-con .inner-con .bottom-con .left-con .stock-report .button-con a {
+  padding: 10px 20px;
+  font-weight: 900;
+}
+
+#admin-report-con .inner-con .bottom-con .right-con {
+  width: 50%;
+  height: 100%;
+  text-align: center;
+}
+
+#admin-report-con .inner-con .bottom-con .right-con .sales-report .button-con a {
+  padding: 10px 20px;
+  font-weight: 900;
 }
 /*# sourceMappingURL=styles.css.map */

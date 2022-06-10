@@ -1,7 +1,7 @@
 *{
     padding: 0;
     margin: 0;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    // font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body{
@@ -21,3 +21,4 @@ body{
 @import './admin/category.scss';
 @import './admin/dtr.scss';
 @import './admin/settings.scss';
+@import './admin/report.scss';

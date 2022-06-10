@@ -178,7 +178,7 @@
                                                         <?php
                                                             if($typeFilter == 'In'){
                                                                 ?>
-                                                                    <td><?php echo $rowTrans['sup_name']; ?></td>
+                                                                    <td><?php echo ucwords($rowTrans['sup_name']); ?></td>
                                                                 <?php
                                                             }
                                                         ?>
@@ -270,7 +270,13 @@
                             <div class="footer-con">
                                 <div class="total-con">
                                     <div class="float-con">
-                                        <span>Grand Total: </span><span>₱ <?php echo number_format($dateCash['tran_total'],2); ?></span>
+                                        <?php
+                                            if($typeFilter == 'Out'){
+                                                ?>
+                                                    <span>Grand Total: </span><span>₱ <?php echo number_format($dateCash['tran_total'],2); ?></span>
+                                                <?php
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="btn-con">

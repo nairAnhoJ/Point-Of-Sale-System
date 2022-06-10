@@ -33,20 +33,19 @@
 
     <?php
         require_once('./nav.php');
-    
-        if(!isset($_SESSION['success'])){
+
+        if(!isset($_SESSION['successName'])){
         }else{
-            if ($_SESSION['success'] == true){
-                $success = $_SESSION['success'];
+            if ($_SESSION['successName'] == true){
                 ?>
                     <script>
                         swal({
                             icon: "success",
-                            title: "Store <?php echo json_encode($success); ?> has been updated successfully!",
+                            title: "Store Name has been updated successfully!",
                         })
                     </script>
                 <?php
-                $_SESSION['success'] = false;
+                $_SESSION['successName'] = false;
             }
         }
 

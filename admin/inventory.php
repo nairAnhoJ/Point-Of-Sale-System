@@ -204,9 +204,9 @@
                                             <td><?php echo number_format($rowItems['itemnb_wholesale_price'],2); ?></td>
                                             <td><?php echo $rowItems['itemnb_stock']; ?></td>
                                             <td><?php echo $rowItems['itemnb_category']; ?></td>
-                                            <td><?php echo $rowItems['itemnb_suppplier']; ?></td>
+                                            <td><?php echo ucwords($rowItems['itemnb_suppplier']); ?></td>
                                             <td><?php echo $rowItems['date_updated']; ?></td>
-                                            <td><?php echo $rowItems['updated_by']; ?></td>
+                                            <td><?php echo ucwords($rowItems['updated_by']); ?></td>
                                             <td><?php echo $rowItems['itemnb_remarks']; ?></td>
                                         </tr>
                                     <?php
