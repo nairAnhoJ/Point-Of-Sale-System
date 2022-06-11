@@ -41,6 +41,27 @@
                 font-size: 16px;
                 padding: 0;
                 margin: 10px 0 20px 0;
+                display: inline-block;
+                width: 33%
+            }
+            h4{
+                font-weight: 900;
+                font-size: 16px;
+                padding: 0;
+                margin: 10px 0 20px 0;
+                display: inline-block;
+                text-align: center;
+                width: 33%
+            }
+            h5{
+                font-weight: 900;
+                font-size: 16px;
+                padding: 0;
+                margin: 10px 0 20px 0;
+                display: inline-block;
+                text-align: right;
+                width: 33%
+                background-color: red;
             }
             table{
                 width: 100%;
@@ -67,7 +88,11 @@
     <body>
     
         <h2>SALES REPORT</h2>
-        <h3>Date: '.$fDate.' - '.$tDate.'</h3>
+        <div>
+            <h3>Date: '.$fDate.' - '.$tDate.'</h3>
+            <h4>'.$_SESSION['branch_name'].'</h4>
+            <h5>Location: '.$_SESSION['branch_loc'].'</h5>
+        </div>
         <table>
             <thead>
                 <th>Date</th>

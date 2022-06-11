@@ -32,9 +32,6 @@
 
     <script src="./js/jquery-3.6.0.min.js"></script>
     <script src="./bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="./js/sweetalert2.all.min.js"></script>
-    <script crossorigin src="./js/react.production.min.js"></script>
-    <script crossorigin src="./js/react-dom.production.min.js"></script>
 </head>
 <body id="login-body">
 

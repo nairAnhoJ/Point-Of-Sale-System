@@ -12,15 +12,13 @@
     $fileTempExt = explode('.', $fileName);
     $fileExt = strtolower(end($fileTempExt));
 
-    $newFileName = "logo.".$fileExt;
+    $newFileName = "store-logo.".$fileExt;
     $fileDest = "../images/logo/".$newFileName;
     
     move_uploaded_file($fileTmpName, $fileDest);
 
     $updateLogo = "UPDATE `admin_settings` SET `branch_logo`='$newFileName' WHERE set_id='1'";
     mysqli_query($con, $updateLogo);
-
-    echo $newFileName;
 
     $_SESSION['logo'] = $newFileName;
     $_SESSION['successLogo'] = true;
