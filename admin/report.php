@@ -67,13 +67,34 @@
                             <h2 class="report-title">SALES REPORT</h2>
                         </div>
                         <div class="button-con">
-                            <a href="./stock-report.php" class="btn btn-primary" target="_blank">GENERATE REPORT</a>
+                            <button id="btnSalesReport" class="btn btn-primary">GENERATE REPORT</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal-sales visually-hidden">
+        <div class="inner-modal">
+            <div class="top-con">
+                <h2>SALES REPORT</h2>
+            </div>
+            <div class="content-con">
+                <form method="POST" action="./report-sales.php" target="_blank">
+                    <div class="date-con">
+                        <span>FROM: </span><span><input type="date" class="form-control" id="fromDate" name="fromDate" value="<?php echo date('Y-m-d') ?>" autofocus></span>
+                        <span>TO: </span><span><input type="date" class="form-control" id="toDate" name="toDate" value="<?php echo date('Y-m-d') ?>"></span>
+                    </div>
+                    <div class="submit-con">
+                        <input type="submit" class="btn btn-primary" value="SUBMIT">
+                        <button class="btn btn-secondary btnCancel">CANCEL</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         function navF(){
@@ -82,7 +103,15 @@
         }
 
         $(document).ready(function(){
-        
+            $('#btnSalesReport').click(function(){
+                $('.modal-sales').removeClass('visually-hidden');
+                $('#fromDate').focus();
+            });
+
+            $('.btnCancel').click(function(e){
+                e.preventDefault();
+                $('.modal-sales').addClass('visually-hidden');
+            });
         });
             
     </script>

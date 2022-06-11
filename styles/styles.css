@@ -2923,8 +2923,81 @@ body {
   text-align: center;
 }
 
-#admin-report-con .inner-con .bottom-con .right-con .sales-report .button-con a {
+#admin-report-con .inner-con .bottom-con .right-con .sales-report .button-con button {
   padding: 10px 20px;
+  font-weight: 900;
+}
+
+.modal-sales {
+  z-index: 99;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-sales .inner-modal {
+  width: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.modal-sales .inner-modal .top-con {
+  text-align: center;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.modal-sales .inner-modal .top-con h2 {
+  line-height: 60px;
+  font-weight: 900;
+}
+
+.modal-sales .inner-modal .content-con {
+  width: 100%;
+  padding: 0 10px;
+}
+
+.modal-sales .inner-modal .content-con form {
+  width: 100%;
+}
+
+.modal-sales .inner-modal .content-con form .date-con {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal-sales .inner-modal .content-con form .date-con span {
+  font-weight: 900;
+  margin: 10px;
+}
+
+.modal-sales .inner-modal .content-con form .date-con span input {
+  display: inline;
+}
+
+.modal-sales .inner-modal .content-con form .date-con span input[type=date] {
+  width: 30%;
+}
+
+.modal-sales .inner-modal .content-con form .submit-con {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal-sales .inner-modal .content-con form .submit-con input, .modal-sales .inner-modal .content-con form .submit-con button {
+  width: 150px;
+  height: 40px;
+  margin: 0 25px;
   font-weight: 900;
 }
 /*# sourceMappingURL=styles.css.map */
