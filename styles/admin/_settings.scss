@@ -26,7 +26,7 @@
         display: flex;
 
         .left-con{
-            width: 100%;
+            width: 50%;
             height: 100%;
 
             .logo-con{
@@ -90,6 +90,57 @@
                             font-weight: 900;
                             margin-left: 20px;
                         }
+                    }
+                }
+            }
+        }
+
+        .right-con{
+            width: 50%;
+            height: 100%;
+            padding-top: 200px;
+
+            .msg-con{
+                width: 100%;
+                margin-bottom: 30px;
+
+                form{
+
+                    p{
+                        font-size: 20px;
+                        font-weight: 900;
+                        margin-bottom: 10px;
+                    }
+
+                    span{
+                        width: 100%;
+                        display: block;
+    
+                        input[type = text]{
+                            margin-bottom: 10px;
+                        }
+                        input[type = submit]{
+                            width: 200px;
+                            height: 50px;
+                            font-weight: 900;
+                        }
+                    }
+                }
+            }
+
+            .backup-con{
+                width: 100%;
+
+                p{
+                    font-size: 20px;
+                    font-weight: 900;
+                    margin-bottom: 10px;
+                }
+                .button-con{
+                    button{
+                        width: 200px;
+                        height: 50px;
+                        font-weight: 900;
                     }
                 }
             }

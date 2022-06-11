@@ -5,7 +5,6 @@
 
     $newName = $_POST['inputName'];
     $enewName = mysqli_real_escape_string($con, $newName);
-    echo $enewName;
 
     $updateName = "UPDATE `admin_settings` SET `branch_name`='$enewName' WHERE set_id='1'";
     mysqli_query($con, $updateName);

@@ -94,7 +94,7 @@
         </div>
         <hr width="90%">
         <div class="footer">
-            <div>Thank you, Please Come Again!</div>
+            <div><?php echo $_SESSION['msg']; ?></div>
             <div style="font-size: 12px; margin-bottom: 50px">This Receipt is for inventory purpose only</div>
         </div>
     </div>
@@ -118,7 +118,7 @@
             }
 
             var invYear = year.toString().slice(-2);
-            var invNo = invYear + nmonth + nday + <?php echo json_encode($lastInvNo); ?>;
+            var invNo = <?php echo json_encode($recieptCode); ?> + '-' + invYear + nmonth + nday + <?php echo json_encode($lastInvNo); ?>;
             $('.invoiceNumber').html(invNo);
 
 

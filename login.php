@@ -13,6 +13,8 @@
     $_SESSION['branch_name'] = $rowSettings['branch_name'];
     $_SESSION['branch_loc'] = $rowSettings['branch_location'];
     $_SESSION['branch_code'] = $rowSettings['reciept_code'];
+    $_SESSION['msg'] = $rowSettings['reciept_msg'];
+    $_SESSION['safe_stock'] = $rowSettings['safe_stock'];
 
 
 ?>

@@ -9,6 +9,8 @@
     $name = $rowSetting['branch_name'];
     $location = $rowSetting['branch_location'];
     $code = $rowSetting['reciept_code'];
+    $msg = $rowSetting['reciept_msg'];
+    $safeStock = $rowSetting['safe_stock'];
 
 
 ?>
@@ -93,6 +95,36 @@
                 $_SESSION['successLogo'] = false;
             }
         }
+
+        if(!isset($_SESSION['successMsg'])){
+        }else{
+            if ($_SESSION['successMsg'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Message on reciept has been updated successfully!",
+                        })
+                    </script>
+                <?php
+                $_SESSION['successMsg'] = false;
+            }
+        }
+
+        if(!isset($_SESSION['successSafe'])){
+        }else{
+            if ($_SESSION['successSafe'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Safe Stock has been updated successfully!",
+                        })
+                    </script>
+                <?php
+                $_SESSION['successSafe'] = false;
+            }
+        }
     ?>
 
     <div id="admin-settings-con">
@@ -128,6 +160,21 @@
                         <span><input type="text" class="form-control" id="inputCode" name="inputCode" value="<?php echo $code; ?>" autocomplete="off"><input type="submit" id="submitCode" class="btn btn-primary" value="SAVE" disabled></span>
                     </form>
                 </div>
+                <div class="set-con">
+                    <form action="./setting-safestock.php" method="POST">
+                        <p>Safe Stock</p>
+                        <span><input type="text" class="form-control" id="inputSafe" name="inputSafe" value="<?php echo $safeStock; ?>" autocomplete="off"><input type="submit" id="submitSafe" class="btn btn-primary" value="SAVE" disabled></span>
+                    </form>
+                </div>
+            </div>
+
+            <div class="right-con">
+                <div class="msg-con">
+                    <form action="./setting-msg.php" method="POST">
+                        <p>Reciept Message</p>
+                        <span><input type="text"maxlength="200" class="form-control" id="inputMsg" name="inputMsg" value="<?php echo $msg; ?>" autocomplete="off"><input type="submit" id="submitMsg" class="btn btn-primary" value="SAVE" disabled></span>
+                    </form>
+                </div>
                 <div class="backup-con">
                     <p>Backup Database</p>
                     <div class="button-con">
@@ -149,6 +196,8 @@
             const sName = <?php echo json_encode($name); ?>;
             const sLocation = <?php echo json_encode($location); ?>;
             const sCode = <?php echo json_encode($code); ?>;
+            const sMsg = <?php echo json_encode($msg); ?>;
+            const sSafe = <?php echo json_encode($safeStock); ?>;
 
             $('#inputLogo').change(function(){
                 $('#submitLogo').attr('disabled', false);
@@ -172,6 +221,20 @@
                     $('#submitCode').attr('disabled', true);
                 }else{
                     $('#submitCode').attr('disabled', false);
+                }
+            });
+            $('#inputSafe').on('keyup',function(){
+                if($(this).val() == sSafe){
+                    $('#submitSafe').attr('disabled', true);
+                }else{
+                    $('#submitSafe').attr('disabled', false);
+                }
+            });
+            $('#inputMsg').on('keyup',function(){
+                if($(this).val() == sMsg){
+                    $('#submitMsg').attr('disabled', true);
+                }else{
+                    $('#submitMsg').attr('disabled', false);
                 }
             });
 

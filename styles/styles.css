@@ -2751,7 +2751,7 @@ body {
 }
 
 #admin-settings-con .settings-con .left-con {
-  width: 100%;
+  width: 50%;
   height: 100%;
 }
 
@@ -2819,6 +2819,54 @@ body {
   width: 100px;
   font-weight: 900;
   margin-left: 20px;
+}
+
+#admin-settings-con .settings-con .right-con {
+  width: 50%;
+  height: 100%;
+  padding-top: 200px;
+}
+
+#admin-settings-con .settings-con .right-con .msg-con {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+#admin-settings-con .settings-con .right-con .msg-con form p {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+#admin-settings-con .settings-con .right-con .msg-con form span {
+  width: 100%;
+  display: block;
+}
+
+#admin-settings-con .settings-con .right-con .msg-con form span input[type=text] {
+  margin-bottom: 10px;
+}
+
+#admin-settings-con .settings-con .right-con .msg-con form span input[type=submit] {
+  width: 200px;
+  height: 50px;
+  font-weight: 900;
+}
+
+#admin-settings-con .settings-con .right-con .backup-con {
+  width: 100%;
+}
+
+#admin-settings-con .settings-con .right-con .backup-con p {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+#admin-settings-con .settings-con .right-con .backup-con .button-con button {
+  width: 200px;
+  height: 50px;
+  font-weight: 900;
 }
 
 #admin-report-con {

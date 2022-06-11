@@ -69,7 +69,7 @@
             </thead>
             <tbody>';
 
-                $safeStock = 15;
+                $safeStock = $_SESSION['safe_stock'];
                 $queryLowStock = "SELECT `itemnb_name`,`itemnb_category`,`itemnb_stock`,`itemnb_suppplier` FROM `item_no_barcode` WHERE `itemnb_stock` < '$safeStock' UNION SELECT `item_name`,`item_category`,`item_stock`,`item_supplier` FROM `item_with_barcode` WHERE `item_stock` < '$safeStock'";
                 $resultLowStock = mysqli_query($con, $queryLowStock);
                 if(mysqli_num_rows($resultLowStock) > 0){
