@@ -451,7 +451,7 @@
                     </div>
                     <div class="button-con">
                         <div class="payment-con">
-                            <button href="#" class="btn btn-primary btnPayment">PAYMENT (F8)</button>
+                            <button href="#" class="btn btn-primary btnPayment" <?php if($totalQty == 0){ echo 'disabled'; } ?>>PAYMENT (F8)</button>
                         </div>
                         <div class="cancel-con">
                             <button class="btn btn-danger btnCancel">CANCEL (F9)</button>
