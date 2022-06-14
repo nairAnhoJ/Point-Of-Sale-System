@@ -2580,6 +2580,13 @@ body {
   font-weight: 900;
 }
 
+.modal-add-edit .inner-modal .content-con .row .btnCol a, .modal-delete .inner-modal .content-con .row .btnCol a {
+  width: 200px;
+  line-height: 35px;
+  font-size: 18px;
+  font-weight: 900;
+}
+
 #admin-dtr-con {
   width: calc(100% - 80px);
   height: 100%;
