@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 11, 2022 at 04:29 PM
+-- Generation Time: Jun 14, 2022 at 08:01 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.28
 
@@ -35,15 +35,16 @@ CREATE TABLE `admin_settings` (
   `branch_logo` varchar(255) NOT NULL,
   `reciept_code` varchar(10) NOT NULL,
   `reciept_msg` varchar(255) NOT NULL,
-  `safe_stock` int(11) NOT NULL
+  `safe_stock` int(11) NOT NULL,
+  `cur_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin_settings`
 --
 
-INSERT INTO `admin_settings` (`set_id`, `discount`, `branch_name`, `branch_location`, `branch_logo`, `reciept_code`, `reciept_msg`, `safe_stock`) VALUES
-(1, 0, 'My Store', 'Rosario, Cavite', 'store-logo.png', 'S1', 'Thank you, Please Come Again!', 15);
+INSERT INTO `admin_settings` (`set_id`, `discount`, `branch_name`, `branch_location`, `branch_logo`, `reciept_code`, `reciept_msg`, `safe_stock`, `cur_date`) VALUES
+(1, 0, 'My Store', 'Rosario, Cavite', 'store-logo.png', 'S1', 'Thank you, Please Come Again!', 15, '2022-06-14');
 
 -- --------------------------------------------------------
 
@@ -198,6 +199,28 @@ INSERT INTO `item_with_barcode` (`item_id`, `item_code`, `item_name`, `item_reta
 (21, '1020', 'Jack & Jill Nova Country Cheddar | 78g', 29.5, 7, 'Snacks', 'Supplier 1', '2022-06-05', 'Admin', 'Imported', 25),
 (22, '1021', 'Ottogi Kimchi Ramen Pouch | 120g', 42.5, 98, 'Pantry', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 38),
 (23, '1022', 'Red Bull Energy Drink Supreme | 150ml', 38.5, 98, 'Beverage', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 35);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `req_tran`
+--
+
+CREATE TABLE `req_tran` (
+  `req_id` int(11) NOT NULL,
+  `user_card` varchar(255) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `req_amount` int(11) NOT NULL,
+  `req_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `req_tran`
+--
+
+INSERT INTO `req_tran` (`req_id`, `user_card`, `user_name`, `req_amount`, `req_date`) VALUES
+(1, '987654321', 'John Arian', 100, '2022-06-14'),
+(4, '987654321', 'John Arian', 100, '2022-06-14');
 
 -- --------------------------------------------------------
 
@@ -411,18 +434,19 @@ CREATE TABLE `users` (
   `user_pass` varchar(255) NOT NULL,
   `cashier_name` varchar(50) NOT NULL,
   `user_rfid` varchar(255) NOT NULL,
-  `role` varchar(50) NOT NULL
+  `role` varchar(50) NOT NULL,
+  `avail_amount` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `user_pass`, `cashier_name`, `user_rfid`, `role`) VALUES
-(1, 'admin', '$2y$10$BxAfLc6FOCZnAf7qgYaIquiiR.WxUrMRRj9JosAE419zK/CRtLMyW', 'Admin', '1', 'admin'),
-(2, 'cashier', '$2y$10$N/aTeiGfsYITVrfY3qRA4.uq/nH1QgNqo2EuiBDVNnyRxutQB1ruy', 'John Arian', '987654321', 'cashier'),
-(4, 'testedit', '$2y$10$lF84Rsl/4Qu9smoVqcEDxeTQ.jtzLbCw4IQEpW1gBnRMluJMvYnqm', 'test edit', '123321', 'admin'),
-(5, 'testadmin', '$2y$10$8ssh3TpQaVVaQMC615AQj.ODs.7dSEE2WFxZr1CfkfCsYLWRwrVEu', 'test admin', '123123', 'admin');
+INSERT INTO `users` (`user_id`, `user_name`, `user_pass`, `cashier_name`, `user_rfid`, `role`, `avail_amount`) VALUES
+(1, 'admin', '$2y$10$BxAfLc6FOCZnAf7qgYaIquiiR.WxUrMRRj9JosAE419zK/CRtLMyW', 'Admin', '1', 'admin', 1000),
+(2, 'cashier', '$2y$10$N/aTeiGfsYITVrfY3qRA4.uq/nH1QgNqo2EuiBDVNnyRxutQB1ruy', 'John Arian', '987654321', 'cashier', 1000),
+(4, 'testedit', '$2y$10$lF84Rsl/4Qu9smoVqcEDxeTQ.jtzLbCw4IQEpW1gBnRMluJMvYnqm', 'test edit', '123321', 'admin', 1000),
+(5, 'testadmin', '$2y$10$8ssh3TpQaVVaQMC615AQj.ODs.7dSEE2WFxZr1CfkfCsYLWRwrVEu', 'test admin', '123123', 'admin', 1000);
 
 --
 -- Indexes for dumped tables
@@ -457,6 +481,12 @@ ALTER TABLE `item_no_barcode`
 --
 ALTER TABLE `item_with_barcode`
   ADD PRIMARY KEY (`item_id`);
+
+--
+-- Indexes for table `req_tran`
+--
+ALTER TABLE `req_tran`
+  ADD PRIMARY KEY (`req_id`);
 
 --
 -- Indexes for table `supplier`
@@ -515,6 +545,12 @@ ALTER TABLE `item_no_barcode`
 --
 ALTER TABLE `item_with_barcode`
   MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `req_tran`
+--
+ALTER TABLE `req_tran`
+  MODIFY `req_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `supplier`

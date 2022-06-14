@@ -15,8 +15,16 @@
     $_SESSION['branch_code'] = $rowSettings['reciept_code'];
     $_SESSION['msg'] = $rowSettings['reciept_msg'];
     $_SESSION['safe_stock'] = $rowSettings['safe_stock'];
+    $setDate = $rowSettings['cur_date'];
+    $curDate = date('Y-m-d');
 
+    if($setDate != $curDate){
+        $updateAmount = "UPDATE `users` SET `avail_amount`= '1000'";
+        mysqli_query($con, $updateAmount);
 
+        $updateDate = "UPDATE `admin_settings` SET `cur_date`= '$curDate'";
+        mysqli_query($con, $updateDate);
+    }
 ?>
 
 <!DOCTYPE html>
