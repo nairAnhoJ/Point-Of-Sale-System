@@ -102,6 +102,7 @@
                         <th>Name</th>
                         <th>Amount</th>
                         <th>Date</th>
+                        <th>Time</th>
                     </thead>
                     <tbody id="tableBody">
                         <?php
@@ -115,6 +116,7 @@
                                             <td><?php echo ucwords($rowReq['user_name']); ?></td>
                                             <td><?php echo $rowReq['req_amount']; ?></td>
                                             <td><?php echo $rowReq['req_date']; ?></td>
+                                            <td><?php echo $rowReq['req_time']; ?></td>
                                         </tr>
                                     <?php
                                 }

@@ -1,8 +1,8 @@
 <?php
 
     $dbhost = "localhost";
-    $dbuser = "root";
-    $dbpass = "";
+    $dbuser = "johnarian";
+    $dbpass = "johnarian";
     $dbname = "pos";
 
     if(!$con = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname)){
