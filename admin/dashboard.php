@@ -10,7 +10,7 @@
     $mSales = 0;
     $dailySales = 0;
     $arrayDaily = array();
-    $numDays=cal_days_in_month(CAL_GREGORIAN,date('m'),date('Y'));
+    $numDays = date('t');
 
 
     // FOR WEEKLY SALES
