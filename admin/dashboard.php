@@ -3,7 +3,6 @@
     date_default_timezone_set("Asia/Manila");
     include("../db/conn.php");
 
-
     $todaySales = 0;
     $yesSales = 0;
     $weekSales = 0;
@@ -11,7 +10,6 @@
     $dailySales = 0;
     $arrayDaily = array();
     $numDays = date('t');
-
 
     // FOR WEEKLY SALES
     $ws = date("Y-m-d H:i:s", strtotime("sunday -1 week"));

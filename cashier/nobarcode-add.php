@@ -6,6 +6,7 @@
     $itemID = $_GET['itemId'];
     $itemName = $_GET['itemName'];
     $itemPrice = $_GET['itemPrice'];
+    $curQty = $_GET['curQty'];
 
     echo $itemID;
     echo $itemName;
@@ -21,38 +22,13 @@
 
             $deleteTemp = "DELETE FROM `temp_item` WHERE `item_code` = '$itemID'";
             mysqli_query($con, $deleteTemp);
-            $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`) VALUES (null,'$itemID','$newQty','$tempPrice','$itemName','$newTotal')";
+            $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`, `current_stock`) VALUES (null,'$itemID','$newQty','$tempPrice','$itemName','$newTotal','$curQty'";
             mysqli_query($con, $updateTemp);
         }
     }else{
-        $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`) VALUES (null,'$itemID','1','$itemPrice','$itemName','$itemPrice')";
+        $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`, `current_stock`) VALUES (null,'$itemID','1','$itemPrice','$itemName','$itemPrice','$curQty')";
         mysqli_query($con, $insertTemp);
     }
 
     header('location: home.php');
-
-
-
-
-
-
-    // $checkItemID = "SELECT * FROM `temp_item` WHERE `item_code` = $itemID";
-    // $resultItemID = mysqli_query($con, $checkItemID);
-    // if(mysqli_num_rows($resultItemID) > 0){
-
-    //     while($ItemID = mysqli_fetch_assoc($resultItemID)){
-    //         $newQty = $ItemID['temp_quantity'] + 1;
-    //         $deleteTemp = "DELETE FROM `temp_item` WHERE `item_code` = '$itemID'";
-    //         mysqli_query($con, $deleteTemp);
-
-    //         $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemID','$newQty')";
-    //         mysqli_query($con, $updateTemp);
-    //         // header('location: home.php');
-    //     }
-
-    // }else{
-    //     $insertNoBC = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`) VALUES (null,'$itemID','1')";
-    //     mysqli_query($con, $insertNoBC);
-    //     // header("location: home.php");
-    // }
 ?>

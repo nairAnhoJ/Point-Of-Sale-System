@@ -4,12 +4,15 @@
     include("../db/conn.php");
 
     $itemCode = $_SESSION['lastCode'];
+    $curStock = $_SESSION['curStock'];
 
     $checkTemp = "SELECT * FROM `temp_item` WHERE `item_code` = '$itemCode'";
     $resultTemp = mysqli_query($con, $checkTemp);
     if(mysqli_num_rows($resultTemp) > 0){
         while($rowTemp = mysqli_fetch_assoc($resultTemp)){
-            $newQty = $rowTemp['temp_quantity'] + 1;
+            if($rowTemp['temp_quantity'] != $curStock){
+                $newQty = $rowTemp['temp_quantity'] + 1;
+            }
             $newTotal = $newQty * $rowTemp['temp_price'];
 
             $updateTemp = "UPDATE `temp_item` SET `temp_quantity`='$newQty',`temp_total`='$newTotal' WHERE `item_code` = $itemCode";

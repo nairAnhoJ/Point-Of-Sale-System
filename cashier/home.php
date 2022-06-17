@@ -200,9 +200,10 @@
                                                         $itemPrice = $rowAllNoBarcode['itemnb_retail_price'];
                                                         $itemName = $rowAllNoBarcode['itemnb_name'];
                                                     }
+                                                    $nbCurQty = $rowAllNoBarcode['itemnb_stock'];
 
                                                     ?>
-                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowAllNoBarcode['item_code']; ?>&itemName=<?php echo $itemName; ?>&itemPrice=<?php echo $itemPrice; ?>">
+                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowAllNoBarcode['item_code']; ?>&itemName=<?php echo $itemName; ?>&itemPrice=<?php echo $itemPrice; ?>&curQty=<?php echo $nbCurQty; ?>">
                                                             <img src="<?php echo $rowAllNoBarcode['itemnb_img']; ?>" alt="">
                                                             <p><?php echo $rowAllNoBarcode['itemnb_name']; ?></p>
                                                         </a>
@@ -345,6 +346,7 @@
                                         $resultItem = mysqli_query($con, $checkItem);
                                         if(mysqli_num_rows($resultItem) > 0){
                                             $rowItem = mysqli_fetch_assoc($resultItem);
+                                            $curQty = $rowItem['item_stock'];
                                             
 
                                             if($_SESSION['endBuyer'] == "WHOLESALE"){
@@ -365,11 +367,11 @@
 
                                                     $deleteTemp = "DELETE FROM `temp_item` WHERE `item_code` = '$itemCode'";
                                                     mysqli_query($con, $deleteTemp);
-                                                    $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`) VALUES (null,'$itemCode','$newQty','$tempPrice','$itemName','$newTotal')";
+                                                    $updateTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`, `current_stock`) VALUES (null,'$itemCode','$newQty','$tempPrice','$itemName','$newTotal','$curQty')";
                                                     mysqli_query($con, $updateTemp);
                                                 }
                                             }else{
-                                                $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`) VALUES (null,'$itemCode','1','$itemPrice','$itemName','$itemPrice')";
+                                                $insertTemp = "INSERT INTO `temp_item`(`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`, `current_stock`) VALUES (null,'$itemCode','1','$itemPrice','$itemName','$itemPrice','$curQty')";
                                                 mysqli_query($con, $insertTemp);
                                             }
 
@@ -397,6 +399,8 @@
                                             if($c == 0){
                                                 $_SESSION['lastCode'] = $rowTempItems['item_code'];
                                                 $_SESSION['lastQty'] = $rowTempItems['temp_quantity'];
+                                                $_SESSION['curStock'] = $rowTempItems['current_stock'];
+                                                $curStock = $rowTempItems['current_stock'];
                                                 $c++;
                                             }
 
@@ -539,7 +543,6 @@
                 });
 
                 $('.btnPayment').click(function(){
-                    console.log('payment');
                     $("#inputItemCode").val("");
                     
                     swal({
@@ -579,7 +582,6 @@
                             var amRec = Number($('#amountRecieved').val()).toFixed(2);
                             var amPay = Number(<?php echo json_encode($grandTotal); ?>).toFixed(2);
                             var amChange = Number(amRec - amPay).toFixed(2);
-                            console.log(amChange);
 
                         if(amChange < 0){
                             swal({
@@ -610,7 +612,6 @@
                             var amRec = Number($('#amountRecieved').val()).toFixed(2);
                             var amPay = Number(<?php echo json_encode($grandTotal); ?>).toFixed(2);
                             var amChange = Number(amRec - amPay).toFixed(2);
-                            console.log(amChange);
 
                             if(amChange < 0){
                                 swal({
@@ -639,18 +640,11 @@
                     if(event.key==='.'){event.preventDefault();}
                 });
 
-
-
-                $('.btnEmpIn').click(function(){
-                    console.log('DTR');
-                });
-
                 $('.btnInventory').click(function(){
                     window.location.href = "./inventory.php";
                 });
 
                 $('.btnDot').click(function(){
-                    console.log('manual');
                     $("#inputItemCode").val("");
                     
                     swal({
@@ -687,19 +681,16 @@
                 });
 
                 $('.btnMinus').click(function(){
-                    console.log('minus');
                     $("#inputItemCode").val("");
                     window.location.href = './dec-inc.php';
                 });
 
                 $('.btnPlus').click(function(){
-                    console.log('plus');
                     $("#inputItemCode").val("");
                     window.location.href = './inc-qty.php';
                 });
 
                 $('.btnF4').click(function(){
-                    console.log('delete last item');
                     $("#inputItemCode").val("");
                     
                     swal({
@@ -729,11 +720,9 @@
                 });
 
                 $('.btnHome').click(function(){
-                    console.log('retail/wholesale');
                     $("#inputItemCode").val("");
                     var retailWholesale = $('#end-buyer').html();
                     var changeTo;
-                    console.log(retailWholesale);
                     if(retailWholesale == "RETAIL"){
                         changeTo = "WHOLESALE";
                     }else if(retailWholesale == "WHOLESALE"){
@@ -750,7 +739,6 @@
                 });
 
                 $('.btnCancel').click(function(){
-                    console.log('cancel');
                     $("#inputItemCode").val("");
                     
                     swal({
@@ -789,53 +777,16 @@
 
                 $(document).on("keyup", function(e) {
                     var keyUp = e.which || e.keyCode;
-                    console.log(keyUp);
 
                     if(keyUp == 107){
-                        console.log('plus');
                         $("#inputItemCode").val("");
                         window.location.href = './inc-qty.php';
                     }else if(keyUp == 109){
-                        console.log('minus');
                         $("#inputItemCode").val("");
                         window.location.href = './dec-inc.php';
                     }else if(keyUp == 110){
-                        console.log('manual');
-                        $("#inputItemCode").val("");
-                        
-                        swal({
-                            title: "QUANTITY",
-                            closeOnClickOutside: false,
-                            content: {
-                                element: "input",
-                                attributes: {
-                                    name: "manualQty",
-                                    id: "manualQty",
-                                    type: "number",
-                                    min: "1",
-                                    max: "999",
-                                    step: "1",
-                                },
-                            },
-                            buttons:{
-                                submit: {
-                                    text: "Submit",
-                                    value: 'sbmtQty',
-                                    visible: true,
-                                    className: "sbmtQty",
-                                    closeModal: true,
-                                },
-                                cancel: {
-                                    text: "Cancel",
-                                    value: null,
-                                    visible: true,
-                                    className: "cncl",
-                                    closeModal: true,
-                                },
-                            },
-                        })
+                        $('.btnDot').click();
                     }else if(keyUp == 120){
-                        console.log('cancel');
                         $("#inputItemCode").val("");
                         
                         swal({
@@ -863,7 +814,6 @@
                             },
                         })
                     }else if(keyUp == 115){
-                        console.log('delete last item');
                         $("#inputItemCode").val("");
                         
                         swal({
@@ -892,11 +842,9 @@
                         })
                     }else if(keyUp == 36){
                         e.preventDefault();
-                        console.log('retail/wholesale');
                         $("#inputItemCode").val("");
                         var retailWholesale = $('#end-buyer').html();
                         var changeTo;
-                        console.log(retailWholesale);
                         if(retailWholesale == "RETAIL"){
                             changeTo = "WHOLESALE";
                         }else if(retailWholesale == "WHOLESALE"){
@@ -904,7 +852,6 @@
                         }
                         window.location.href = './change-end-buyer.php?endBuyer=' + changeTo;
                     }else if(keyUp == 119){
-                        console.log('payment');
                         $("#inputItemCode").val("");
                         
                         swal({
@@ -1007,8 +954,7 @@
                 });
 
                 function sbtManualQty(){
-                    var manualQty = $('#manualQty').val()
-                    console.log(manualQty);
+                    var manualQty = $('#manualQty').val();
                     window.location.href = './manual-qty.php?mqty=' + manualQty;
                 }
 
@@ -1022,8 +968,16 @@
                 }
 
                 jQuery(document).on( "keyup", "#manualQty", function(em){
+
+                    var curStock = <?php echo json_encode($curStock); ?>;
+                    var inputQty = $('#manualQty').val();
+
+                    if(inputQty > parseInt(curStock)){
+                        $('#manualQty').val(parseInt(curStock));
+                    }
+
+
                     var emKey = em.which || em.keyCode;
-                    // console.log(emKey);
                     
                     if(emKey == 13){
                         if($('#manualQty').val() != ""){
@@ -1053,7 +1007,6 @@
 
                 jQuery(document).on( "keyup", ".swal-modal", function(ec){
                     var ecKey = ec.which || ec.keyCode;
-                    console.log(ecKey);
                     
                     if(ecKey == 27){
                         $("#inputItemCode").focus();
@@ -1070,7 +1023,6 @@
 
                 const itemCount = <?php echo json_encode($totalItems); ?>;
                 if(screen.height <= '1080'){
-                    console.log(screen.height);
                     if(itemCount > 12){
                         $('#tableHead').css("width","calc(100% - 15px)");
                     }

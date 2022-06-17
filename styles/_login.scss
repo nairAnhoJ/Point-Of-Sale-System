@@ -1,10 +1,15 @@
+:root{
+    --g1: none;
+    --g2: none;
+}
+
 #login-body{
 
     .login-container{
         width: 100vw;
         height: 100vh;
         position: relative;
-        background-image: linear-gradient(225deg, #4568DC, #B06AB3);
+        background-image: linear-gradient(90deg, var(--g1), var(--g2));
 
         .logo-name-con{
             position: absolute;

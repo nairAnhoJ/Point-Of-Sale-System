@@ -219,7 +219,7 @@
                 });
             });
 
-            jQuery(document).on( "click", ".sbmtRetailPrice", function(){
+            jQuery(document).on( "click", ".sbmtWholesalePrice", function(){
                 if($('#updateWholesalePrice').val() != ""){
                     if($('#updateWholesalePrice').val() < 0){
                         swal({

@@ -11,7 +11,7 @@
     $code = $rowSetting['reciept_code'];
     $msg = $rowSetting['reciept_msg'];
     $safeStock = $rowSetting['safe_stock'];
-
+    $sysTheme = $rowSetting['theme'];
 
 ?>
 
@@ -125,6 +125,21 @@
                 $_SESSION['successSafe'] = false;
             }
         }
+
+        if(!isset($_SESSION['successTheme'])){
+        }else{
+            if ($_SESSION['successTheme'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Theme has been updated successfully!",
+                        })
+                    </script>
+                <?php
+                $_SESSION['successTheme'] = false;
+            }
+        }
     ?>
 
     <div id="admin-settings-con">
@@ -169,6 +184,22 @@
             </div>
 
             <div class="right-con">
+                <div class="theme-con">
+                    <form action="./setting-theme.php" method="POST">
+                        <p>Theme</p>
+                        <span>
+                            <input class="form-check-input" type="radio" name="systemTheme" id="themeBlue" value="blue" <?php if($_SESSION['sysTheme'] == 'blue'){ echo 'checked'; } ?>>
+                            <label class="form-check-label" for="themeBlue">BLUE</label>
+
+                            <input class="form-check-input" type="radio" name="systemTheme" id="themeRed" value="red" <?php if($_SESSION['sysTheme'] == 'red'){ echo 'checked'; } ?>>
+                            <label class="form-check-label" for="themeRed">RED</label>
+
+                            <input class="form-check-input" type="radio" name="systemTheme" id="themeGreen" value="green" <?php if($_SESSION['sysTheme'] == 'green'){ echo 'checked'; } ?>>
+                            <label class="form-check-label" for="themeGreen">GREEN</label>
+                        </span>
+                        <input type="submit" id="submitTheme" class="btn btn-primary" value="SAVE">
+                    </form>
+                </div>
                 <div class="msg-con">
                     <form action="./setting-msg.php" method="POST">
                         <p>Reciept Message</p>
@@ -184,7 +215,6 @@
             </div>
         </div>
     </div>
-
 
     <script>
         function navF(){

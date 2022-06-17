@@ -1,3 +1,5 @@
+<?php $sysTheme = $_SESSION['sysTheme']; ?> 
+
 <nav class="nav-con">
     <div class="logo-con">
         <img src="../images/logo/<?php echo $_SESSION['logo']; ?>" alt="Logo">
@@ -140,3 +142,22 @@
         </li>
     </ul>
 </nav>
+
+<script>
+
+    const sTheme = <?php echo json_encode($sysTheme); ?>;
+
+    var r = document.querySelector(':root');
+
+    if(sTheme == 'blue'){
+        r.style.setProperty('--theme', '#0D6EFD');
+        r.style.setProperty('--hover', '#3D8BFD');
+    }else if(sTheme == 'red'){
+        r.style.setProperty('--theme', '#DC3545');
+        r.style.setProperty('--hover', '#E35D6A');
+    }else if(sTheme == 'green'){
+        r.style.setProperty('--theme', '#146C43');
+        r.style.setProperty('--hover', '#198754');
+    }
+
+</script>

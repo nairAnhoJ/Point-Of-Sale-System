@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 14, 2022 at 08:01 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.28
+-- Generation Time: Jun 17, 2022 at 02:15 PM
+-- Server version: 10.3.29-MariaDB-0+deb10u1
+-- PHP Version: 7.3.33-2+0~20220614.96+debian10~1.gbpe53774
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,15 +36,16 @@ CREATE TABLE `admin_settings` (
   `reciept_code` varchar(10) NOT NULL,
   `reciept_msg` varchar(255) NOT NULL,
   `safe_stock` int(11) NOT NULL,
-  `cur_date` date NOT NULL
+  `cur_date` date NOT NULL,
+  `theme` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin_settings`
 --
 
-INSERT INTO `admin_settings` (`set_id`, `discount`, `branch_name`, `branch_location`, `branch_logo`, `reciept_code`, `reciept_msg`, `safe_stock`, `cur_date`) VALUES
-(1, 0, 'My Store', 'Rosario, Cavite', 'store-logo.png', 'S1', 'Thank you, Please Come Again!', 15, '2022-06-14');
+INSERT INTO `admin_settings` (`set_id`, `discount`, `branch_name`, `branch_location`, `branch_logo`, `reciept_code`, `reciept_msg`, `safe_stock`, `cur_date`, `theme`) VALUES
+(1, 0, 'My Store', 'Rosario, Cavite', 'store-logo.png', 'S1', 'Thank You!', 15, '2022-06-17', 'blue');
 
 -- --------------------------------------------------------
 
@@ -70,7 +71,8 @@ INSERT INTO `category` (`cat_id`, `cat_name`) VALUES
 (6, 'bakery'),
 (7, 'baby and kids'),
 (8, 'home care'),
-(12, 'candy');
+(12, 'candy'),
+(13, 'ready to cook');
 
 -- --------------------------------------------------------
 
@@ -100,7 +102,8 @@ INSERT INTO `dtr` (`dtr_id`, `rfid_number`, `cashier`, `time_in`, `time_out`, `l
 (6, '123123', 'test admin', '00:01:29', '00:07:45', '2022-06-07'),
 (7, '987654321', 'John Arian', '00:08:24', '20:07:46', '2022-06-07'),
 (8, '987654321', 'John Arian', '10:25:48', '00:00:00', '2022-06-09'),
-(9, '987654321', 'John Arian', '19:13:50', '19:17:59', '2022-06-11');
+(9, '987654321', 'John Arian', '19:13:50', '19:17:59', '2022-06-11'),
+(10, '987654321', 'John Arian', '13:29:56', NULL, '2022-06-17');
 
 -- --------------------------------------------------------
 
@@ -129,19 +132,19 @@ CREATE TABLE `item_no_barcode` (
 INSERT INTO `item_no_barcode` (`item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`, `itemnb_img`, `itemnb_wholesale_price`) VALUES
 (1, 'M.Y. San Graham Crackers Honey | 700g', 194.5, 99, 'Snacks', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 184),
 (2, 'Nissin Bread Stix | 20g 10pcs', 62.5, 99, 'Snacks', 'supplier 2', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 59),
-(3, 'Super Stix Jr Milk | 330g', 66.5, 10, 'Snacks', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 63),
+(3, 'Super Stix Jr Milk | 330g', 66.5, 10, 'Snacks', 'supplier 1', '2022-06-16', '', 'Changed Retail Price', '../images/items/default-image.png', 60),
 (4, 'ZestO Juice Drink Mango | 200ml', 9.5, 98, 'Beverage', 'supplier 1', '2022-06-10', 'Admin', 'Change Picture', '../images/items/62a313791e64a7.46728940.png', 9),
 (5, 'Milo 1.2kg', 314.5, 96, 'Beverage', 'supplier 2', '2022-06-05', 'Admin', 'Change Picture', '../images/items/629c8755873e65.01335907.png', 300),
 (6, 'Ovaltine Swiss Chocolate | 29.6g', 18.5, 92, 'Beverage', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 16),
 (7, 'JSL Dagupan Daing na Bangus Boneless | 400g 2pcs', 150, 99, 'Frozen Goods', 'supplier 1', '2022-06-10', 'test edit', 'Change Picture', '../images/items/62a314214612b3.42657849.png', 143),
 (8, 'Purefoods Tender Juicy Hotdog Regular | 500g', 120, 98, 'Frozen Goods', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 115),
 (9, 'Simply Canola Oil | 2L', 329.5, 99, 'Pantry', 'supplier 5', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 320),
-(10, 'Maya All Purpose Flour | 800g', 91.5, 98, 'Pantry', 'supplier 3', '2022-06-05', 'Admin', 'Change Image', '../images/items/629c89a57a6c07.36661562.png', 85),
+(10, 'Maya All Purpose Flour | 800g', 95, 98, 'Pantry', 'supplier 3', '2022-06-16', '', 'Changed Retail Price', '../images/items/629c89a57a6c07.36661562.png', 85),
 (11, 'Nissin Pasta Creamy Carbonara | 60g', 14, 98, 'Pantry', 'supplier 4', '2022-06-05', 'Admin', 'Change Image', '../images/items/629c8946153fd5.44873586.png', 12),
-(12, 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 23, 98, 'Health And Beauty', 'supplier 4', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 20),
+(12, 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 25, 98, 'Health And Beauty', 'supplier 4', '2022-06-17', 'John Arian', 'Changed Retail Price', '../images/items/default-image.png', 20),
 (13, 'Nexguard - KN95 Mask 10pcs', 30, 99, 'Health And Beauty', 'supplier 3', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 27),
 (14, 'Safeguard Liquid Hand Soap Pure White | 450ml', 156.75, 99, 'Health And Beauty', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 150),
-(15, 'Cielo Prem Slced Bread L | 400g', 40, 99, 'Bakery', 'supplier 4', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 35),
+(15, 'Cielo Prem Slced Bread L | 400g', 50, 99, 'Bakery', 'supplier 4', '2022-06-16', '', 'Changed Retail Price', '../images/items/default-image.png', 35),
 (16, 'Goya Chips Milk Chocolate | 150g', 62.5, 99, 'Bakery', 'supplier 2', '2022-06-05', 'Admin', 'Change Image', '../images/items/629c8962974101.80915588.png', 60),
 (17, 'Gardenia Loaf Bread California Raisins | 400g', 79.25, 99, 'Bakery', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 75),
 (18, 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 429.75, 99, 'Baby And Kids', 'supplier 3', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 420),
@@ -149,7 +152,8 @@ INSERT INTO `item_no_barcode` (`item_code`, `itemnb_name`, `itemnb_retail_price`
 (20, 'S26 Gold One Infant Formula Milk | 1.8kg', 2752.5, 99, 'Baby And Kids', 'supplier 2', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 2700),
 (21, 'Off Lotion Family Care | 100ml', 180, 99, 'Health And Beauty', 'supplier 1', '2022-06-05', 'Admin', 'Change Image', '../images/items/default-image.png', 170),
 (22, 'PH Care Feminine Wash Natural Protect 50ml', 57, 98, 'Health And Beauty', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 50),
-(23, 'Listerine Mouthwash Coolmint | 250ml', 120, 99, 'Health And Beauty', 'supplier 3', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 110);
+(23, 'Listerine Mouthwash Coolmint | 250ml', 120, 99, 'Health And Beauty', 'supplier 3', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 110),
+(24, 'MC Tofu Japanese 320g', 110, 2, 'Ready To Cook', 'supplier 4', '2022-06-16', '', 'Changed Retail Price', '../images/items/62aa64fae8b9d8.08656471.png', 100);
 
 -- --------------------------------------------------------
 
@@ -178,9 +182,9 @@ CREATE TABLE `item_with_barcode` (
 INSERT INTO `item_with_barcode` (`item_id`, `item_code`, `item_name`, `item_retail_price`, `item_stock`, `item_category`, `item_supplier`, `date_updated`, `updated_by`, `item_remarks`, `item_wholesale_price`) VALUES
 (1, '1000', 'SkyFlakes Crackers | 25g 24pcs', 127.5, 99, 'Snacks', 'supplier 1', '2022-06-05', 'Admin', 'Imported', 120),
 (2, '1001', 'Fita Crackers | 30g 10pcs', 60, 97, 'Snacks', 'supplier 1', '2022-06-05', 'Admin', 'Imported', 55),
-(3, '1002', 'Graham Crackers Honey | 210g', 42.5, 95, 'Snacks', 'Supplier 1', '2022-06-05', 'Admin', 'Imported', 40),
+(3, '1002', 'Graham Crackers Honey | 210g', 45, 95, 'Snacks', 'Supplier 1', '2022-06-17', 'John Arian', 'Changed Retail Price', 40),
 (4, '1003', 'Nescafe Refill Classic | 200g', 156.5, 98, 'Beverage', 'Supplier 2', '2022-06-05', 'Admin', 'Imported', 155),
-(5, '1004', 'Del Monte Pineapple Juice | 1L', 103.5, 98, 'Beverage', 'Supplier 3', '2022-06-05', 'Admin', 'Imported', 100),
+(5, '1004', 'Del Monte Pineapple Juice | 1L', 105, 98, 'Beverage', 'Supplier 3', '2022-06-17', 'John Arian', 'Changed Retail Price', 101),
 (6, '1005', 'Tang Powdered Juice | 20g', 18.5, 98, 'Beverage', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 15),
 (7, '1006', 'Purefoods Beef Tapa | 220g', 91, 13, 'Frozen Goods', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 85),
 (8, '1007', 'Purefoods Chicken Hotdog Jumbo | 500g', 138, 97, 'Frozen Goods', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 130),
@@ -198,7 +202,8 @@ INSERT INTO `item_with_barcode` (`item_id`, `item_code`, `item_name`, `item_reta
 (20, '1019', 'Jack & Jill Piattos Cheese | 85g', 29.5, 98, 'Snacks', 'Supplier 1', '2022-06-05', 'Admin', 'Imported', 25),
 (21, '1020', 'Jack & Jill Nova Country Cheddar | 78g', 29.5, 7, 'Snacks', 'Supplier 1', '2022-06-05', 'Admin', 'Imported', 25),
 (22, '1021', 'Ottogi Kimchi Ramen Pouch | 120g', 42.5, 98, 'Pantry', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 38),
-(23, '1022', 'Red Bull Energy Drink Supreme | 150ml', 38.5, 98, 'Beverage', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 35);
+(23, '1022', 'Red Bull Energy Drink Supreme | 150ml', 38.5, 98, 'Beverage', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 35),
+(24, '1023', 'Manna Premium Kimchi Fresh | 475g', 188, -1, 'Ready To Cook', 'supplier 2', '2022-06-16', 'Admin', 'Change Item Code', 180);
 
 -- --------------------------------------------------------
 
@@ -211,16 +216,18 @@ CREATE TABLE `req_tran` (
   `user_card` varchar(255) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `req_amount` int(11) NOT NULL,
-  `req_date` date NOT NULL
+  `req_date` date NOT NULL,
+  `req_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `req_tran`
 --
 
-INSERT INTO `req_tran` (`req_id`, `user_card`, `user_name`, `req_amount`, `req_date`) VALUES
-(1, '987654321', 'John Arian', 100, '2022-06-14'),
-(4, '987654321', 'John Arian', 100, '2022-06-14');
+INSERT INTO `req_tran` (`req_id`, `user_card`, `user_name`, `req_amount`, `req_date`, `req_time`) VALUES
+(1, '987654321', 'John Arian', 100, '2022-06-14', '00:00:00'),
+(4, '987654321', 'John Arian', 100, '2022-06-14', '00:00:00'),
+(5, '987654321', 'John Arian', 300, '2022-06-16', '07:07:12');
 
 -- --------------------------------------------------------
 
@@ -257,8 +264,16 @@ CREATE TABLE `temp_item` (
   `temp_quantity` int(11) NOT NULL,
   `temp_price` float NOT NULL,
   `temp_name` varchar(255) NOT NULL,
-  `temp_total` float NOT NULL
+  `temp_total` float NOT NULL,
+  `current_stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `temp_item`
+--
+
+INSERT INTO `temp_item` (`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`, `current_stock`) VALUES
+(1, '1004', 98, 105, 'Del Monte Pineapple Juice | 1L', 10290, 98);
 
 -- --------------------------------------------------------
 
@@ -420,7 +435,10 @@ INSERT INTO `transaction_logs` (`log_id`, `tran_num`, `tran_item`, `tran_qty`, `
 (143, '220611143', 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 1, 23, '2022-06-11 16:27:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
 (144, '220611144', 'Ovaltine Swiss Chocolate | 29.6g', 1, 18.5, '2022-06-11 16:28:11', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
 (145, 'S11-220611145', 'PH Care Feminine Wash Natural Protect 50ml', 1, 57, '2022-06-11 17:01:05', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
-(146, '123123123', 'Purefoods Beef Tapa | 220g', 4, 0, '2022-06-11 19:21:39', 'Admin', 'Rosario, Cavite', 'In', 'Supplier 5');
+(146, '123123123', 'Purefoods Beef Tapa | 220g', 4, 0, '2022-06-11 19:21:39', 'Admin', 'Rosario, Cavite', 'In', 'Supplier 5'),
+(147, '98762159138', 'MC Tofu Japanese 320g', 5, 0, '2022-06-16 06:58:26', 'Admin', 'Rosario, Cavite', 'In', 'supplier 4'),
+(148, 'S1-220616148', '(W)MC Tofu Japanese 320g', 3, 488, '2022-06-16 07:04:37', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(149, 'S1-220616148', 'Manna Premium Kimchi Fresh | 475g', 1, 488, '2022-06-16 07:04:37', 'John Arian', 'Rosario, Cavite', 'Out', NULL);
 
 -- --------------------------------------------------------
 
@@ -526,31 +544,31 @@ ALTER TABLE `admin_settings`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `dtr`
 --
 ALTER TABLE `dtr`
-  MODIFY `dtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `dtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `item_no_barcode`
 --
 ALTER TABLE `item_no_barcode`
-  MODIFY `item_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `item_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `item_with_barcode`
 --
 ALTER TABLE `item_with_barcode`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `req_tran`
 --
 ALTER TABLE `req_tran`
-  MODIFY `req_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `req_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `supplier`
@@ -562,13 +580,13 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `temp_item`
 --
 ALTER TABLE `temp_item`
-  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `transaction_logs`
 --
 ALTER TABLE `transaction_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -15,6 +15,8 @@
     $_SESSION['branch_code'] = $rowSettings['reciept_code'];
     $_SESSION['msg'] = $rowSettings['reciept_msg'];
     $_SESSION['safe_stock'] = $rowSettings['safe_stock'];
+    $_SESSION['sysTheme'] = $rowSettings['theme'];
+    $sysTheme = $rowSettings['theme'];
     $setDate = $rowSettings['cur_date'];
     $curDate = date('Y-m-d');
 
@@ -92,6 +94,25 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+    const sTheme = <?php echo json_encode($sysTheme); ?>;
+
+    var r = document.querySelector(':root');
+
+    if(sTheme == 'blue'){
+        r.style.setProperty('--g1', '#56ccf2');
+        r.style.setProperty('--g2', '#2f80ed');
+    }else if(sTheme == 'red'){
+        r.style.setProperty('--g1', '#ea384d');
+        r.style.setProperty('--g2', '#d31027');
+    }else if(sTheme == 'green'){
+        r.style.setProperty('--g1', '#11998e');
+        r.style.setProperty('--g2', '#38ef7d');
+    }
+
+    </script>
     
 </body>
 </html>

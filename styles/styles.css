@@ -9,11 +9,16 @@ body {
   overflow: hidden;
 }
 
+:root {
+  --g1: none;
+  --g2: none;
+}
+
 #login-body .login-container {
   width: 100vw;
   height: 100vh;
   position: relative;
-  background-image: linear-gradient(225deg, #4568DC, #B06AB3);
+  background-image: linear-gradient(90deg, var(--g1), var(--g2));
 }
 #login-body .login-container .logo-name-con {
   position: absolute;
@@ -813,6 +818,11 @@ body {
   background-color: #eaedfc;
 }
 
+:root {
+  --theme: none;
+  --hover: none;
+}
+
 .nav-con {
   height: 100%;
   width: 80px;
@@ -821,8 +831,8 @@ body {
   left: 0;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  background-color: #4d5bf9;
-  transition: 0.5s;
+  background-color: var(--theme);
+  transition: width 0.5s;
   overflow: hidden;
   z-index: 99;
 }
@@ -871,7 +881,7 @@ body {
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background-color: #4d5bf9;
+  background-color: var(--theme);
   box-shadow: 10px 10px 0 #fff;
 }
 .nav-con ul .active::after {
@@ -882,7 +892,7 @@ body {
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background-color: #4d5bf9;
+  background-color: var(--theme);
   box-shadow: 10px -10px 0 #fff;
 }
 .nav-con ul .active a {
@@ -898,7 +908,7 @@ body {
   white-space: nowrap;
 }
 .nav-con ul li:hover {
-  background-color: #6470f7;
+  background-color: var(--hover);
   border-radius: 10px;
   z-index: 99;
 }
@@ -2298,6 +2308,34 @@ body {
   width: 50%;
   height: 100%;
   padding-top: 200px;
+}
+#admin-settings-con .settings-con .right-con .theme-con {
+  width: 100%;
+  margin-bottom: 30px;
+}
+#admin-settings-con .settings-con .right-con .theme-con form p {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+#admin-settings-con .settings-con .right-con .theme-con form span {
+  width: 100%;
+  display: block;
+}
+#admin-settings-con .settings-con .right-con .theme-con form span input[type=radio] {
+  height: 18px;
+  width: 18px;
+  margin-bottom: 20px;
+}
+#admin-settings-con .settings-con .right-con .theme-con form span label {
+  font-weight: 900;
+  font-size: 18px;
+  margin-right: 20px;
+}
+#admin-settings-con .settings-con .right-con .theme-con form input[type=submit] {
+  width: 200px;
+  height: 50px;
+  font-weight: 900;
 }
 #admin-settings-con .settings-con .right-con .msg-con {
   width: 100%;
