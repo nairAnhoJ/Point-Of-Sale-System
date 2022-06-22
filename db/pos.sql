@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.0-1.fc36.remi
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 17, 2022 at 02:15 PM
--- Server version: 10.3.29-MariaDB-0+deb10u1
--- PHP Version: 7.3.33-2+0~20220614.96+debian10~1.gbpe53774
+-- Generation Time: Jun 22, 2022 at 01:58 PM
+-- Server version: 10.5.16-MariaDB
+-- PHP Version: 8.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,7 +45,7 @@ CREATE TABLE `admin_settings` (
 --
 
 INSERT INTO `admin_settings` (`set_id`, `discount`, `branch_name`, `branch_location`, `branch_logo`, `reciept_code`, `reciept_msg`, `safe_stock`, `cur_date`, `theme`) VALUES
-(1, 0, 'My Store', 'Rosario, Cavite', 'store-logo.png', 'S1', 'Thank You!', 15, '2022-06-17', 'blue');
+(1, 0, 'Rolnettes Store', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'store-logo.png', 'S1', 'Thank you - Please Come Again! This receipt is for inventory purpose only', 15, '2022-06-22', 'blue');
 
 -- --------------------------------------------------------
 
@@ -63,16 +63,22 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`cat_id`, `cat_name`) VALUES
-(1, 'snacks'),
-(2, 'beverage'),
-(3, 'frozen goods'),
-(4, 'pantry'),
-(5, 'health and beauty'),
-(6, 'bakery'),
-(7, 'baby and kids'),
-(8, 'home care'),
-(12, 'candy'),
-(13, 'ready to cook');
+(1, 'baby food'),
+(2, 'baking and cooking breading mix'),
+(3, 'baking mix hot cake'),
+(4, 'beverages'),
+(5, 'cocoa powder'),
+(6, 'coffee'),
+(7, 'coffee creamer'),
+(8, 'coffee rtd'),
+(9, 'energy drink'),
+(10, 'juice powder'),
+(11, 'juice rtd'),
+(12, 'milk rtd'),
+(13, 'sport drink'),
+(14, 'water'),
+(15, 'biscuits and cookies'),
+(16, 'cakes');
 
 -- --------------------------------------------------------
 
@@ -103,7 +109,30 @@ INSERT INTO `dtr` (`dtr_id`, `rfid_number`, `cashier`, `time_in`, `time_out`, `l
 (7, '987654321', 'John Arian', '00:08:24', '20:07:46', '2022-06-07'),
 (8, '987654321', 'John Arian', '10:25:48', '00:00:00', '2022-06-09'),
 (9, '987654321', 'John Arian', '19:13:50', '19:17:59', '2022-06-11'),
-(10, '987654321', 'John Arian', '13:29:56', NULL, '2022-06-17');
+(10, '987654321', 'John Arian', '13:29:56', NULL, '2022-06-17'),
+(11, '0013663615', 'Test Admin', '09:36:44', '13:43:12', '2022-06-18'),
+(12, '0013530290', 'Wilfred Capaglan', '13:43:10', NULL, '2022-06-18'),
+(13, '0013530190', 'Jenny Rose M. Loyola', '13:43:15', NULL, '2022-06-18'),
+(14, '0013528045', 'Jolina R. Sano', '13:43:17', NULL, '2022-06-18'),
+(15, '0013710489', 'Zenaida Camporedondo', '13:43:21', NULL, '2022-06-18'),
+(16, '0013663041', 'Monaliza Palicios', '13:43:25', NULL, '2022-06-18'),
+(17, '0013663031', 'Judel Magtibay', '13:43:27', NULL, '2022-06-18'),
+(18, '0013663608', 'Noli Francisco', '13:43:33', NULL, '2022-06-18'),
+(19, '0013730740', 'Christine Joyce Gabion', '13:43:35', NULL, '2022-06-18'),
+(20, '0013709151', 'John Gerald Lorenzo', '13:43:37', NULL, '2022-06-18'),
+(21, '0013729770', 'Eloisa B. Espino', '13:43:39', NULL, '2022-06-18'),
+(22, '0013662478', 'Athena B. Toos', '13:43:41', NULL, '2022-06-18'),
+(23, '0013527350', 'Nina Claire M. Santos', '13:43:43', NULL, '2022-06-18'),
+(24, '0013527965', 'Jessajoy L. Ariscon', '13:43:44', NULL, '2022-06-18'),
+(25, '0013545972', 'Thina P. Rosales', '13:43:45', NULL, '2022-06-18'),
+(26, '0015040739', 'Myra C. Santiago', '13:43:46', NULL, '2022-06-18'),
+(27, '0013664186', 'Raziel D. Ginto', '13:43:48', NULL, '2022-06-18'),
+(28, '0013706230', 'Jovelyn S. Sismar', '13:43:49', NULL, '2022-06-18'),
+(29, '0013519078', 'Cherry Mae Canatoy', '13:43:50', NULL, '2022-06-18'),
+(30, '0013546409', 'Glenn S. Crisostomo', '13:43:51', NULL, '2022-06-18'),
+(31, '0013530940', 'Jimel Baria', '13:43:52', NULL, '2022-06-18'),
+(32, '0013543698', 'Joshua Cruz', '13:45:13', NULL, '2022-06-18'),
+(33, '987654321', 'Cashier', '19:47:40', NULL, '2022-06-21');
 
 -- --------------------------------------------------------
 
@@ -130,30 +159,30 @@ CREATE TABLE `item_no_barcode` (
 --
 
 INSERT INTO `item_no_barcode` (`item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`, `itemnb_img`, `itemnb_wholesale_price`) VALUES
-(1, 'M.Y. San Graham Crackers Honey | 700g', 194.5, 99, 'Snacks', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 184),
-(2, 'Nissin Bread Stix | 20g 10pcs', 62.5, 99, 'Snacks', 'supplier 2', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 59),
-(3, 'Super Stix Jr Milk | 330g', 66.5, 10, 'Snacks', 'supplier 1', '2022-06-16', '', 'Changed Retail Price', '../images/items/default-image.png', 60),
-(4, 'ZestO Juice Drink Mango | 200ml', 9.5, 98, 'Beverage', 'supplier 1', '2022-06-10', 'Admin', 'Change Picture', '../images/items/62a313791e64a7.46728940.png', 9),
-(5, 'Milo 1.2kg', 314.5, 96, 'Beverage', 'supplier 2', '2022-06-05', 'Admin', 'Change Picture', '../images/items/629c8755873e65.01335907.png', 300),
-(6, 'Ovaltine Swiss Chocolate | 29.6g', 18.5, 92, 'Beverage', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 16),
-(7, 'JSL Dagupan Daing na Bangus Boneless | 400g 2pcs', 150, 99, 'Frozen Goods', 'supplier 1', '2022-06-10', 'test edit', 'Change Picture', '../images/items/62a314214612b3.42657849.png', 143),
-(8, 'Purefoods Tender Juicy Hotdog Regular | 500g', 120, 98, 'Frozen Goods', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 115),
-(9, 'Simply Canola Oil | 2L', 329.5, 99, 'Pantry', 'supplier 5', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 320),
-(10, 'Maya All Purpose Flour | 800g', 95, 98, 'Pantry', 'supplier 3', '2022-06-16', '', 'Changed Retail Price', '../images/items/629c89a57a6c07.36661562.png', 85),
-(11, 'Nissin Pasta Creamy Carbonara | 60g', 14, 98, 'Pantry', 'supplier 4', '2022-06-05', 'Admin', 'Change Image', '../images/items/629c8946153fd5.44873586.png', 12),
-(12, 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 25, 98, 'Health And Beauty', 'supplier 4', '2022-06-17', 'John Arian', 'Changed Retail Price', '../images/items/default-image.png', 20),
-(13, 'Nexguard - KN95 Mask 10pcs', 30, 99, 'Health And Beauty', 'supplier 3', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 27),
-(14, 'Safeguard Liquid Hand Soap Pure White | 450ml', 156.75, 99, 'Health And Beauty', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 150),
-(15, 'Cielo Prem Slced Bread L | 400g', 50, 99, 'Bakery', 'supplier 4', '2022-06-16', '', 'Changed Retail Price', '../images/items/default-image.png', 35),
-(16, 'Goya Chips Milk Chocolate | 150g', 62.5, 99, 'Bakery', 'supplier 2', '2022-06-05', 'Admin', 'Change Image', '../images/items/629c8962974101.80915588.png', 60),
-(17, 'Gardenia Loaf Bread California Raisins | 400g', 79.25, 99, 'Bakery', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 75),
-(18, 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 429.75, 99, 'Baby And Kids', 'supplier 3', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 420),
-(19, 'Pampers Dry Pants Jumbo Pack XXL | 34pcs', 497.75, 94, 'Baby And Kids', 'supplier 2', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 490),
-(20, 'S26 Gold One Infant Formula Milk | 1.8kg', 2752.5, 99, 'Baby And Kids', 'supplier 2', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 2700),
-(21, 'Off Lotion Family Care | 100ml', 180, 99, 'Health And Beauty', 'supplier 1', '2022-06-05', 'Admin', 'Change Image', '../images/items/default-image.png', 170),
-(22, 'PH Care Feminine Wash Natural Protect 50ml', 57, 98, 'Health And Beauty', 'supplier 1', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 50),
-(23, 'Listerine Mouthwash Coolmint | 250ml', 120, 99, 'Health And Beauty', 'supplier 3', '2022-06-05', 'Admin', 'Imported', '../images/items/default-image.png', 110),
-(24, 'MC Tofu Japanese 320g', 110, 2, 'Ready To Cook', 'supplier 4', '2022-06-16', '', 'Changed Retail Price', '../images/items/62aa64fae8b9d8.08656471.png', 100);
+(1, 'M.Y. San Graham Crackers Honey | 700g', 194.5, 3, 'Snacks', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 184),
+(2, 'Nissin Bread Stix | 20g 10pcs', 62.5, 5, 'Snacks', 'supplier 2', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 59),
+(3, 'Super Stix Jr Milk | 330g', 66.5, 5, 'Snacks', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 60),
+(4, 'ZestO Juice Drink Mango | 200ml', 9.5, 5, 'Beverage', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 9),
+(5, 'Milo 1.2kg', 314.5, 4, 'Beverage', 'supplier 2', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 300),
+(6, 'Ovaltine Swiss Chocolate | 29.6g', 18.5, 5, 'Beverage', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 16),
+(7, 'JSL Dagupan Daing na Bangus Boneless | 400g 2pcs', 150, 5, 'Frozen Goods', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 143),
+(8, 'Purefoods Tender Juicy Hotdog Regular | 500g', 120, 5, 'Frozen Goods', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 115),
+(9, 'Simply Canola Oil | 2L', 329.5, 5, 'Pantry', 'supplier 5', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 320),
+(10, 'Maya All Purpose Flour | 800g', 95, 4, 'Pantry', 'supplier 3', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 85),
+(11, 'Nissin Pasta Creamy Carbonara | 60g', 14, 4, 'Pantry', 'supplier 4', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 12),
+(12, 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 25, 4, 'Health And Beauty', 'supplier 4', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 20),
+(13, 'Nexguard - KN95 Mask 10pcs', 30, 1, 'Health And Beauty', 'supplier 3', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 27),
+(14, 'Safeguard Liquid Hand Soap Pure White | 450ml', 156.75, 5, 'Health And Beauty', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 150),
+(15, 'Cielo Prem Slced Bread L | 400g', 50, 5, 'Bakery', 'supplier 4', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 35),
+(16, 'Goya Chips Milk Chocolate | 150g', 62.5, 5, 'Bakery', 'supplier 2', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 60),
+(17, 'Gardenia Loaf Bread California Raisins | 400g', 79.25, 5, 'Bakery', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 75),
+(18, 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 429.75, 5, 'Baby And Kids', 'supplier 3', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 420),
+(19, 'Pampers Dry Pants Jumbo Pack XXL | 34pcs', 497.75, 5, 'Baby And Kids', 'supplier 2', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 490),
+(20, 'S26 Gold One Infant Formula Milk | 1.8kg', 2752.5, 5, 'Baby And Kids', 'supplier 2', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 2700),
+(21, 'Off Lotion Family Care | 100ml', 180, 5, 'Health And Beauty', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 170),
+(22, 'PH Care Feminine Wash Natural Protect 50ml', 57, 5, 'Health And Beauty', 'supplier 1', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 50),
+(23, 'Listerine Mouthwash Coolmint | 250ml', 120, 0, 'Health And Beauty', 'supplier 3', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 110),
+(24, 'MC Tofu Japanese 320g', 110, 2, 'Ready To Cook', 'supplier 4', '2022-06-21', 'Admin', 'Imported', '../images/items/default-image.png', 100);
 
 -- --------------------------------------------------------
 
@@ -180,30 +209,9 @@ CREATE TABLE `item_with_barcode` (
 --
 
 INSERT INTO `item_with_barcode` (`item_id`, `item_code`, `item_name`, `item_retail_price`, `item_stock`, `item_category`, `item_supplier`, `date_updated`, `updated_by`, `item_remarks`, `item_wholesale_price`) VALUES
-(1, '1000', 'SkyFlakes Crackers | 25g 24pcs', 127.5, 99, 'Snacks', 'supplier 1', '2022-06-05', 'Admin', 'Imported', 120),
-(2, '1001', 'Fita Crackers | 30g 10pcs', 60, 97, 'Snacks', 'supplier 1', '2022-06-05', 'Admin', 'Imported', 55),
-(3, '1002', 'Graham Crackers Honey | 210g', 45, 95, 'Snacks', 'Supplier 1', '2022-06-17', 'John Arian', 'Changed Retail Price', 40),
-(4, '1003', 'Nescafe Refill Classic | 200g', 156.5, 98, 'Beverage', 'Supplier 2', '2022-06-05', 'Admin', 'Imported', 155),
-(5, '1004', 'Del Monte Pineapple Juice | 1L', 105, 98, 'Beverage', 'Supplier 3', '2022-06-17', 'John Arian', 'Changed Retail Price', 101),
-(6, '1005', 'Tang Powdered Juice | 20g', 18.5, 98, 'Beverage', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 15),
-(7, '1006', 'Purefoods Beef Tapa | 220g', 91, 13, 'Frozen Goods', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 85),
-(8, '1007', 'Purefoods Chicken Hotdog Jumbo | 500g', 138, 97, 'Frozen Goods', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 130),
-(9, '1008', 'Purefoods Chicken Breast Nuggets Crispy N Juicy | 200g', 86.5, 98, 'Frozen Goods', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 80),
-(10, '1009', 'Nutella Spread Hazelnut | 200g', 177.5, 97, 'Pantry', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 170),
-(11, '1010', 'Koko Krunch Cereal | 500g', 221.5, 98, 'Pantry', 'Supplier 3', '2022-06-05', 'Admin', 'Imported', 210),
-(12, '1011', 'Clear Shampoo Cool Sport Menthol 275ml 2pcs', 210, 98, 'Health And Beauty', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 200),
-(13, '1012', 'Sunsilk Shampoo Perfect Straight | 180ml+13mlx7pcs', 111.75, 98, 'Health And Beauty', 'Supplier 2', '2022-06-05', 'Admin', 'Imported', 100),
-(14, '1013', 'Lemon Square Cheese Cake | 30g 10pcs', 69.5, 97, 'Bakery', 'Supplier 2', '2022-06-05', 'Admin', 'Imported', 65),
-(15, '1014', 'Gardenia Classic White Bread Regular Slice | 600g', 75, 97, 'Bakery', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 70),
-(16, '1015', 'Fudgee Bar Dark Choco | 38g 10pcs', 66.5, 95, 'Bakery', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 60),
-(17, '1016', 'EQ Pants Big Pack | XL24', 194.75, 48, 'Baby And Kids', 'Supplier 2', '2022-06-05', 'Admin', 'Imported', 190),
-(18, '1017', 'Enfamil One A+ Infant Formula Powder 0-6 months | 1.8kg', 2847.5, 13, 'Baby And Kids', 'Supplier 3', '2022-06-05', 'Admin', 'Imported', 2700),
-(19, '1018', 'Lactum Milk Supplement Powder 6-12 months | 1.2kg', 789.5, 98, 'Baby And Kids', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 780),
-(20, '1019', 'Jack & Jill Piattos Cheese | 85g', 29.5, 98, 'Snacks', 'Supplier 1', '2022-06-05', 'Admin', 'Imported', 25),
-(21, '1020', 'Jack & Jill Nova Country Cheddar | 78g', 29.5, 7, 'Snacks', 'Supplier 1', '2022-06-05', 'Admin', 'Imported', 25),
-(22, '1021', 'Ottogi Kimchi Ramen Pouch | 120g', 42.5, 98, 'Pantry', 'Supplier 5', '2022-06-05', 'Admin', 'Imported', 38),
-(23, '1022', 'Red Bull Energy Drink Supreme | 150ml', 38.5, 98, 'Beverage', 'Supplier 4', '2022-06-05', 'Admin', 'Imported', 35),
-(24, '1023', 'Manna Premium Kimchi Fresh | 475g', 188, -1, 'Ready To Cook', 'supplier 2', '2022-06-16', 'Admin', 'Change Item Code', 180);
+(1, '4801958393109', 'Ajinomoto Crispy Fry Garlic (62g)', 18, 0, 'Baking And Cooking Breading Mix', 'supplier 1', '2022-06-21', 'Admin', 'Change Category', 15),
+(2, '7801818410004', 'Tasty Boy Breading Mix Regular (67g)', 11, 0, 'Baking And Cooking Breading Mix', 'supplier 4', '2022-06-21', 'Admin', 'Imported', 10),
+(3, '9556001132154', 'Cerelac Mixed Fruits & Soya (120g)', 60, 0, 'Baby Food', 'supplier 4', '2022-06-21', 'Admin', 'Imported', 55);
 
 -- --------------------------------------------------------
 
@@ -267,13 +275,6 @@ CREATE TABLE `temp_item` (
   `temp_total` float NOT NULL,
   `current_stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `temp_item`
---
-
-INSERT INTO `temp_item` (`temp_id`, `item_code`, `temp_quantity`, `temp_price`, `temp_name`, `temp_total`, `current_stock`) VALUES
-(1, '1004', 98, 105, 'Del Monte Pineapple Juice | 1L', 10290, 98);
 
 -- --------------------------------------------------------
 
@@ -438,7 +439,396 @@ INSERT INTO `transaction_logs` (`log_id`, `tran_num`, `tran_item`, `tran_qty`, `
 (146, '123123123', 'Purefoods Beef Tapa | 220g', 4, 0, '2022-06-11 19:21:39', 'Admin', 'Rosario, Cavite', 'In', 'Supplier 5'),
 (147, '98762159138', 'MC Tofu Japanese 320g', 5, 0, '2022-06-16 06:58:26', 'Admin', 'Rosario, Cavite', 'In', 'supplier 4'),
 (148, 'S1-220616148', '(W)MC Tofu Japanese 320g', 3, 488, '2022-06-16 07:04:37', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
-(149, 'S1-220616148', 'Manna Premium Kimchi Fresh | 475g', 1, 488, '2022-06-16 07:04:37', 'John Arian', 'Rosario, Cavite', 'Out', NULL);
+(149, 'S1-220616148', 'Manna Premium Kimchi Fresh | 475g', 1, 488, '2022-06-16 07:04:37', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(150, 'S1-220618150', 'Nutri Star', 7, 656, '2022-06-18 10:27:18', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(151, 'S1-220618150', 'Maya All Purpose Flour | 800g', 4, 656, '2022-06-18 10:27:18', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(152, 'S1-220618150', 'MC Tofu Japanese 320g', 2, 656, '2022-06-18 10:27:18', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(153, 'S1-220618153', 'MC Tofu Japanese 320g', 1, 110, '2022-06-18 10:29:30', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(154, 'S1-220618154', 'Maya All Purpose Flour | 800g', 1, 95, '2022-06-18 10:30:28', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(155, 'S1-220618155', 'Maya All Purpose Flour | 800g', 1, 95, '2022-06-18 10:31:32', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(156, 'S1-220618156', 'JSL Dagupan Daing na Bangus Boneless | 400g 2pcs', 1, 150, '2022-06-18 10:32:51', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(157, 'S1-220618157', 'Milo 1.2kg', 2, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(158, 'S1-220618157', 'Nexguard - KN95 Mask 10pcs', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(159, 'S1-220618157', 'Nissin Bread Stix | 20g 10pcs', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(160, 'S1-220618157', 'Nissin Pasta Creamy Carbonara | 60g', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(161, 'S1-220618157', 'Off Lotion Family Care | 100ml', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(162, 'S1-220618157', 'Ovaltine Swiss Chocolate | 29.6g', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(163, 'S1-220618157', 'Pampers Dry Pants Jumbo Pack XXL | 34pcs', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(164, 'S1-220618157', 'PH Care Feminine Wash Natural Protect 50ml', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(165, 'S1-220618157', 'Purefoods Tender Juicy Hotdog Regular | 500g', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(166, 'S1-220618157', 'S26 Gold One Infant Formula Milk | 1.8kg', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(167, 'S1-220618157', 'Safeguard Liquid Hand Soap Pure White | 450ml', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(168, 'S1-220618157', 'Simply Canola Oil | 2L', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(169, 'S1-220618157', 'Super Stix Jr Milk | 330g', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(170, 'S1-220618157', 'ZestO Juice Drink Mango | 200ml', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(171, 'S1-220618157', 'Listerine Mouthwash Coolmint | 250ml', 1, 6303, '2022-06-18 10:37:41', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(172, 'S1-220618157', 'M.Y. San Graham Crackers Honey | 700g', 1, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(173, 'S1-220618157', 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 1, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(174, 'S1-220618157', 'Maya All Purpose Flour | 800g', 1, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(175, 'S1-220618157', 'MC Tofu Japanese 320g', 1, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(176, 'S1-220618157', 'JSL Dagupan Daing na Bangus Boneless | 400g 2pcs', 1, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(177, 'S1-220618157', 'Goya Chips Milk Chocolate | 150g', 2, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(178, 'S1-220618157', 'Gardenia Loaf Bread California Raisins | 400g', 1, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(179, 'S1-220618157', 'Cielo Prem Slced Bread L | 400g', 1, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(180, 'S1-220618157', 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 1, 6303, '2022-06-18 10:37:42', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(181, 'S1-220618181', 'MC Tofu Japanese 320g', 1, 110, '2022-06-18 10:39:19', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(182, 'S1-220618182', 'JSL Dagupan Daing na Bangus Boneless | 400g 2pcs', 1, 150, '2022-06-18 10:40:14', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(183, 'S1-220618183', 'Off Lotion Family Care | 100ml', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(184, 'S1-220618183', 'Nissin Pasta Creamy Carbonara | 60g', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(185, 'S1-220618183', 'Nissin Bread Stix | 20g 10pcs', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(186, 'S1-220618183', 'Nexguard - KN95 Mask 10pcs', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(187, 'S1-220618183', 'Milo 1.2kg', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(188, 'S1-220618183', 'Listerine Mouthwash Coolmint | 250ml', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(189, 'S1-220618183', 'M.Y. San Graham Crackers Honey | 700g', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(190, 'S1-220618183', 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(191, 'S1-220618183', 'Maya All Purpose Flour | 800g', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(192, 'S1-220618183', 'MC Tofu Japanese 320g', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(193, 'S1-220618183', 'JSL Dagupan Daing na Bangus Boneless | 400g 2pcs', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(194, 'S1-220618183', 'Goya Chips Milk Chocolate | 150g', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(195, 'S1-220618183', 'Gardenia Loaf Bread California Raisins | 400g', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(196, 'S1-220618183', 'Cielo Prem Slced Bread L | 400g', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(197, 'S1-220618183', 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 1, 1918, '2022-06-18 10:40:47', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(198, 'S1-220618198', 'MC Tofu Japanese 320g', 1, 110, '2022-06-18 10:43:02', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(199, 'S1-220618199', 'Listerine Mouthwash Coolmint | 250ml', 1, 744.25, '2022-06-18 10:45:27', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(200, 'S1-220618199', 'M.Y. San Graham Crackers Honey | 700g', 1, 744.25, '2022-06-18 10:45:27', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(201, 'S1-220618199', 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 1, 744.25, '2022-06-18 10:45:27', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(202, 'S1-220618202', 'Maya All Purpose Flour | 800g', 1, 95, '2022-06-18 10:45:46', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(203, 'S1-220618203', 'Nissin Pasta Creamy Carbonara | 60g', 1, 14, '2022-06-18 10:47:02', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(204, 'S1-220618204', 'MC Tofu Japanese 320g', 1, 110, '2022-06-18 10:48:01', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(205, 'S1-220618205', 'Pampers Dry Pants Jumbo Pack XXL | 34pcs', 1, 497.75, '2022-06-18 10:49:27', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(206, 'S1-220618206', 'M.Y. San Graham Crackers Honey | 700g', 1, 194.5, '2022-06-18 10:50:37', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(207, 'S1-220618207', 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 1, 429.75, '2022-06-18 10:51:33', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(208, 'S1-220618208', 'Nissin Pasta Creamy Carbonara | 60g', 9, 126, '2022-06-18 11:17:50', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(209, 'S1-220618209', 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 1, 429.75, '2022-06-18 11:20:11', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(210, 'S1-220618210', 'M.Y. San Graham Crackers Honey | 700g', 1, 194.5, '2022-06-18 11:20:51', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(211, 'S1-220618211', 'Nissin Pasta Creamy Carbonara | 60g', 1, 14, '2022-06-18 11:22:48', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(212, 'S1-220618212', 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 1, 429.75, '2022-06-18 11:24:53', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(213, 'S1-220618213', 'Fudgee Bar Dark Choco | 38g 10pcs', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(214, 'S1-220618213', 'Lactum Milk Supplement Powder 6-12 months | 1.2kg', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(215, 'S1-220618213', '(W)Red Bull Energy Drink Supreme | 150ml', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(216, 'S1-220618213', '(W)Ottogi Kimchi Ramen Pouch | 120g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(217, 'S1-220618213', '(W)Clear Shampoo Cool Sport Menthol 275ml 2pcs', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(218, 'S1-220618213', '(W)Koko Krunch Cereal | 500g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(219, 'S1-220618213', '(W)Nescafe Refill Classic | 200g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(220, 'S1-220618213', '(W)Graham Crackers Honey | 210g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(221, 'S1-220618213', 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(222, 'S1-220618213', 'Gardenia Loaf Bread California Raisins | 400g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(223, 'S1-220618213', 'Purefoods Tender Juicy Hotdog Regular | 500g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(224, 'S1-220618213', 'PH Care Feminine Wash Natural Protect 50ml', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(225, 'S1-220618213', 'Off Lotion Family Care | 100ml', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(226, 'S1-220618213', 'Nissin Pasta Creamy Carbonara | 60g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(227, 'S1-220618213', 'Nissin Bread Stix | 20g 10pcs', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(228, 'S1-220618213', 'Nexguard - KN95 Mask 10pcs', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(229, 'S1-220618213', 'Ovaltine Swiss Chocolate | 29.6g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(230, 'S1-220618213', 'Simply Canola Oil | 2L', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(231, 'S1-220618213', 'Super Stix Jr Milk | 330g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(232, 'S1-220618213', 'ZestO Juice Drink Mango | 200ml', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(233, 'S1-220618213', 'Milo 1.2kg', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(234, 'S1-220618213', 'Maya All Purpose Flour | 800g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(235, 'S1-220618213', 'Goya Chips Milk Chocolate | 150g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(236, 'S1-220618213', 'Cielo Prem Slced Bread L | 400g', 1, 3048.75, '2022-06-18 11:31:22', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(237, 'S1-220618237', 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 1, 429.75, '2022-06-18 11:35:43', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(238, 'S1-220618238', 'M.Y. San Graham Crackers Honey | 700g', 1, 194.5, '2022-06-18 11:37:54', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(239, 'S1-220618239', 'Listerine Mouthwash Coolmint | 250ml', 1, 120, '2022-06-18 11:38:59', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(240, 'S1-220618240', 'M.Y. San Graham Crackers Honey | 700g', 1, 194.5, '2022-06-18 11:39:36', 'John Arian', 'Rosario, Cavite', 'Out', NULL),
+(241, '1241256', 'MC Tofu Japanese 320g', 10, 0, '2022-06-18 11:41:30', 'Admin', 'Rosario, Cavite', 'In', 'supplier 4'),
+(242, 'S1-220618242', 'Manna Premium Kimchi Fresh | 475g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(243, 'S1-220618242', 'Red Bull Energy Drink Supreme | 150ml', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(244, 'S1-220618242', 'Ottogi Kimchi Ramen Pouch | 120g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(245, 'S1-220618242', 'Jack & Jill Piattos Cheese | 85g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(246, 'S1-220618242', 'Lactum Milk Supplement Powder 6-12 months | 1.2kg', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(247, 'S1-220618242', 'Enfamil One A+ Infant Formula Powder 0-6 months | 1.8kg', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(248, 'S1-220618242', 'EQ Pants Big Pack | XL24', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(249, 'S1-220618242', 'Fudgee Bar Dark Choco | 38g 10pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(250, 'S1-220618242', 'Gardenia Classic White Bread Regular Slice | 600g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(251, 'S1-220618242', 'Lemon Square Cheese Cake | 30g 10pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(252, 'S1-220618242', 'Sunsilk Shampoo Perfect Straight | 180ml+13mlx7pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(253, 'S1-220618242', 'Clear Shampoo Cool Sport Menthol 275ml 2pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(254, 'S1-220618242', 'Koko Krunch Cereal | 500g', 2, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(255, 'S1-220618242', 'Nutella Spread Hazelnut | 200g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(256, 'S1-220618242', 'Purefoods Chicken Breast Nuggets Crispy N Juicy | 200g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(257, 'S1-220618242', 'Purefoods Chicken Hotdog Jumbo | 500g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(258, 'S1-220618242', 'Purefoods Beef Tapa | 220g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(259, 'S1-220618242', 'Tang Powdered Juice | 20g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(260, 'S1-220618242', 'Del Monte Pineapple Juice | 1L', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(261, 'S1-220618242', 'Nescafe Refill Classic | 200g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(262, 'S1-220618242', 'Graham Crackers Honey | 210g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(263, 'S1-220618242', 'Fita Crackers | 30g 10pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(264, 'S1-220618242', 'SkyFlakes Crackers | 25g 24pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(265, 'S1-220618242', 'Listerine Mouthwash Coolmint | 250ml', 95, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(266, 'S1-220618242', 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 2, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(267, 'S1-220618242', 'Gardenia Loaf Bread California Raisins | 400g', 2, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(268, 'S1-220618242', 'S26 Gold One Infant Formula Milk | 1.8kg', 2, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(269, 'S1-220618242', 'Purefoods Tender Juicy Hotdog Regular | 500g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(270, 'S1-220618242', 'PH Care Feminine Wash Natural Protect 50ml', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(271, 'S1-220618242', 'Pampers Dry Pants Jumbo Pack XXL | 34pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(272, 'S1-220618242', 'Ovaltine Swiss Chocolate | 29.6g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(273, 'S1-220618242', 'Safeguard Liquid Hand Soap Pure White | 450ml', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(274, 'S1-220618242', 'Simply Canola Oil | 2L', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(275, 'S1-220618242', 'Super Stix Jr Milk | 330g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(276, 'S1-220618242', 'ZestO Juice Drink Mango | 200ml', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(277, 'S1-220618242', 'Off Lotion Family Care | 100ml', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(278, 'S1-220618242', 'Nissin Pasta Creamy Carbonara | 60g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(279, 'S1-220618242', 'Nissin Bread Stix | 20g 10pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(280, 'S1-220618242', 'Nexguard - KN95 Mask 10pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(281, 'S1-220618242', 'Milo 1.2kg', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(282, 'S1-220618242', 'M.Y. San Graham Crackers Honey | 700g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(283, 'S1-220618242', 'Mamypoko Pants Easy to Wear Jumbo Pack | XL38', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(284, 'S1-220618242', 'Maya All Purpose Flour | 800g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(285, 'S1-220618242', 'MC Tofu Japanese 320g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(286, 'S1-220618242', 'JSL Dagupan Daing na Bangus Boneless | 400g 2pcs', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(287, 'S1-220618242', 'Goya Chips Milk Chocolate | 150g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(288, 'S1-220618242', 'Cielo Prem Slced Bread L | 400g', 1, 26180.25, '2022-06-18 11:49:00', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(289, 'S1-220618289', 'Nestea Powder Kiwi Lemon Litro (25g)', 1, 3274, '2022-06-18 13:00:10', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(290, 'S1-220618289', 'Nestea Powder Cranberry Litro (25g)', 1, 3274, '2022-06-18 13:00:10', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(291, 'S1-220618289', 'Nestea Powder Apple Litro (25gx6)', 1, 3274, '2022-06-18 13:00:10', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(292, 'S1-220618289', 'Nesfruta Powder Orange Litro (25g)', 1, 3274, '2022-06-18 13:00:10', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(293, 'S1-220618289', 'Nesfruta Powder Melon Litro (25g)', 1, 3274, '2022-06-18 13:00:10', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(294, 'S1-220618289', 'Nesfruta Powder Mangosteen Litro (22g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(295, 'S1-220618289', 'Nesfruta Powder GuyabanoLitro (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(296, 'S1-220618289', 'Nesfruta Powder Dalandan Litro (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(297, 'S1-220618289', 'Nesfruta Powder Buko Litro (22g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(298, 'S1-220618289', 'Sting Energy Drink Strawberry (330ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(299, 'S1-220618289', 'Sting energy Drink Power Pacq (330ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(300, 'S1-220618289', 'Red Bull Energy Drink Supreme (150ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(301, 'S1-220618289', 'Extra Joss Active Energy Drink (4g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(302, 'S1-220618289', 'Cobra Energy Drink Fit (350ml)', 2, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(303, 'S1-220618289', 'Cobra Energy Drink (350ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(304, 'S1-220618289', 'Cobra Energy Drink Defense (350ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(305, 'S1-220618289', 'Cobra Energy Drink Berry Blast (350ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(306, 'S1-220618289', 'Nescafe Coffee RTD White Mocha (200ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(307, 'S1-220618289', 'Oishi Hi Coffee RTD Coffee + Choco (250ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(308, 'S1-220618289', 'Oishi Hi Coffee RTD Caramel (250ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(309, 'S1-220618289', 'Oishi Hi Coffee RTD Cappuccino (250ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(310, 'S1-220618289', 'Oishi Hi Coffee RTD Cafe Latte (250ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(311, 'S1-220618289', 'Nescafe Coffee RTD French Vanilla (200ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(312, 'S1-220618289', 'Nescafe Coffee RTD Caramel Macchiato (200ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(313, 'S1-220618289', 'Nescafe Coffee RTD Cafe Au Lait (200ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(314, 'S1-220618289', 'Haus Blend Coffee Cafe Classic (240ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(315, 'S1-220618289', 'Haus Blend Coffee Cafe Mocha (240ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(316, 'S1-220618289', 'Haus Blend Coffee Cafe Latte (240ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(317, 'S1-220618289', 'Great Taste RTD Coffee Viet Latte (180ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(318, 'S1-220618289', 'Great Taste RTD Coffee Dark Java (180ml)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(319, 'S1-220618289', 'Krem-Top Coffee Creamer (450g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(320, 'S1-220618289', 'Krem-Top Coffee Creamer (250g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(321, 'S1-220618289', 'Krem-Top Coffee Creamer (170g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(322, 'S1-220618289', 'Krem-Top Coffee Creamer (80g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(323, 'S1-220618289', 'Krem-Top Coffee Creamer (5g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(324, 'S1-220618289', 'Cream All Creamer (450g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(325, 'S1-220618289', 'Cream All Creamer (300g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(326, 'S1-220618289', 'Cream All Creamer (80g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(327, 'S1-220618289', 'Cream All Creamer Stick (5g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(328, 'S1-220618289', 'Coffee Mate Creamer Refill (450g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(329, 'S1-220618289', 'Coffee Mate Creamer (250g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(330, 'S1-220618289', 'Coffee Mate Creamer (170g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(331, 'S1-220618289', 'Coffee Mate Creamer (80g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(332, 'S1-220618289', 'Coffee Mate Creamer (5g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(333, 'S1-220618289', 'Angel Coffee Creamer (200g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(334, 'S1-220618289', 'Angel Coffee Creamer (80g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(335, 'S1-220618289', 'San Mig Coffee Original Polybag (20g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(336, 'S1-220618289', 'San Mig Coffee Original Dos (34g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(337, 'S1-220618289', 'San Mig Coffee Original Strip (20g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(338, 'S1-220618289', 'San Mig Coffee Orig Sugar Free (7g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(339, 'S1-220618289', 'San Mig Coffee Orig Sugar Free SUP (7g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(340, 'S1-220618289', 'San Mig Coffee Mild Sugar Free SUP (7g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(341, 'S1-220618289', 'San Mig Coffee Barako (17g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(342, 'S1-220618289', 'Oishi Hi Coffee Vanilla Caramel (22g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(343, 'S1-220618289', 'Oishi Hi Coffee+Choco (22g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(344, 'S1-220618289', 'Oishi Hi Coffee 3 in 1 Orig (20g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(345, 'S1-220618289', 'Oishi Hi Coffee 3 in 1 Double Creamy (22g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(346, 'S1-220618289', 'Nescafe Coffee 3 in 1 Orig Twin Pack (56g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL);
+INSERT INTO `transaction_logs` (`log_id`, `tran_num`, `tran_item`, `tran_qty`, `tran_total`, `tran_date_time`, `tran_cashier`, `tran_location`, `tran_type`, `sup_name`) VALUES
+(347, 'S1-220618289', 'Nescafe Coffee Creamy White Polybag (29gx5)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(348, 'S1-220618289', 'Nescafe Coffee Creamy White Twin Pack (58g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(349, 'S1-220618289', 'Nescafe Coffee Coco Mocha Polybag (30g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(350, 'S1-220618289', 'Nescafe Coffee Berry Mocha Polybag (30g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(351, 'S1-220618289', 'Nescafe 3 in 1 Creamylatte twnx5 (27.5g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(352, 'S1-220618289', 'Kopiko Coffee Low Acid Hanger (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(353, 'S1-220618289', 'Kopiko Coffee Low Acid Bag (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(354, 'S1-220618289', 'Kopiko Coffee Cappuccino Pouch (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(355, 'S1-220618289', 'Kopiko Coffee Cappuccino Hanger (25g) ', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(356, 'S1-220618289', 'Kopiko Coffee Kopiccino Bag (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(357, 'S1-220618289', 'Kopiko Coffee Double Cups (33g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(358, 'S1-220618289', 'Kopiko Coffee Blanca Twin (52g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(359, 'S1-220618289', 'Kopiko Coffee Blanca Pouch (30g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(360, 'S1-220618289', 'Kopiko Coffee Blanca Hanger (30g)X5', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(361, 'S1-220618289', 'Kopiko Coffee Blanca Bag (30g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(362, 'S1-220618289', 'Kopiko Coffee Brown Pouch (27.5g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(363, 'S1-220618289', 'Kopiko Coffee Brown Twin (55g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(364, 'S1-220618289', 'Kopiko Coffee Brown Hanger X5', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(365, 'S1-220618289', 'Kopiko Coffee Brown Bag (27.5g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(366, 'S1-220618289', 'Kopiko Coffee Black Twin (50g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(367, 'S1-220618289', 'Kopiko Coffee 3 in 1 Astig Hanger (25g)X5', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(368, 'S1-220618289', 'Kopiko Coffee 3 in 1 Astig Bag (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(369, 'S1-220618289', 'Great Taste 3 in 1 White Sugar Free (17g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(370, 'S1-220618289', 'Great Taste 3 in 1 White Chocolate Twin (50g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(371, 'S1-220618289', 'Great Taste 3 in 1 White Chocolate Tie (30g)X', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(372, 'S1-220618289', 'Great Taste 3 in 1 White Caramel Polybag (30g', 2, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(373, 'S1-220618289', 'Great Taste 3 in 1 White Twin Pack (50g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(374, 'S1-220618289', 'Great Taste 3 in 1 White (30g)X5', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(375, 'S1-220618289', 'Great Taste 3 in 1 Original (165g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(376, 'S1-220618289', 'Great Taste 3 in 1 Original Twin Packx5', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(377, 'S1-220618289', 'Nescafe Classic (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(378, 'S1-220618289', 'Nescafe Classic Stick (2g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(379, 'S1-220618289', 'Great Taste Prem Blend (100g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(380, 'S1-220618289', 'Great Taste Prem Blend (50g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(381, 'S1-220618289', 'Great Taste Prem Blend (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(382, 'S1-220618289', 'Great Taste Prem Blend Stick (2g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(383, 'S1-220618289', 'Great Taste Coffee Budget Pack (100g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(384, 'S1-220618289', 'Great Taste Coffee Budget Pack (50g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(385, 'S1-220618289', 'Great Taste Coffee Budget Pack (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(386, 'S1-220618289', 'Cafe Puro Coffee Budget Pack (100g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(387, 'S1-220618289', 'Cafe Puro Coffee Budget Pack (50g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(388, 'S1-220618289', 'Cafe Puro Coffee Budget Pack (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(389, 'S1-220618289', 'Blend 45 Instant Coffee (100g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(390, 'S1-220618289', 'Blend 45 Instant Coffee (50g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(391, 'S1-220618289', 'Blend 45 Instant Coffee (25g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(392, 'S1-220618289', 'Blend 45 Instant Coffee (2g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(393, 'S1-220618289', 'Ricoa Cocoa Sweetened Pouch (200g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(394, 'S1-220618289', 'Ricoa Cocoa Sweetened Econo Pack (100g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(395, 'S1-220618289', 'Ricoa Cocoa Breakfast Canister (160g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(396, 'S1-220618289', 'Ricoa Cocoa Breakfast (80g)', 1, 3274, '2022-06-18 13:00:11', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(397, 'S1-220618289', 'Ricoa Cocoa Breakfast Econo Pack (70g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(398, 'S1-220618289', 'Zest-O Root Beer Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(399, 'S1-220618289', 'Zest-O Root Beer in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(400, 'S1-220618289', 'Zest-O Root Beer in Can (250ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(401, 'S1-220618289', 'Zest-O Dalandan Soda Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(402, 'S1-220618289', 'Zest-O Dalandan Soda in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(403, 'S1-220618289', 'Zest-O Dalandan Soda in Can (250ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(404, 'S1-220618289', 'Zest-O Calamansi Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(405, 'S1-220618289', 'Zest-O Calamansi Soda in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(406, 'S1-220618289', 'Zest-O Calamansi Soda in Can (250ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(407, 'S1-220618289', 'Sprite Reg. Pet Bootle (2L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(408, 'S1-220618289', 'Sprite Reg. Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(409, 'S1-220618289', 'Sprite Reg. Pet Bootle (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(410, 'S1-220618289', 'Sprite Reg. Mismo (300ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(411, 'S1-220618289', 'Seetrus Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(412, 'S1-220618289', 'Seetrus in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(413, 'S1-220618289', 'RC Cola No Sugar in Can (330ml)', 2, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(414, 'S1-220618289', 'Royal Reg. mismo', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(415, 'S1-220618289', ' Royal Reg. Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(416, 'S1-220618289', 'Royal Reg. in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(417, 'S1-220618289', 'RC Cola Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(418, 'S1-220618289', 'RC Cola Pet Bootle (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(419, 'S1-220618289', 'RC Cola in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(420, 'S1-220618289', 'Pepsi Reg. Pet Bootle (2L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(421, 'S1-220618289', 'Pepsi Reg. Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(422, 'S1-220618289', 'Pepsi Reg. Pet Bootle (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(423, 'S1-220618289', 'Pepsi Reg. Pet Bootle (300ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(424, 'S1-220618289', 'Pepsi Reg. in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(425, 'S1-220618289', 'Pepsi Max in Can (330ml)', 2, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(426, 'S1-220618289', 'Pepsi Max Pet Bootle (2L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(427, 'S1-220618289', 'Mug Root Beer Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(428, 'S1-220618289', 'Mug Root Beer in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(429, 'S1-220618289', 'Mountain Dew Pet Bootle (2L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(430, 'S1-220618289', 'Mountain Dew Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(431, 'S1-220618289', 'Mountain Dew Pet Bootle (1.250L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(432, 'S1-220618289', 'Mountain Dew Pet Bootle (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(433, 'S1-220618289', 'Mountain Dew Neon Pet Bottle (400ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(434, 'S1-220618289', 'Mountain Dew in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(435, 'S1-220618289', 'Mountain Dew Pet Bootle (300ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(436, 'S1-220618289', 'Mountain Dew in Can (250ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(437, 'S1-220618289', 'Mirinda Orange Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(438, 'S1-220618289', 'Mirinda Orange Pet Bootle (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(439, 'S1-220618289', 'Mirinda Orange in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(440, 'S1-220618289', 'Juicy Lemon Fruit Soda Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(441, 'S1-220618289', 'Juicy Lemon Fruit Soda Pet Bootle (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(442, 'S1-220618289', 'Juicy Lemon Fruit Soda in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(443, 'S1-220618289', 'Fruit Soda Orange (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(444, 'S1-220618289', 'Fruit Soda Orange (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(445, 'S1-220618289', 'Fruit Soda Orange in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(446, 'S1-220618289', 'Coke Zero Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(447, 'S1-220618289', 'Coke Zero in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(448, 'S1-220618289', 'Coke Reg. Pet Bootle (2L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(449, 'S1-220618289', 'Coke Reg. Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(450, 'S1-220618289', 'Coke Reg. Pet Bootle (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(451, 'S1-220618289', 'Coke Reg. Mismo (300ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(452, 'S1-220618289', 'Coke Reg. in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(453, 'S1-220618289', 'Coke Light Pet Bootle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(454, 'S1-220618289', 'Coke Light in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(455, 'S1-220618289', '7-UP Reg. Pet Bottle (2L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(456, 'S1-220618289', '7-UP Reg. Pet Bottle (1.5L)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(457, 'S1-220618289', '7-UP Reg. Pet Bootle (500ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(458, 'S1-220618289', '7-UP Reg. in Can (330ml)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(459, 'S1-220618289', 'White King Hotcake Mix (400g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(460, 'S1-220618289', 'White King Hotcake Mix (200g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(461, 'S1-220618289', 'Maya Hotcake Original (500g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(462, 'S1-220618289', 'Maya Hotcake Original (200g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(463, 'S1-220618289', 'Magnolia Pancake & Waffle Mix (400g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(464, 'S1-220618289', 'Magnolia Pancake & Waffle Mix (180g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(465, 'S1-220618289', 'Magnolia Pancake Plus w/ Strawberry (200g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(466, 'S1-220618289', 'Magnolia Pancake Plus w/ Maple (200g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(467, 'S1-220618289', 'Magnolia Pancake Plus w/ Choco (200g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(468, 'S1-220618289', 'Queen Baking Soda (500g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(469, 'S1-220618289', 'Queen Baking Soda (250g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(470, 'S1-220618289', 'Queen Baking Soda (125g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(471, 'S1-220618289', 'Magnolia All Purpose Flour (800g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(472, 'S1-220618289', 'Magnolia All Purpose Flour (400g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(473, 'S1-220618289', 'Calumet Baking Powder (14kg)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(474, 'S1-220618289', 'Calumet Baking Powder (1kg)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(475, 'S1-220618289', 'Calumet Baking Powder (50g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(476, 'S1-220618289', 'Cerelac Wheat Banana & Milk (250g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(477, 'S1-220618289', 'Cerelac Wheat Banana & Milk (120g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(478, 'S1-220618289', 'Cerelac Rice & Soya (120g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(479, 'S1-220618289', 'Cerelac Mixed Veg & Soya (120g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(480, 'S1-220618289', 'Cerelac Mixed Fruits & Soya (120g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(481, 'S1-220618289', 'Tasty Boy Breading Mix Spicy (67g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(482, 'S1-220618289', 'Tasty Boy Breading Mix Regular (67g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(483, 'S1-220618289', 'Tasty Boy Breading Mix Garlic (67g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(484, 'S1-220618289', 'Krispers Bread Crumbs (1kg)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(485, 'S1-220618289', 'Krispers Bread Crumbs (230g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(486, 'S1-220618289', 'Del Monte Fried Chicken Mixes (125g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(487, 'S1-220618289', 'Ajinomoto Crispy Fry w/ Gravy (102g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(488, 'S1-220618289', 'Ajinomoto Crispy Fry Original (238g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(489, 'S1-220618289', 'Ajinomoto Crispy Fry Original (62g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(490, 'S1-220618289', 'Ajinomoto Crispy Fry Original (30g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(491, 'S1-220618289', 'Ajinomoto Crispy Fry Spicy (62g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(492, 'S1-220618289', 'Ajinomoto Crispy Fry Garlic (62g)', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(493, 'S1-220618289', 'Birchtree choco33gx4', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(494, 'S1-220618289', 'Rose Bowl Sardines with Chili 155g', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(495, 'S1-220618289', 'Rose Bowl Sardines 155g', 1, 3274, '2022-06-18 13:00:12', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(496, 'S1-220618496', 'Rose Bowl Sardines with Chili 155g', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(497, 'S1-220618496', 'Tang Powder Honey Lemon Litro (25g)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(498, 'S1-220618496', 'Tang Powder Guyabano Litro (25g)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(499, 'S1-220618496', 'Tang Powder Four Seasons Litro (25g)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(500, 'S1-220618496', 'Tang Powder Dalandan Litro (25gx6)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(501, 'S1-220618496', 'Tang Powder Calamansi Litro (25gx6)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(502, 'S1-220618496', 'Tang Powder Apple Litro (25g)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(503, 'S1-220618496', 'Oishi Sundays Melon Powder Drink (35g)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(504, 'S1-220618496', 'Oishi Sundays Mango Powder Drink (35g)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(505, 'S1-220618496', 'Nestea Powder Strawberry Kiwi Blend Litro (25', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(506, 'S1-220618496', 'Nestea Powder Peach Lemon Blend Litro (25g)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(507, 'S1-220618496', 'Nestea Powder Lemon (450g)', 1, 665, '2022-06-18 13:08:43', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(508, 'S1-220618496', 'Nestea Powder Lemon 2-Litro (50g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(509, 'S1-220618496', 'Nestea Powder Lemon Litro (25gx6)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(510, 'S1-220618496', 'Nestea Powder Honey Blend (450g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(511, 'S1-220618496', 'Nestea Powder Honey Blend Litro (25g):', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(512, 'S1-220618496', 'Nestea Powder Kiwi Lemon Litro (25g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(513, 'S1-220618496', 'Nestea Powder Cranberry Litro (25g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(514, 'S1-220618496', 'Nestea Powder Apple Litro (25gx6)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(515, 'S1-220618496', 'Nesfruta Powder Orange Litro (25g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(516, 'S1-220618496', 'Nesfruta Powder Melon Litro (25g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(517, 'S1-220618496', 'Nesfruta Powder Mangosteen Litro (22g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(518, 'S1-220618496', 'Nesfruta Powder GuyabanoLitro (25g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(519, 'S1-220618496', 'Nesfruta Powder Dalandan Litro (25g)', 1, 665, '2022-06-18 13:08:44', 'John Arian', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(520, '123', 'Nestea Powder Cranberry Litro (25g)', 50, 0, '2022-06-18 14:06:48', 'Conrad', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'In', ''),
+(521, '1235wrhgse4', 'Nesfruta Powder Mangosteen Litro (22g)', 20, 0, '2022-06-20 10:04:28', 'Admin', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'In', ''),
+(522, 'S1-220620522', 'milo 24gx7', 1, 67, '2022-06-20 11:58:27', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(523, 'S1-220620522', 'Krispers Bread Crumbs (230g)', 1, 67, '2022-06-20 11:58:27', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(524, 'S1-220620522', '(W)Ajinomoto Crispy Fry Original (30g)', 1, 67, '2022-06-20 11:58:27', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(525, 'S1-220620522', 'Ajinomoto Crispy Fry Garlic (62g)', 1, 67, '2022-06-20 11:58:27', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(526, 'S1-220621526', 'Nissin Pasta Creamy Carbonara | 60g', 1, 208.5, '2022-06-21 23:42:18', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(527, 'S1-220621526', 'M.Y. San Graham Crackers Honey | 700g', 1, 208.5, '2022-06-21 23:42:18', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(528, 'S1-220622528', 'Listerine Mouthwash Coolmint | 250ml', 4, 815, '2022-06-22 00:16:13', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(529, 'S1-220622528', 'Charmee Napkin Heavy Flow Overnight Cotton With Wing | 8pads', 1, 815, '2022-06-22 00:16:13', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(530, 'S1-220622528', 'MC Tofu Japanese 320g', 2, 815, '2022-06-22 00:16:13', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(531, 'S1-220622528', 'Nexguard - KN95 Mask 10pcs', 3, 815, '2022-06-22 00:16:13', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(532, 'S1-220622532', 'Nexguard - KN95 Mask 10pcs', 1, 864, '2022-06-22 21:25:24', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(533, 'S1-220622532', 'Milo 1.2kg', 1, 864, '2022-06-22 21:25:24', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(534, 'S1-220622532', 'Listerine Mouthwash Coolmint | 250ml', 1, 864, '2022-06-22 21:25:24', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(535, 'S1-220622532', 'M.Y. San Graham Crackers Honey | 700g', 1, 864, '2022-06-22 21:25:24', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(536, 'S1-220622532', 'MC Tofu Japanese 320g', 1, 864, '2022-06-22 21:25:24', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL),
+(537, 'S1-220622532', 'Maya All Purpose Flour | 800g', 1, 864, '2022-06-22 21:25:24', 'Cashier', 'Stall #60 Lucky8 Wet&Dry Mkt, Mapulang Lupa, Pandi, Bulacan', 'Out', NULL);
 
 -- --------------------------------------------------------
 
@@ -462,9 +852,34 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_pass`, `cashier_name`, `user_rfid`, `role`, `avail_amount`) VALUES
 (1, 'admin', '$2y$10$BxAfLc6FOCZnAf7qgYaIquiiR.WxUrMRRj9JosAE419zK/CRtLMyW', 'Admin', '1', 'admin', 1000),
-(2, 'cashier', '$2y$10$N/aTeiGfsYITVrfY3qRA4.uq/nH1QgNqo2EuiBDVNnyRxutQB1ruy', 'John Arian', '987654321', 'cashier', 1000),
-(4, 'testedit', '$2y$10$lF84Rsl/4Qu9smoVqcEDxeTQ.jtzLbCw4IQEpW1gBnRMluJMvYnqm', 'test edit', '123321', 'admin', 1000),
-(5, 'testadmin', '$2y$10$8ssh3TpQaVVaQMC615AQj.ODs.7dSEE2WFxZr1CfkfCsYLWRwrVEu', 'test admin', '123123', 'admin', 1000);
+(2, 'cashier', '$2y$10$N/aTeiGfsYITVrfY3qRA4.uq/nH1QgNqo2EuiBDVNnyRxutQB1ruy', 'Cashier', '987654321', 'cashier', 1000),
+(7, 'jimel', '$2y$10$H19r4t.ppIc2TtMAcE65I.ZsgkLzuGH8XgeOT6i2McmZu6qrtfHs6', 'Jimel Baria', '0013530940', 'cashier', 1000),
+(8, 'glenn', '$2y$10$10nLqhQyuvq2q1gDR0kg/u1mGe0xYSDblmNqXWNtfpBcqXQUd6JVe', 'Glenn S. Crisostomo', '0013546409', 'cashier', 1000),
+(9, 'cherry', '$2y$10$XuESskR/LpKlHcsEUlawmOfsBYmOHODBeXpmUY/nejBEABVdwSQRe', 'Cherry Mae Canatoy', '0013519078', 'cashier', 1000),
+(10, 'jovelyn', '$2y$10$divzHLiIarY4rn5ZyToK0O9u3r0iDe5FI5sz5gqO2xNjVoDyRMY26', 'Jovelyn S. Sismar', '0013706230', 'cashier', 1000),
+(11, 'raziel', '$2y$10$gc3be3lOaf3lFm87DskAWe51mtEWc1OpM2YvY7MNoCWKTAQIwaYoC', 'Raziel D. Ginto', '0013664186', 'cashier', 1000),
+(12, 'myra', '$2y$10$.pixHWXpLDO6rjMZ4.3rkOIhYuLPvYgV81BjO6fop9L.GIAAkkj/a', 'Myra C. Santiago', '0015040739', 'cashier', 1000),
+(13, 'thina', '$2y$10$2.XhiCaj6CCJ8TLBNMubiuFZ/ljusWcv/i0uYsl1/7bDCxjK3B8t2', 'Thina P. Rosales', '0013545972', 'cashier', 1000),
+(14, 'jessajoy', '$2y$10$F88D77e9RMMj0p8rgceGueXZKlHXgVFgLpG5svNO9U7a4sI0Dtod2', 'Jessajoy L. Ariscon', '0013527965', 'cashier', 1000),
+(15, 'nina', '$2y$10$796yeKyH0y5V8ZkbJBKBnu6qSNELRHDKD86SioY17afjYpw38FF6u', 'Nina Claire M. Santos', '0013527350', 'cashier', 1000),
+(16, 'athena', '$2y$10$u69KpXHyWtpiYxtHw1II1OKEzkgcTidvxUZdklbP1VBZyZYNbHs72', 'Athena B. Toos', '0013662478', 'cashier', 1000),
+(17, 'eloisa', '$2y$10$vTCxxoxjbgE7IOZHHx7mw.7RrxT44ECZkC8GaA67H7ybnDYQxwLnC', 'Eloisa B. Espino', '0013729770', 'cashier', 1000),
+(18, 'john', '$2y$10$qHBYz1XPWFIJFMXNVPnEB.JrEktk4erakr9rbO0V.RQSpCw.mi0b2', 'John Gerald Lorenzo', '0013709151', 'cashier', 1000),
+(19, 'christine', '$2y$10$iwKfFcNr9VwVVxxjPzyqmeCyE58p3t.Cfw7bTT3pe2s//N1PNjiWW', 'Christine Joyce Gabion', '0013730740', 'cashier', 1000),
+(20, 'noli', '$2y$10$RbNeu9XVCz6TWcM8lZHPNOU1oHViu6XBMrrnHoOuBPDvKt1Uv4C42', 'Noli Francisco', '0013663608', 'cashier', 1000),
+(21, 'judel', '$2y$10$pNGMVFIP448LwLHrqlx17.KTZPICuyThaByealQMBRag.4KRqjhvm', 'Judel Magtibay', '0013663031', 'cashier', 1000),
+(22, 'monaliza', '$2y$10$cFXZgIwremCo.o8msVAGIOKwzV7S/nmAbadDmyk.i3X0KCEbqsmPq', 'Monaliza Palicios', '0013663041', 'cashier', 1000),
+(23, 'zenaida', '$2y$10$vKqH.JtkvV8wC6U1eFtM..2pz648WzKuos1OqxS.ew4hHqw5ptlNG', 'Zenaida Camporedondo', '0013710489', 'cashier', 1000),
+(24, 'jolina', '$2y$10$2Sx1ZIrfFvV/nK09cWETS.td24T0/9g44jAqLUBq9VLXEwwM4suxC', 'Jolina R. Sano', '0013528045', 'cashier', 1000),
+(25, 'jenny', '$2y$10$HyngAechin6G34rVOEIwbumUoabC2PMG75XYnsT7uI2L44lVQdoeO', 'Jenny Rose M. Loyola', '0013530190', 'cashier', 1000),
+(26, 'wilfred', '$2y$10$ZUeMJRZgrUP8S3sjWGfuDudWJuu8D2HN4prK9DOsblajV4F7fqApS', 'Wilfred Capaglan', '0013530290', 'cashier', 1000),
+(27, 'jerry', '$2y$10$xdvLHwJQJZom38D5KTy50Obb7Vu2lwjvkmkIrq85thTdUWT0fDZ4q', 'Jerry Ferrer', '0013663615', 'cashier', 1000),
+(28, 'dan', '$2y$10$Niq8c2Xithul3TPEOfmKW.UfW05Q..EF1F4hEySGF2Mzx168QyDfG', 'dan', '0013545705', 'admin', 1000),
+(29, 'conrad', '$2y$10$/9WN2QS/pUbWttepWuty2euTw1VI3B0vznD6v1.CmrE/QZfvcqGOG', 'Conrad', '0013527451', 'admin', 1000),
+(30, 'ceo', '$2y$10$IhBHUjz9aSgwydugo6bljuWZoUsEI.AMJsZFriUVcg2nStD8LUNHO', 'Jeanette', '0013542977', 'admin', 1000),
+(31, 'admin2', '$2y$10$QobmBMvFvyn32XxxQGn1XOMxn8K76FqCOK2rKwC2/e9wqVlZ5oXS6', 'Admin', '0013543963', 'admin', 1000),
+(32, 'admin1', '$2y$10$lOzlKt1RHwg/wj7e13dRp.fty.MJ36JvOXT0agSJr3hHBaDqKwfYW', 'Admin', '0013526702', 'admin', 1000),
+(33, 'joshua', '$2y$10$2malmCwsGQ1qFc6YJDjijeB4lGowu42/fTZbVKN7y0xa2g0o6ykye', 'Joshua Cruz', '0013543698', 'cashier', 1000);
 
 --
 -- Indexes for dumped tables
@@ -544,13 +959,13 @@ ALTER TABLE `admin_settings`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT for table `dtr`
 --
 ALTER TABLE `dtr`
-  MODIFY `dtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `dtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `item_no_barcode`
@@ -562,7 +977,7 @@ ALTER TABLE `item_no_barcode`
 -- AUTO_INCREMENT for table `item_with_barcode`
 --
 ALTER TABLE `item_with_barcode`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `req_tran`
@@ -580,19 +995,19 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `temp_item`
 --
 ALTER TABLE `temp_item`
-  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaction_logs`
 --
 ALTER TABLE `transaction_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=538;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
