@@ -1624,7 +1624,7 @@ body {
   display: flex;
 }
 #admin-tran-con .top-con .control-con .left-con .date-filter-con {
-  width: 650px;
+  width: 100%;
   display: flex;
 }
 #admin-tran-con .top-con .control-con .left-con .date-filter-con span {
@@ -1633,16 +1633,12 @@ body {
   font-weight: 900;
   margin-right: 5px;
 }
-#admin-tran-con .top-con .control-con .left-con .date-filter-con input {
-  width: 150px;
-  margin-right: 20px;
-}
-#admin-tran-con .top-con .control-con .left-con .type-con {
+#admin-tran-con .top-con .control-con .left-con .date-filter-con .type-con {
   width: 180px;
   display: flex;
   position: relative;
 }
-#admin-tran-con .top-con .control-con .left-con .type-con::before {
+#admin-tran-con .top-con .control-con .left-con .date-filter-con .type-con::before {
   content: "";
   position: absolute;
   top: 13px;
@@ -1655,57 +1651,22 @@ body {
   transform: rotate(-45deg);
   pointer-events: none;
 }
-#admin-tran-con .top-con .control-con .left-con .type-con span {
+#admin-tran-con .top-con .control-con .left-con .date-filter-con .type-con span {
   font-size: 20px;
   line-height: 40px;
   font-weight: 900;
   margin-right: 5px;
 }
-#admin-tran-con .top-con .control-con .left-con .type-con select {
+#admin-tran-con .top-con .control-con .left-con .date-filter-con .type-con select {
   width: 100px;
   cursor: pointer;
   font-weight: 900;
   padding-right: 35px;
 }
-#admin-tran-con .top-con .control-con .left-con .loc-con {
-  width: 530px;
-  display: flex;
-  position: relative;
-}
-#admin-tran-con .top-con .control-con .left-con .loc-con::before {
-  content: "";
-  position: absolute;
-  top: 13px;
-  right: 145px;
-  width: 12px;
-  height: 12px;
-  z-index: 2;
-  border-left: 3px solid black;
-  border-bottom: 3px solid black;
-  transform: rotate(-45deg);
-  pointer-events: none;
-}
-#admin-tran-con .top-con .control-con .left-con .loc-con span {
-  font-size: 20px;
-  line-height: 40px;
+#admin-tran-con .top-con .control-con .left-con .date-filter-con input {
+  width: 180px;
+  margin-right: 20px;
   font-weight: 900;
-  margin-right: 5px;
-}
-#admin-tran-con .top-con .control-con .left-con .loc-con select {
-  width: 300px;
-  cursor: pointer;
-  font-weight: 900;
-  padding-right: 35px;
-}
-#admin-tran-con .top-con .control-con .left-con .loc-con input {
-  width: 100px;
-  margin-left: 20px;
-}
-#admin-tran-con .top-con .control-con .right-con {
-  width: 300px;
-}
-#admin-tran-con .top-con .control-con .right-con .search-con {
-  width: 100%;
 }
 #admin-tran-con .content-con {
   height: calc(100% - 130px);
@@ -1724,6 +1685,13 @@ body {
   width: 100%;
   height: calc(100% - 10px);
   overflow-y: hidden;
+}
+#admin-tran-con .content-con .left-con .table-con .loading {
+  width: calc(100% - 40px);
+  height: calc(100% - 20px);
+  background-color: #fff;
+  position: absolute;
+  font-size: 40px;
 }
 #admin-tran-con .content-con .left-con .table-con table {
   height: 100%;

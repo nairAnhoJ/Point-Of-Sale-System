@@ -85,103 +85,104 @@
                 display: flex;
 
                 .date-filter-con{
-                    width: 650px;
-                    display: flex;
-
-                    span{
-                        font-size: 20px;
-                        line-height: 40px;
-                        font-weight: 900;
-                        margin-right: 5px;
-                    }
-
-                    input{
-                        width: 150px;
-                        margin-right: 20px;
-                    }
-                }
-
-                .type-con{
-                    width: 180px;
-                    display: flex;
-                    position: relative;
-
-                    &::before{
-                        content: '';
-                        position: absolute;
-                        top: 13px;
-                        right: 35px;
-                        width: 12px;
-                        height: 12px;
-                        z-index: 2;
-                        border-left: 3px solid black;
-                        border-bottom: 3px solid black;
-                        transform: rotate(-45deg);
-                        pointer-events: none;
-                    }
-
-                    span{
-                        font-size: 20px;
-                        line-height: 40px;
-                        font-weight: 900;
-                        margin-right: 5px;
-                    }
-
-                    select{
-                       width: 100px;
-                       cursor: pointer;
-                       font-weight: 900;
-                       padding-right: 35px;
-                    }
-                }
-
-                .loc-con{
-                    width: 530px;
-                    display: flex;
-                    position: relative;
-
-                    &::before{
-                        content: '';
-                        position: absolute;
-                        top: 13px;
-                        right: 145px;
-                        width: 12px;
-                        height: 12px;
-                        z-index: 2;
-                        border-left: 3px solid black;
-                        border-bottom: 3px solid black;
-                        transform: rotate(-45deg);
-                        pointer-events: none;
-                    }
-
-                    span{
-                        font-size: 20px;
-                        line-height: 40px;
-                        font-weight: 900;
-                        margin-right: 5px;
-                    }
-
-                    select{
-                       width: 300px;
-                       cursor: pointer;
-                       font-weight: 900;
-                       padding-right: 35px;
-                    }
-
-                    input{
-                        width: 100px;
-                        margin-left: 20px;
-                    }
-                }
-            }
-
-            .right-con{
-                width: 300px;
-
-                .search-con{
                     width: 100%;
+                    display: flex;
+
+                    span{
+                        font-size: 20px;
+                        line-height: 40px;
+                        font-weight: 900;
+                        margin-right: 5px;
+                    }
+
+                    .type-con{
+                        width: 180px;
+                        display: flex;
+                        position: relative;
+
+                        &::before{
+                            content: '';
+                            position: absolute;
+                            top: 13px;
+                            right: 35px;
+                            width: 12px;
+                            height: 12px;
+                            z-index: 2;
+                            border-left: 3px solid black;
+                            border-bottom: 3px solid black;
+                            transform: rotate(-45deg);
+                            pointer-events: none;
+                        }
+
+                        span{
+                            font-size: 20px;
+                            line-height: 40px;
+                            font-weight: 900;
+                            margin-right: 5px;
+                        }
+
+                        select{
+                        width: 100px;
+                        cursor: pointer;
+                        font-weight: 900;
+                        padding-right: 35px;
+                        }
+                    }
+
+                    input{
+                        width: 180px;
+                        margin-right: 20px;
+                        font-weight: 900;
+                    }
                 }
+
+                // .loc-con{
+                //     width: 530px;
+                //     display: flex;
+                //     position: relative;
+
+                //     &::before{
+                //         content: '';
+                //         position: absolute;
+                //         top: 13px;
+                //         right: 145px;
+                //         width: 12px;
+                //         height: 12px;
+                //         z-index: 2;
+                //         border-left: 3px solid black;
+                //         border-bottom: 3px solid black;
+                //         transform: rotate(-45deg);
+                //         pointer-events: none;
+                //     }
+
+                //     span{
+                //         font-size: 20px;
+                //         line-height: 40px;
+                //         font-weight: 900;
+                //         margin-right: 5px;
+                //     }
+
+                //     select{
+                //        width: 300px;
+                //        cursor: pointer;
+                //        font-weight: 900;
+                //        padding-right: 35px;
+                //     }
+
+                //     input{
+                //         width: 100px;
+                //         margin-left: 20px;
+                //     }
+                // }
             }
+
+            // .right-con{
+            //     width: 300px;
+
+            //     .search-con{
+            //         width: 100%;
+            //     }
+            // }
         }
     }
 
@@ -202,6 +203,14 @@
                 width: 100%;
                 height: calc(100% - 10px);
                 overflow-y: hidden;
+
+                .loading{
+                    width: calc(100% - 40px);
+                    height: calc(100% - 20px);
+                    background-color: #fff;
+                    position: absolute;
+                    font-size: 40px;
+                }
 
                 table{
                     height: 100%;

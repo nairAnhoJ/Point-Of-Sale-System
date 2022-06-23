@@ -520,7 +520,7 @@
                     scrollY: height+'px',
                     scrollX: true,
                     "pageLength": 50,
-                    scrollCollapse: true,
+                    // scrollCollapse: true,
                 });
             }
 

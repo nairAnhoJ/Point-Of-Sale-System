@@ -11,6 +11,8 @@
 
     $recentNum = "";
     $recentLoc = "";
+
+    $wData;
 ?>
 
 <!DOCTYPE html>
@@ -22,12 +24,14 @@
     <link rel="stylesheet" href="../bootstrap-5.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="../styles/styles.css?v=<?php echo time(); ?>">
     <link rel="icon" href="../images/logo/<?php echo $_SESSION['logo']; ?>">
+    <link rel="stylesheet" href="../styles/jquery.dataTables.css">
     <title>Transaction History</title>
 
     <script src="../js/jquery-3.6.0.min.js"></script>
     <script src="../bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="../js/sweetalert.min.js"></script>
     <script src="../js/chart.min.js"></script>
+    <script src="../js/jquery.dataTables.js"></script>
 </head>
 <body onload="navF()">
 
@@ -80,43 +84,48 @@
                         <input type="date" id="dateFrom" name="dateFrom" value="<?php echo date('Y-m-d'); ?>" class="form-control">
                         <span>To:</span>
                         <input type="date" id="dateTo" name="dateTo" value="<?php echo date('Y-m-d'); ?>" class="form-control">
+
+
+                        <div class="type-con">
+                            <span>Type:</span>
+                            <select id="typeFilter" class="form-control">
+                                <option value="Out">OUT</option>
+                                <option value="In">IN</option>
+                            </select>
+                        </div>
+
+                        <input type="button" id="searchFilter" name="searchFilter" value="Search" class="btn btn-primary">
+
                     </form>
-                    <div class="type-con">
-                        <span>Type:</span>
-                        <select id="typeFilter" class="form-control">
-                            <option value="Out">OUT</option>
-                            <option value="In">IN</option>
-                        </select>
-                    </div>
-                    <div class="loc-con">
+                    <!-- <div class="loc-con">
                         <span>Location:</span>
                         <select id="locFilter" class="form-control">
                             <option value="All">ALL</option>
                                 <?php
-                                    $queryLoc = "SELECT DISTINCT `tran_location` FROM `transaction_logs`";
-                                    $resultLoc = mysqli_query($con, $queryLoc);
-                                    while($rowLoc = mysqli_fetch_assoc($resultLoc)){
+                                    // $queryLoc = "SELECT DISTINCT `tran_location` FROM `transaction_logs`";
+                                    // $resultLoc = mysqli_query($con, $queryLoc);
+                                    // while($rowLoc = mysqli_fetch_assoc($resultLoc)){
                                         ?>
-                                            <option value="<?php echo $rowLoc['tran_location']; ?>"><?php echo $rowLoc['tran_location']; ?></option>
+                                            <option value="<?php //echo $rowLoc['tran_location']; ?>"><?php //echo $rowLoc['tran_location']; ?></option>
                                         <?php
-                                    }
+                                    // }
                                 ?>
                         </select>
-                        <input type="button" id="searchFilter" name="searchFilter" value="Search" class="btn btn-primary">
-                    </div>
+                    </div> -->
                 </div>
-                <div class="right-con">
+                <!-- <div class="right-con">
                     <div class="search-con">
                         <input type="text" id="searchInvDR" class="form-control" placeholder="Search...">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         
         <div class="content-con">
             <div class="left-con">
                 <div class="table-con">
-                    <table>
+                    <div class="loading">SYNCING DATA...</div>
+                    <table id="itemTable" class="display" style="width:100%;">
                         <thead>
                             <tr>
                                 <th>ACTION</th>
@@ -150,16 +159,18 @@
                                     $getDateTo = $_GET['dateTo'];
                                     $dateFrom = date("Y-m-d H:i:s", strtotime(date($getDateFrom)));
                                     $dateTo = date("Y-m-d H:i:s", strtotime(date($getDateTo)." +1 day")-1);
-                                    $locFilter = $_GET['locFilter'];
+                                    // $locFilter = $_GET['locFilter'];
 
-                                    if($locFilter == 'All'){
-                                        $queryTrans = "SELECT * FROM `transaction_logs` WHERE `tran_type` = '$typeFilter' AND `tran_date_time` BETWEEN '$dateFrom' AND '$dateTo' ORDER BY `tran_date_time` DESC";
-                                    }else{
-                                        $queryTrans = "SELECT * FROM `transaction_logs` WHERE `tran_location` = '$locFilter' AND `tran_type` = '$typeFilter' AND `tran_date_time` BETWEEN '$dateFrom' AND '$dateTo' ORDER BY `tran_date_time` DESC";
-                                    }
+                                    // if($locFilter == 'All'){
+                                    //     $queryTrans = "SELECT * FROM `transaction_logs` WHERE `tran_type` = '$typeFilter' AND `tran_date_time` BETWEEN '$dateFrom' AND '$dateTo' ORDER BY `tran_date_time` DESC";
+                                    // }else{
+                                    //     $queryTrans = "SELECT * FROM `transaction_logs` WHERE `tran_location` = '$locFilter' AND `tran_type` = '$typeFilter' AND `tran_date_time` BETWEEN '$dateFrom' AND '$dateTo' ORDER BY `tran_date_time` DESC";
+                                    // }
 
+                                    $queryTrans = "SELECT * FROM `transaction_logs` WHERE `tran_type` = '$typeFilter' AND `tran_date_time` BETWEEN '$dateFrom' AND '$dateTo' ORDER BY `tran_date_time` DESC";
                                     $resultTrans = mysqli_query($con, $queryTrans);
                                     if(mysqli_num_rows($resultTrans) > 0){
+                                        $wData = true;
                                         while($rowTrans = mysqli_fetch_assoc($resultTrans)){
                                             if($recentNum != $rowTrans['tran_num']){
                                                 $recentNum = $rowTrans['tran_num'];
@@ -204,6 +215,7 @@
                                             }
                                         }
                                     }else{
+                                        $wData = false;
                                         ?> <tr><td>NO RECORD</td></tr> <?php
                                     }
                                 }
@@ -336,10 +348,26 @@
             $('#dateFrom').val(<?php echo json_encode($getDateFrom) ?>);
             $('#dateTo').val(<?php echo json_encode($getDateTo) ?>);
             $('#typeFilter').val(<?php echo json_encode($typeFilter) ?>);
-            $('#locFilter').val(<?php echo json_encode($locFilter) ?>);
         }
 
         $(document).ready(function(){
+
+            $('.loading').addClass('visually-hidden');
+
+            let height = (screen.height - 470);
+            var wData = <?php echo json_encode($wData); ?>;
+            console.log(height);
+            console.log(wData);
+
+            if(wData == true){
+                $('#itemTable').DataTable({
+                    scrollY: height+'px',
+                    scrollX: true,
+                    "pageLength": 50,
+                    // scrollCollapse: true,
+                });
+            }
+
             $("#searchInvDR").on("keyup", function() {
                 var valueSearch = $(this).val().toLowerCase();
                 $("#tableBody tr").filter(function() {
@@ -351,9 +379,8 @@
                 var dateFrom = $('#dateFrom').val();
                 var dateTo = $('#dateTo').val();
                 var typeFilter = $('#typeFilter').val();
-                var locFilter = $('#locFilter').val();
 
-                    window.location.href ="./transaction-history.php?dateFrom="+dateFrom+"&dateTo="+dateTo+"&typeFilter="+typeFilter+"&locFilter="+locFilter+"&searchDate=Search";
+                    window.location.href ="./transaction-history.php?dateFrom="+dateFrom+"&dateTo="+dateTo+"&typeFilter="+typeFilter+"&searchDate=Search";
             });
 
             $('.btnView').click(function(){
