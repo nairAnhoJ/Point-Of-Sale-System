@@ -36,14 +36,14 @@
                 $resultExisting = mysqli_query($con, $checkExisting);
                 if(mysqli_num_rows($resultExisting) == 0){
 
-                    $importInvn = "INSERT INTO `item_with_barcode`(`item_id`, `item_code`, `item_name`, `item_retail_price`, `item_stock`, `item_category`, `item_supplier`, `date_updated`, `updated_by`, `item_remarks`, `item_wholesale_price`) VALUES (null,'$itemCode','$itemName','$itemRPrice','0','$itemCat','$itemSup','$dateNow','$updatedBy','Imported','$itemWPrice')";
+                    $importInvn = "INSERT INTO `item_with_barcode`(`item_id`, `item_code`, `item_name`, `item_retail_price`, `item_stock`, `item_category`, `item_supplier`, `date_updated`, `updated_by`, `item_remarks`, `item_wholesale_price`) VALUES (null,'$itemCode','$itemName','$itemRPrice','$itemStock','$itemCat','$itemSup','$dateNow','$updatedBy','Imported','$itemWPrice')";
                     mysqli_query($con, $importInvn);
                 }
 
             }else{
                 $fileDest = "../images/items/default-image.png";
 
-                $importwob = "INSERT INTO `item_no_barcode`(`item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`, `itemnb_img`, `itemnb_wholesale_price`) VALUES (null,'$itemName','$itemRPrice','0','$itemCat','$itemSup','".date('Y-m-d')."','$updatedBy','Imported','$fileDest','$itemWPrice')";
+                $importwob = "INSERT INTO `item_no_barcode`(`item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`, `itemnb_img`, `itemnb_wholesale_price`) VALUES (null,'$itemName','$itemRPrice','$itemStock','$itemCat','$itemSup','".date('Y-m-d')."','$updatedBy','Imported','$fileDest','$itemWPrice')";
                 mysqli_query($con, $importwob);
             }
         }

@@ -14,6 +14,10 @@ body {
   --g2: none;
 }
 
+#login-body {
+  width: 100vw;
+  height: 100vh;
+}
 #login-body .login-container {
   width: 100vw;
   height: 100vh;
@@ -49,13 +53,25 @@ body {
 #login-body .login-container .login-inner-container {
   position: absolute;
   left: 75%;
-  top: 50%;
+  top: 45%;
   transform: translate(-50%, -50%);
   width: 350px;
   height: 380px;
   border-radius: 25px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.54);
   background-color: white;
+}
+#login-body .login-container .note-con {
+  position: absolute;
+  left: 75%;
+  top: calc(45% + 400px);
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 380px;
+  font-size: 20px;
+  text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.24);
+  overflow: hidden;
+  text-align: center;
 }
 
 #nchome-body {
@@ -2279,7 +2295,6 @@ body {
 #admin-settings-con .settings-con .right-con {
   width: 50%;
   height: 100%;
-  padding-top: 200px;
 }
 #admin-settings-con .settings-con .right-con .theme-con {
   width: 100%;
@@ -2326,6 +2341,28 @@ body {
   margin-bottom: 10px;
 }
 #admin-settings-con .settings-con .right-con .msg-con form span input[type=submit] {
+  width: 200px;
+  height: 50px;
+  font-weight: 900;
+}
+#admin-settings-con .settings-con .right-con .note-con {
+  width: 100%;
+  margin-bottom: 30px;
+}
+#admin-settings-con .settings-con .right-con .note-con form p {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+#admin-settings-con .settings-con .right-con .note-con form span {
+  width: 100%;
+  display: block;
+}
+#admin-settings-con .settings-con .right-con .note-con form span input[type=text] {
+  margin-bottom: 10px;
+  height: 100px;
+}
+#admin-settings-con .settings-con .right-con .note-con form span input[type=submit] {
   width: 200px;
   height: 50px;
   font-weight: 900;

@@ -16,6 +16,7 @@
     $msg = $rowSetting['reciept_msg'];
     $safeStock = $rowSetting['safe_stock'];
     $sysTheme = $rowSetting['theme'];
+    $note = $rowSetting['note'];
 
 ?>
 
@@ -144,6 +145,21 @@
                 $_SESSION['successTheme'] = false;
             }
         }
+
+        if(!isset($_SESSION['successNote'])){
+        }else{
+            if ($_SESSION['successNote'] == true){
+                ?>
+                    <script>
+                        swal({
+                            icon: "success",
+                            title: "Note/Reminder has been updated successfully!",
+                        })
+                    </script>
+                <?php
+                $_SESSION['successNote'] = false;
+            }
+        }
     ?>
 
     <div id="admin-settings-con">
@@ -210,6 +226,15 @@
                         <span><input type="text"maxlength="200" class="form-control" id="inputMsg" name="inputMsg" value="<?php echo $msg; ?>" autocomplete="off"><input type="submit" id="submitMsg" class="btn btn-primary" value="SAVE" disabled></span>
                     </form>
                 </div>
+                <div class="note-con">
+                    <form action="./setting-note.php" method="POST">
+                        <p>Note / Reminder</p>
+                        <span>
+                            <textarea name="inputNote" id="inputNote" cols="70" rows="5"><?php echo $note; ?></textarea>
+                            <input type="submit" id="submitNote" class="btn btn-primary" value="SAVE" disabled>
+                        </span>
+                    </form>
+                </div>
                 <div class="backup-con">
                     <p>Backup Database</p>
                     <div class="button-con">
@@ -232,6 +257,7 @@
             const sCode = <?php echo json_encode($code); ?>;
             const sMsg = <?php echo json_encode($msg); ?>;
             const sSafe = <?php echo json_encode($safeStock); ?>;
+            const sNote = <?php echo json_encode($note); ?>;
 
             $('#inputLogo').change(function(){
                 $('#submitLogo').attr('disabled', false);
@@ -269,6 +295,13 @@
                     $('#submitMsg').attr('disabled', true);
                 }else{
                     $('#submitMsg').attr('disabled', false);
+                }
+            });
+            $('#inputNote').on('keyup',function(){
+                if($(this).val() == sNote){
+                    $('#submitNote').attr('disabled', true);
+                }else{
+                    $('#submitNote').attr('disabled', false);
                 }
             });
 

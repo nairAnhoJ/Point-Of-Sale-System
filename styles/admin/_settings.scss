@@ -98,7 +98,6 @@
         .right-con{
             width: 50%;
             height: 100%;
-            padding-top: 200px;
             
 
             .theme-con{
@@ -154,6 +153,35 @@
     
                         input[type = text]{
                             margin-bottom: 10px;
+                        }
+                        input[type = submit]{
+                            width: 200px;
+                            height: 50px;
+                            font-weight: 900;
+                        }
+                    }
+                }
+            }
+
+            .note-con{
+                width: 100%;
+                margin-bottom: 30px;
+
+                form{
+
+                    p{
+                        font-size: 20px;
+                        font-weight: 900;
+                        margin-bottom: 10px;
+                    }
+
+                    span{
+                        width: 100%;
+                        display: block;
+    
+                        input[type = text]{
+                            margin-bottom: 10px;
+                            height: 100px;
                         }
                         input[type = submit]{
                             width: 200px;

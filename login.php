@@ -16,6 +16,7 @@
     $_SESSION['msg'] = $rowSettings['reciept_msg'];
     $_SESSION['safe_stock'] = $rowSettings['safe_stock'];
     $_SESSION['sysTheme'] = $rowSettings['theme'];
+    $note = $rowSettings['note'];
     $sysTheme = $rowSettings['theme'];
     $setDate = $rowSettings['cur_date'];
     $curDate = date('Y-m-d');
@@ -69,15 +70,15 @@
             <div class="pic-con">
                 <img src="./images/logo/<?php echo $_SESSION['logo']; ?>" alt="">
             </div>
-            <div class="name-con">
+            <!-- <div class="name-con">
                 <p><?php echo strtoupper($_SESSION['branch_name']); ?></p>
-            </div>
+            </div> -->
         </div>
         <div class="login-inner-container">
             <div class="w-100 text-center mt-4 mb-3">
                 <span class="fs-1 fw-bolder">SIGN IN</span>
             </div>
-            <div class="w-100 px-5">
+            <div class="w-100 px-5 mb-5">
                 <form action="./login-check.php" method="POST">
                     <div class="mb-4">
                         <label for="InputUsername" class="form-label">Username</label>
@@ -92,6 +93,9 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="note-con">
+            <div class="note"><?php echo $note; ?></div>
         </div>
     </div>
 
