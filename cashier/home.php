@@ -212,7 +212,6 @@
                                 <div class="con-con">
                                     <div class="item-con" id="all-con">
                                         <?php
-                                            
                                             $queryAllNoBarcode = "SELECT `item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_img`, `itemnb_wholesale_price` FROM `item_no_barcode` UNION SELECT `item_code`, `item_name`, `item_retail_price`, `item_stock`, `item_id`, `item_wholesale_price` FROM `item_with_barcode`;";
                                             $resultAllNoBarcode = mysqli_query($con, $queryAllNoBarcode);
                                             if(mysqli_num_rows($resultAllNoBarcode) > 0){

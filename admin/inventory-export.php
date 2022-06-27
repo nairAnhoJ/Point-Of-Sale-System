@@ -22,7 +22,7 @@
     <script src="../js/jquery-3.6.0.min.js"></script>
     <script src="../js/table2csv.min.js"></script>
 </head>
-<body onload="invExp()">
+<body>
     <div style="width: 100vw; height: 100vh">
         <h3>Please Wait...</h3><br>
         <h3>Exporting Inventory...</h3>
@@ -62,14 +62,18 @@
     </table>
 
     <script>
-            var option = {
-                "filename":"inventory.csv"
-            }
+        var option = {
+            "filename":"inventory.csv"
+        }
 
         function invExp(){
             console.log('text');
             $("#invTable").first().table2csv(option);
         }
+
+        $(document).ready(function(){
+            invExp();
+        });
     </script>
 </body>
 </html>
