@@ -25,6 +25,12 @@
         $updateAmount = "UPDATE `users` SET `avail_amount`= '1000'";
         mysqli_query($con, $updateAmount);
 
+        ?>
+            <script>
+                window.open('./admin/backup-database.php');
+            </script>
+        <?php
+
         $updateDate = "UPDATE `admin_settings` SET `cur_date`= '$curDate'";
         mysqli_query($con, $updateDate);
     }

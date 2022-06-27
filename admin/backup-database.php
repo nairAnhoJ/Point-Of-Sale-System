@@ -2,8 +2,8 @@
 
 error_reporting(0);
 
-$mysqlUserName      = "root";
-$mysqlPassword      = "";
+$mysqlUserName      = "pos";
+$mysqlPassword      = "CmDsj@9n62UR";
 $mysqlHostName      = "localhost";
 $DbName             = "pos";
 $backup_name        = "mybackup.sql";

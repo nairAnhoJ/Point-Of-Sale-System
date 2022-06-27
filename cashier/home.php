@@ -212,7 +212,8 @@
                                 <div class="con-con">
                                     <div class="item-con" id="all-con">
                                         <?php
-                                            $queryAllNoBarcode = "SELECT * FROM `item_no_barcode` ORDER BY `itemnb_name` ASC";
+                                            
+                                            $queryAllNoBarcode = "SELECT `item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_img`, `itemnb_wholesale_price` FROM `item_no_barcode` UNION SELECT `item_code`, `item_name`, `item_retail_price`, `item_stock`, `item_id`, `item_wholesale_price` FROM `item_with_barcode`;";
                                             $resultAllNoBarcode = mysqli_query($con, $queryAllNoBarcode);
                                             if(mysqli_num_rows($resultAllNoBarcode) > 0){
                                                 while($rowAllNoBarcode = mysqli_fetch_assoc($resultAllNoBarcode)){
@@ -233,6 +234,33 @@
                                                     <?php
                                                 }
                                             }
+
+
+
+
+
+
+                                            // $queryAllNoBarcode = "SELECT * FROM `item_no_barcode` ORDER BY `itemnb_name` ASC";
+                                            // $resultAllNoBarcode = mysqli_query($con, $queryAllNoBarcode);
+                                            // if(mysqli_num_rows($resultAllNoBarcode) > 0){
+                                            //     while($rowAllNoBarcode = mysqli_fetch_assoc($resultAllNoBarcode)){
+                                            //         if($_SESSION['endBuyer'] == "WHOLESALE"){
+                                            //             $itemPrice = $rowAllNoBarcode['itemnb_wholesale_price'];
+                                            //             $itemName = "(W)".$rowAllNoBarcode['itemnb_name'];
+                                            //         }else{
+                                            //             $itemPrice = $rowAllNoBarcode['itemnb_retail_price'];
+                                            //             $itemName = $rowAllNoBarcode['itemnb_name'];
+                                            //         }
+                                            //         $nbCurQty = $rowAllNoBarcode['itemnb_stock'];
+
+                                            //         ?>
+                                                         <!-- <a class="con-item" href="./nobarcode-add.php?itemId=<?php //echo $rowAllNoBarcode['item_code']; ?>&itemName=<?php //echo $itemName; ?>&itemPrice=<?php //echo $itemPrice; ?>&curQty=<?php //echo $nbCurQty; ?>">
+                                                             <img src="<?php //echo $rowAllNoBarcode['itemnb_img']; ?>" alt="">
+                                                             <p><?php //echo $rowAllNoBarcode['itemnb_name']; ?></p>
+                                                         </a> -->
+                                                     <?php
+                                            //     }
+                                            // }
                                         ?>
                                     </div>
                                 </div>
@@ -248,8 +276,11 @@
                                                     <div class="item-con">
                                                         <?php
                                                             $thisCategory = ucwords($rowCatCon['cat_name']);
-                                                            $queryCatNoBarcode = "SELECT * FROM `item_no_barcode` WHERE `itemnb_category` = '$thisCategory' ORDER BY `itemnb_name` ASC";
+                                                            $queryCatNoBarcode = "SELECT `item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_img`, `itemnb_wholesale_price`, `itemnb_category` FROM `item_no_barcode`  WHERE `itemnb_category` = '$thisCategory'
+                                                            UNION
+                                                            SELECT `item_code`, `item_name`, `item_retail_price`, `item_stock`, `item_id`, `item_wholesale_price`, `item_category` FROM `item_with_barcode` WHERE `item_category` = '$thisCategory'";
                                                             $resultCatNoBarcode = mysqli_query($con, $queryCatNoBarcode);
+
                                                             if(mysqli_num_rows($resultCatNoBarcode) > 0){
                                                                 while($rowCatNoBarcode = mysqli_fetch_assoc($resultCatNoBarcode)){
                                                                     if($_SESSION['endBuyer'] == "WHOLESALE"){
@@ -259,15 +290,37 @@
                                                                         $itemPrice = $rowCatNoBarcode['itemnb_retail_price'];
                                                                         $itemName = $rowCatNoBarcode['itemnb_name'];
                                                                     }
+                                                                    $nbCurQty = $rowCatNoBarcode['itemnb_stock'];
 
                                                                     ?>
-                                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowCatNoBarcode['item_code']; ?>&itemName=<?php echo $itemName; ?>&itemPrice=<?php echo $itemPrice; ?>">
+                                                                        <a class="con-item" href="./nobarcode-add.php?itemId=<?php echo $rowCatNoBarcode['item_code']; ?>&itemName=<?php echo $itemName; ?>&itemPrice=<?php echo $itemPrice; ?>&curQty=<?php echo $nbCurQty; ?>">
                                                                             <img src="<?php echo $rowCatNoBarcode['itemnb_img']; ?>" alt="">
                                                                             <p><?php echo $rowCatNoBarcode['itemnb_name']; ?></p>
                                                                         </a>
                                                                     <?php
                                                                 }
                                                             }
+
+
+
+                                                            // if(mysqli_num_rows($resultCatNoBarcode) > 0){
+                                                            //     while($rowCatNoBarcode = mysqli_fetch_assoc($resultCatNoBarcode)){
+                                                            //         if($_SESSION['endBuyer'] == "WHOLESALE"){
+                                                            //             $itemPrice = $rowCatNoBarcode['itemnb_wholesale_price'];
+                                                            //             $itemName = "(W)".$rowCatNoBarcode['itemnb_name'];
+                                                            //         }else{
+                                                            //             $itemPrice = $rowCatNoBarcode['itemnb_retail_price'];
+                                                            //             $itemName = $rowCatNoBarcode['itemnb_name'];
+                                                            //         }
+
+                                                            //         ?>
+                                                                         <!-- <a class="con-item" href="./nobarcode-add.php?itemId=<?php //echo $rowCatNoBarcode['item_code']; ?>&itemName=<?php //echo $itemName; ?>&itemPrice=<?php //echo $itemPrice; ?>">
+                                                                             <img src="<?php //echo $rowCatNoBarcode['itemnb_img']; ?>" alt="">
+                                                                             <p><?php //echo $rowCatNoBarcode['itemnb_name']; ?></p>
+                                                                         </a> -->
+                                                                     <?php
+                                                            //     }
+                                                            // }
                                                         ?>
                                                     </div>
                                                 </div>
