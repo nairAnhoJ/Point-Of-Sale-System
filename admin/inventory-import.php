@@ -45,13 +45,20 @@
                 }
 
             }else{
-                $fileDest = "../images/items/default-image.png";
+                $checkExisting = "SELECT * FROM `item_no_barcode` WHERE `item_code` = '$itemCode'";
+                $resultExisting = mysqli_query($con, $checkExisting);
+                if(mysqli_num_rows($resultExisting) == 0){
+                    $fileDest = "../images/items/default-image.png";
 
-                $delExisting = "DELETE FROM `item_no_barcode` WHERE `item_code` = '$itemCode'";
-                mysqli_query($con, $delExisting);
-
-                $importwob = "INSERT INTO `item_no_barcode`(`item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`, `itemnb_img`, `itemnb_wholesale_price`) VALUES ($itemCode,'$itemName','$itemRPrice','$itemStock','$itemCat','$itemSup','".date('Y-m-d')."','$updatedBy','Imported','$fileDest','$itemWPrice')";
-                mysqli_query($con, $importwob);
+                    $importwob = "INSERT INTO `item_no_barcode`(`item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`, `itemnb_img`, `itemnb_wholesale_price`) VALUES ($itemCode,'$itemName','$itemRPrice','$itemStock','$itemCat','$itemSup','".date('Y-m-d')."','$updatedBy','Imported','$fileDest','$itemWPrice')";
+                    mysqli_query($con, $importwob);
+                }else{
+                    $delExisting = "DELETE FROM `item_no_barcode` WHERE `item_code` = '$itemCode'";
+                    mysqli_query($con, $delExisting);
+    
+                    $importwob = "INSERT INTO `item_no_barcode`(`item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_category`, `itemnb_suppplier`, `date_updated`, `updated_by`, `itemnb_remarks`, `itemnb_img`, `itemnb_wholesale_price`) VALUES ($itemCode,'$itemName','$itemRPrice','$itemStock','$itemCat','$itemSup','".date('Y-m-d')."','$updatedBy','Imported','$itemImg','$itemWPrice')";
+                    mysqli_query($con, $importwob);
+                }
             }
         }
         $z++;
