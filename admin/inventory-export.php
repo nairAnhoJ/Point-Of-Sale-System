@@ -23,7 +23,7 @@
     <script src="../js/table2csv.min.js"></script>
 </head>
 <body>
-    <div style="width: 100vw; height: 100vh">
+    <div style="width: 100vw; height: 100vh; overflow: hidden;">
         <h3>Please Wait...</h3><br>
         <h3>Exporting Inventory...</h3>
     </div>

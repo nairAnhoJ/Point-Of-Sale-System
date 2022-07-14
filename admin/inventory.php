@@ -740,12 +740,12 @@
 
             $('.btnExport').click(function(){
                 myWindow = window.open("./inventory-export.php");
-                setTimeout(close, 50);
+                // setTimeout(close, 50);
             });
 
-            function close(){
-                myWindow.close();
-            }
+            // function close(){
+            //     // myWindow.close();
+            // }
         });
 
     </script>

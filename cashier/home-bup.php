@@ -23,8 +23,20 @@
     if(!isset($_SESSION['endBuyer'])){
         $_SESSION['endBuyer'] = "RETAIL";
     }
-?>
 
+    $ItemWB_name = array();
+    $ItemWB_code = array();
+    $getItemWB = "SELECT * FROM `item_with_barcode`";
+    $resultItemWB = mysqli_query($con, $getItemWB);
+    if(mysqli_num_rows($resultItemWB) > 0){
+        while($rowItemWB = mysqli_fetch_assoc($resultItemWB)){
+            array_push($ItemWB_name, $rowItemWB['item_name']);
+            array_push($ItemWB_code, $rowItemWB['item_code']);
+        }
+    }
+    
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +45,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../bootstrap-5.1.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../styles/ACstyles.css?v=<?php echo time(); ?>">
         <link rel="stylesheet" href="../styles/styles.css?v=<?php echo time(); ?>">
         <link rel="icon" href="../images/logo/<?php echo $_SESSION['logo']; ?>">
         <title>POS</title>
@@ -42,6 +55,7 @@
         <script src="../js/sweetalert.min.js"></script>
         <script crossorigin src="../js/react.production.min.js"></script>
         <script crossorigin src="../js/react-dom.production.min.js"></script>
+        <script src="../js/jquery.autocomplete.min.js"></script>
     </head>
     <body id="nchome-body">
 
@@ -212,7 +226,7 @@
                                 <div class="con-con">
                                     <div class="item-con" id="all-con">
                                         <?php
-                                            $queryAllNoBarcode = "SELECT `item_code`, `itemnb_name`, `itemnb_retail_price`, `itemnb_stock`, `itemnb_img`, `itemnb_wholesale_price` FROM `item_no_barcode` UNION SELECT `item_code`, `item_name`, `item_retail_price`, `item_stock`, `item_id`, `item_wholesale_price` FROM `item_with_barcode`;";
+                                            $queryAllNoBarcode = "SELECT * FROM `item_no_barcode` ORDER BY `itemnb_name` ASC";
                                             $resultAllNoBarcode = mysqli_query($con, $queryAllNoBarcode);
                                             if(mysqli_num_rows($resultAllNoBarcode) > 0){
                                                 while($rowAllNoBarcode = mysqli_fetch_assoc($resultAllNoBarcode)){
@@ -251,7 +265,7 @@
                                                             $catName = $rowCatCon['cat_name'];
 
 
-                                                            $queryCatNoBarcode = "SELECT * FROM `item_no_barcode` WHERE `itemnb_category` = '$catName' ORDER BY `itemnb_name` ASC";
+                                                            $queryCatNoBarcode = "SELECT * FROM `item_no_barcode` WHERE `itemnb_category` = '$thisCategory' ORDER BY `itemnb_name` ASC";
                                                             $resultCatNoBarcode = mysqli_query($con, $queryCatNoBarcode);
                                                             if(mysqli_num_rows($resultCatNoBarcode) > 0){
                                                                 while($rowCatNoBarcode = mysqli_fetch_assoc($resultCatNoBarcode)){
@@ -514,20 +528,39 @@
 
             $(document).ready(function(){
 
-			$('#inputItemCode').on('keydown', function(ice){
-				var iceKey = ice.which || ice.keyCode;
+                var arr_name = <?php echo json_encode($ItemWB_name); ?>;
+                var arr_code = <?php echo json_encode($ItemWB_code); ?>;
 
-				if(iceKey == 13){
-					var inputNgItemCode = $('#inputItemCode').val();
-					if(inputNgItemCode == ""){
-						ice.preventDefault();
-					}
-				}
-			});
-
-                $('tbody').click(function(){
-                    // $("#inputItemCode").focus();
+                $('#inputItemCode').autocomplete({
+                    lookup: arr_name
                 });
+
+                jQuery(document).on( "click", ".autocomplete-suggestion", function(){
+                    var thisItem = $(this).text();
+                    var ind = $.inArray(thisItem, arr_name);
+                    $('#inputItemCode').val(arr_code[ind]);
+                    $('#codeSubmit').click();
+                });
+
+                $('#inputItemCode').on('keydown', function(ice){
+                    var iceKey = ice.which || ice.keyCode;
+
+                    var regExp = /[a-zA-Z]/g;
+                    var inputCode = $('#inputItemCode').val();
+
+                    console.log(inputCode);
+
+                    if(iceKey == 13){
+                        var inputNgItemCode = $('#inputItemCode').val();
+                        if(inputNgItemCode == ""){
+                            ice.preventDefault();
+                        }else if(regExp.test(inputCode)){
+                            var ind = $.inArray(inputCode, arr_name);
+                            $('#inputItemCode').val(arr_code[ind]);
+                        }
+                    }
+                });
+
                 $('.btnDTR').click(function(){
                     window.location.href = "./dtr.php";
                 });
